@@ -1,0 +1,34 @@
+---
+title: "EDA & Project Proposal"
+authors: "Your names"
+format: 
+  pdf:
+    documentclass: article
+    mainfont: "Helvetica"
+    geometry:
+      - top=20mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
+execute: 
+  message: false
+  warning: false
+  echo: false
+bibliography: ../bibliography/references.bib
+---
+
+{{< include 1-introduction.qmd >}}
+
+{{< include 2-data-description.qmd >}}
+
+{{< include 3-EDA-analysis.qmd >}}
+
+{{< include 4-discussion.qmd >}}
+
+Example of a citation: @airoldi2008. Delete this example when you are done.
+
+## Bibliography
+
+<!-- This section should not be edited by hand. If you add bibliographic sources to bibliography/references.bib and then cite them in your report using @... then the citations will be automatically printed here. -->
+
+<!-- This section does not count towards your page limit -->
