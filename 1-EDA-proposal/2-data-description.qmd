@@ -1,2 +1,17 @@
 ## 2. Data Description
 
+# Data Set 1
+- who collected original dataset
+- how we obtained dataset
+- what dataset was collected for
+- summary of changes you made to prepare the dataset
+- what an observation represents in dataset
+- how many observations there are
+
+# Data Set 2
+- who collected original dataset
+- how we obtained dataset
+- what dataset was collected for
+- summary of changes you made to prepare the dataset
+- what an observation represents in dataset
+- how many observations there are
