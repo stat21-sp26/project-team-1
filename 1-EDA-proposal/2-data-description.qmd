@@ -1,6 +1,8 @@
 ## 2. Data Description
 
-# Data Set 1
+Working on the data description...
+
+**Data Set 1**
 - who collected original dataset
 - how we obtained dataset
 - what dataset was collected for
@@ -8,7 +10,7 @@
 - what an observation represents in dataset
 - how many observations there are
 
-# Data Set 2
+**Data Set 2**
 - who collected original dataset
 - how we obtained dataset
 - what dataset was collected for
