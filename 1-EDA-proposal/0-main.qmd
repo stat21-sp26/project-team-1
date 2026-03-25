@@ -1,6 +1,6 @@
 ---
 title: "EDA & Project Proposal"
-authors: "Your names"
+authors: "Lily von Behren"
 format: 
   pdf:
     documentclass: article
