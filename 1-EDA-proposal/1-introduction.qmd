@@ -1,2 +1,14 @@
 ## Introduction
 
+# To Include
+For dataset 1
+- intro into subject matter
+- motivations for research questions (cite relevant literature)
+- 2 research questions
+- hypotheses for research questions
+
+For dataset 2
+- intro into subject matter
+- motivations for research questions (cite relevant literature)
+- 2 research questions
+- hypotheses for research questions
