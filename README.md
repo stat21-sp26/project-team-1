@@ -53,8 +53,8 @@ At the start of EDA & Project Proposal, the team agrees on the following rotatio
 
 | Milestone              | Project Manager |
 |------------------------|-----------------|
-| EDA & Project Proposal |                 |
-| Project Draft          |                 |
-| Presentation Draft     |                 |
-| Presentation           |                 |
-| Final Report           |                 |
+| EDA & Project Proposal |       Lily      |
+| Project Draft          |    Katelynne    |
+| Presentation Draft     |       Lily      |
+| Presentation           |    Katelynne    |
+| Final Report           |       Lily      |
