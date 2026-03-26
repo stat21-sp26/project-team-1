@@ -10,6 +10,8 @@ The original goal of the dataset was to predict the early readmission of a diabe
 
 To download the dataset, click on the top blue box labeled "download" on the linked webpage. The dataset used in this document was downloaded on February 22, 2026.
 
+TBD CLEANING THE DATA
+
 **Data Set 2**
 
 -   who collected original dataset
