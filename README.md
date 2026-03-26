@@ -2,9 +2,10 @@
 
 ## Authors
 
--   Author 1
+-   Katelynne De Lara
 
--   List more authors as needed, or delete this
+-   Lily von Behren
+
 
 ## Project description
 
