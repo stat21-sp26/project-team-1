@@ -1,2 +1,28 @@
 ## 2. Exploratory Data Analysis \& Analysis Approach
 
+**Data Set 1**
+- response variable:
+  - description
+  - visualizations
+  - summary statistics
+  - 1-3 important predictors:
+      - description
+      - visualizations
+      - summary statistics
+  - other available predictors (list them in a paragraph & provide range of values, mean, & SD)
+  - regression model technique
+      - indicate which model coefficients will be important to research question
+      
+**Data Set 2**
+- response variable:
+  - description
+  - visualizations
+  - summary statistics
+  - 1-3 important predictors:
+      - description
+      - visualizations
+      - summary statistics
+  - other available predictors (list them in a paragraph & provide range of values, mean, & SD)
+  - regression model technique
+      - indicate which model coefficients will be important to research question
+      

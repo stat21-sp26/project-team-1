@@ -1,20 +1,25 @@
 ## 2. Data Description
 
-Working on the data description...
-Test for closing
+**Data Set 1: Diabetic Patient Hospital Readmission in the US**
 
-**Data Set 1**
-- who collected original dataset
-- how we obtained dataset
-- what dataset was collected for
-- summary of changes you made to prepare the dataset
-- what an observation represents in dataset
-- how many observations there are
+The current dataset on hospitalized diabetic patient records in the US (1999-2008) is sourced from the following website hosted by the UC Irvine Machine Learning Repository: https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999-2008. The dataset was donated to this repository on May 2, 2014 and was originally collected as a Health Facts database of Cerner Corporation (Kansas City, MO ). The present dataset was created from this larger database and published by Strack et al. (2014) in “Impact of HbA1c Measurement on Hospital Readmission Rates: Analysis of 70,000 Clinical Database Patient Records” in the journal of BioMed Research International.
+
+The raw data set contains 101,766 observations, each representing a single diabetic patient at one of 130 US hospitals between 1999-2008. Each patient received medications and laboratory treatment and stayed at the hospital for up to 14 days. 51 variables are recorded for each patient regarding their identity (e.g. race, age, gender), the hospice treatment they received, and the days that elapsed before inpatient readmission.
+
+The original goal of the dataset was to predict the early readmission of a diabetic patient within 30 days of discharge based on various therapeutic and preventative hospital interventions. This research would provide more information on the state of diabetes care in US hospitals and the impact of certain treatments on patient outcomes.
+
+To download the dataset, click on the top blue box labeled "download" on the linked webpage. The dataset used in this document was downloaded on February 22, 2026.
 
 **Data Set 2**
-- who collected original dataset
-- how we obtained dataset
-- what dataset was collected for
-- summary of changes you made to prepare the dataset
-- what an observation represents in dataset
-- how many observations there are
+
+-   who collected original dataset
+
+-   how we obtained dataset
+
+-   what dataset was collected for
+
+-   summary of changes you made to prepare the dataset
+
+-   what an observation represents in dataset
+
+-   how many observations there are
