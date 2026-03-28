@@ -14,16 +14,10 @@ TBD CLEANING THE DATA
 
 **Data Set 2:**
 
-The current dataset on…
+The current data set on crucial indicators for heart disease from patients in the United States (2022) is sourced from the following website hosted by Kaggle: <https://www.kaggle.com/datasets/kamilpytlak/personal-key-indicators-of-heart-disease>. The data set originally comes from the Centers for Disease Control and Prevention (CDC) and is a part of the Behavioral Risk Factor Surveillance System (BRFSS). It was originally collected by the CDC and BRFSS to gather data on the health status of U.S. residents across all 50 states, the Distirct of Columbia, and 3 U.S. territories.
 
--   who collected original dataset
+The raw data set contains 319795 observations, each representing an individual surveyed through the BRFSS in 2022. Each individual answered a series of questions regardin their health. Eighteen variables were recorded for each individual, including identity characteristics (e.g., sex and race) and indicators of overall cardiovascular health, such as BMI, smoking status, mental health, and diabetes status.
 
--   how we obtained dataset
+The original purpose of the dataset was to monitor the population health and identify crucial risk factors for diseases such as heart disease to inform public health policy and prevention efforts. This research builds on that goal by providing further insight into how these risk factors contribute to the prediction of heart disease and overall cardiovascular health outcomes.
 
--   what dataset was collected for
-
--   summary of changes you made to prepare the dataset
-
--   what an observation represents in dataset
-
--   how many observations there are
+To download a .csv file of the dataset, scroll to the end of the "About Dataset" section and click the download icon (an arrow pointing down). The dataset used in this document was downloaded on February 22, 2026.
