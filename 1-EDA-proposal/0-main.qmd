@@ -1,6 +1,6 @@
 ---
 title: "EDA & Project Proposal"
-authors: "Lily von Behren and Katelynne De Lara + Elmo"
+authors: "Lily von Behren and Katelynne De Lara"
 format: 
   pdf:
     documentclass: article
