@@ -10,7 +10,11 @@ The original goal of the dataset was to predict the early readmission of a diabe
 
 To download the dataset, click on the top blue box labeled "download" on the linked webpage. The dataset used in this document was downloaded on February 22, 2026.
 
-TBD CLEANING THE DATA
+The original dataset contained multiple hospital records of the same patient, interfering with the independence of the observations. To satisfy this assumption for future statistical analyses, we removed all patients with duplicate records (30,248 observations), leaving us with 71,518 independent observations. Non-predictor identifier variables (`encounter_id`, `patient_nbr`, etc) were removed, as well as variables missing the majority of their values (`weight`, `payer_code`, `medical_speciality`). Finally, I removed `diag_1`, `diag_2`, and `diag_3` which corresponded to the primary and secondary diagnoses that patients received. There are up to 923 different diagnoses the patient could have received, which is too granular for this analysis.
+
+This filtering leaves variables for demographics (race, gender, age), type of hospital admission (e.g. emergency), time spent in hospital, the number of procedures patients received, whether any of 23 of different drugs were prescribed, and more. Though thoroughly analyzing all 23 drugs is beyond the scope of this analysis, this report will complete some basic preliminary analyses to determine which of the drugs to investigate further.
+
+To prepare for logistic regression analyses of the data, we converted two categorical variables (`max_glu_serum`: measurement of glucose in blood serum; and `a1cresult`: measurement of hemoglobin A1c) into binary variables, where 1 indicates that a certain test was performed and 0 indicates that it was not taken. We similarly converted the `readmitted` variable to be binary, indicating whether a patient was readmitted within 30 days of their discharge or not.
 
 ### Data Set 2: Indicators of Heart Disease (2022)
 
