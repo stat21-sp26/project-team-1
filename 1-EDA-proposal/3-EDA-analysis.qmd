@@ -690,7 +690,7 @@ disease2 %>%
 
 [Smoking, Age, and Physical Activity]{.underline}
 
-We plan to investigate three categorical predictors: `smoking`, `physical activity`, and `age`. Over 58.76% of individuals do not smoke, while 41.24% did not (@tbl-smoke-freq; @fig-smoke). Over 54% of the individuals surveyed were 55 years or older, 27.72% were 35 to 54 years old, and 17.75% were 18 to 34 years old (@tbl-age-freq; @fig-ages). In terms of phsyical activity, more than 77% of individuals were active, while 22.41% were inactive (@tbl-physical-freq; @fig-physical). There is a large difference across age groups and between physical activity amongst all individuals.
+We plan to investigate three categorical predictors: `smoking`, `physical activity`, and `age`. Over 58.76% of individuals do not smoke, while 41.24% did not (@tbl-smoke-freq; @fig-smoke). Over 54% of the individuals surveyed were 55 years or older, 27.72% were 35 to 54 years old, and 17.75% were 18 to 34 years old (@tbl-age-freq; @fig-ages). In terms of phsyical activity, more than 77% of individuals were active, while 22.41% were inactive (@tbl-physical-freq; @fig-physical). There is a large difference across age groups and between physical activity amongst all individuals. Further statistical analysis would be required to determine any significance.
 
 ```{r}
 #| echo: FALSE
@@ -845,6 +845,50 @@ disease2 %>%
 
 In addition, we also plan to analyze a numeric predictor `sleep_time`.
 
+```{r}
+#| echo: FALSE
+#| label: tb-sleep-time
+#| tbl-cap: "Summary Statistics of Sleep Time"
+#| fig-width: 5.5
+
+disease2$sleep_time <- disease_data$sleep_time
+
+sleep_time_stats <- disease2 %>% 
+  summarise(
+    mean = mean(sleep_time, na.rm = TRUE),
+    median = median(sleep_time, na.rm = TRUE),
+    min = min(sleep_time, na.rm = TRUE),
+    max = max(sleep_time, na.rm = TRUE),
+    sd = sd(sleep_time, na.rm = TRUE)
+  )
+
+# make table
+sleep_time_stats %>% 
+  kable(
+    col.names = c("Mean", "Median", "Min", "Max", "SD")
+  )
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-sleep-time
+#| fig-width: 5.5
+
+disease2 %>% 
+  ggplot() +
+  aes(x = sleep_time) +
+  geom_histogram(bins = 15, na.rm = TRUE, fill = "steelblue", color = "black") +
+  geom_vline(xintercept = mean(disease2$sleep_time, na.rm = TRUE),
+             color = "red") +
+  labs(
+    x = "Sleep Time (Hours)",
+    y = "Count"
+  ) +
+  theme_classic()
+```
+```{r}
+
+```
 
 - response
 variable: - description - visualizations - summary statistics - 1-3
