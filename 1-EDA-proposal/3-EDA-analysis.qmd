@@ -975,13 +975,7 @@ disease2 %>%
 ```
 ***Other Predictors***
 
-We originally also considered looking at the number of non-lab
-procedures performed during the patient's hospital visit and the number
-of outpatient visits in the year prior to the recorded hospital
-encounter. However, after visualizing these variables as histograms
-(@fig-outpatient-freq; @fig-nolab-tests-freq), these predictor variables
-are highly abnormally distributed. As such, we will likely omit these
-variables from future analyses.
+Another binary predictor variable of interest is `diabetic` (@fig-diabetic-bar). A boxplot visualization with respect to BMI can be found at @fig-diabetic-bmi-boxplot. Once again, there is a small difference in median BMI between individuals with diabetes and individuals who do not.
 
 ```{r}
 #| echo: FALSE
@@ -1010,6 +1004,26 @@ disease2 %>%
     x = "Diabetic Status",
     y = "Count",
     fill = "Status"
+  ) +
+  theme_classic() +
+  scale_fill_manual(values = c("tomato", "skyblue"))
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-diabetic-bmi-boxplot
+#| fig-width: 5.5
+
+disease2 %>% 
+  ggplot() +
+  aes(x = diabetic,
+      y = disease_data$bmi,
+      fill = diabetic) +
+  geom_boxplot() +
+  labs(
+    x = "Diabetic Status",
+    y = "BMI",
+    fill = "Diabetic Status"
   ) +
   theme_classic() +
   scale_fill_manual(values = c("tomato", "skyblue"))
