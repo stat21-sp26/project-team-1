@@ -175,6 +175,9 @@ library(kableExtra)
 # Prepping data and variables
 disease_data <- readRDS("../disease_data/disease-prepared.RDS")
 
+disease_data <- disease_data %>% 
+  filter(!is.na(bmi))
+
 bmi_table <- summary(disease_data$bmi, na.rm = TRUE)
 
 bmi_summary <- data.frame(
