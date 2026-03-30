@@ -757,7 +757,8 @@ disease2 %>%
     y = "BMI",
     fill = "Smoking Status"
   ) +
-  theme_classic()
+  theme_classic() +
+  scale_fill_manual(values = c("tomato", "skyblue"))
 ```
 
 
@@ -826,7 +827,8 @@ disease2 %>%
     y = "BMI",
     fill = "Activity Status"
   ) +
-  theme_classic()
+  theme_classic() +
+  scale_fill_manual(values = c("tomato", "skyblue"))
 ```
 
 ```{r}
@@ -879,6 +881,27 @@ disease2 %>%
   )) +
   theme_classic()
 ```
+
+```{r}
+#| echo: FALSE
+#| label: fig-age-bmi-boxplot
+#| fig-width: 5.5
+
+disease2 %>% 
+  ggplot() +
+  aes(x = age_category,
+      y = disease_data$bmi,
+      fill = age_category) +
+  geom_boxplot() +
+  labs(
+    x = "Age Range",
+    y = "BMI",
+    fill = "Age Range"
+  ) +
+  theme_classic() +
+  scale_fill_manual(values = c("tomato", "skyblue", "orange"))
+```
+
 
 [Sleep Time]{.underline}
 
