@@ -781,7 +781,7 @@ disease2 %>%
 ```
 
 ```{r}
-# echo: FALSE
+#| echo: FALSE
 
 # reassigning age-ranges for efficiency
 # 18-34, 35-49, 50-64, 65 and older
