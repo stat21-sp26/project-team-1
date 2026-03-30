@@ -690,7 +690,7 @@ disease2 %>%
 
 [Smoking, Age, and Physical Activity]{.underline}
 
-We also plan to investigate three categorical predictors: smoking status, physical activity, and age. Over 58.76% of individuals do not smoke, while 41.24% did not (@tbl-smoke-freq; @fig-smoke). Over 54% of the individuals surveyed were 55 years or older, 27.72% were 35 to 54 years old, and 17.75% were 18 to 34 years old (@tbl-age-freq; @fig-ages). In terms of phsyical activity, more than 77% of individuals were active, while 22.41% were inactive (@tbl-physical-freq; @fig-physical). There is a large difference across age groups and between physical activity amongst all individuals.
+We plan to investigate three categorical predictors: `smoking`, `physical activity`, and `age`. Over 58.76% of individuals do not smoke, while 41.24% did not (@tbl-smoke-freq; @fig-smoke). Over 54% of the individuals surveyed were 55 years or older, 27.72% were 35 to 54 years old, and 17.75% were 18 to 34 years old (@tbl-age-freq; @fig-ages). In terms of phsyical activity, more than 77% of individuals were active, while 22.41% were inactive (@tbl-physical-freq; @fig-physical). There is a large difference across age groups and between physical activity amongst all individuals.
 
 ```{r}
 #| echo: FALSE
@@ -840,6 +840,11 @@ disease2 %>%
   )) +
   theme_classic()
 ```
+
+[Sleep Time]{.underline}
+
+In addition, we also plan to analyze a numeric predictor `sleep_time`.
+
 
 - response
 variable: - description - visualizations - summary statistics - 1-3
