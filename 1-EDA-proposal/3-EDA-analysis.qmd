@@ -670,7 +670,7 @@ disease2 %>%
 disease2 %>% 
   ggplot() +
   aes(x = bmi, fill = bmi) +
-  geom_bar() +
+  geom_bar(color = "black") +
   labs(
     x = "BMI Category",
     y = "Count",
@@ -730,7 +730,7 @@ disease2 %>%
 disease2 %>% 
   ggplot() +
   aes(x = smoking, fill = smoking) +
-  geom_bar() +
+  geom_bar(color = "black") +
   labs(
     x = "Smoking Status",
     y = "Count",
@@ -800,7 +800,7 @@ disease2 %>%
 disease2 %>% 
   ggplot() +
   aes(x = physical_activity, fill = physical_activity) +
-  geom_bar() +
+  geom_bar(color = "black") +
   labs(
     x = "Physical Activity",
     y = "Count",
@@ -870,7 +870,7 @@ disease2 %>%
 disease2 %>% 
   ggplot() +
   aes(x = age_category, fill = age_category) +
-  geom_bar() +
+  geom_bar(color = "black") +
   labs(
     x = "Age Range",
     y = "Count",
@@ -999,7 +999,7 @@ disease2$diabetic <- factor(
 disease2 %>% 
   ggplot() +
   aes(x = diabetic, fill = diabetic) +
-  geom_bar() +
+  geom_bar(color = "black") +
   labs(
     x = "Diabetic Status",
     y = "Count",
