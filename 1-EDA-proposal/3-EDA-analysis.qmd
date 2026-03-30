@@ -528,7 +528,8 @@ bmi_summary <- data.frame(
 bmi_summary %>% 
   kable(
     col.names = c("Statistic", "BMI")
-  )
+  ) %>% 
+  kable_classic(full_width = FALSE)
 ```
 
 ```{r}
@@ -538,9 +539,9 @@ bmi_summary %>%
 disease_data %>% 
   ggplot() +
   aes(x = bmi) +
-  geom_histogram(bins = 25, na.rm = TRUE) +
+  geom_histogram(bins = 25, na.rm = TRUE, fill = "springgreen2", color = "black") +
   geom_vline(xintercept = mean(disease_data$bmi, na.rm = TRUE),
-             color = "tomato") +
+             color = "red") +
   labs(
     x = "BMI",
     y = "Count"
@@ -591,7 +592,8 @@ disease2 %>%
   count(bmi) %>% 
   mutate(percentage = (n/nrow(disease2))*100) %>% 
   mutate(percentage = round(percentage, 2)) %>% 
-  kable(col.names = c("BMI Category", "Count", "Percentage (%"))
+  kable(col.names = c("BMI Category", "Count", "Percentage (%")) %>% 
+  kable_classic(full_width = FALSE)
 ```
 
 - response
