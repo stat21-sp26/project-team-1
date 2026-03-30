@@ -684,9 +684,7 @@ disease2 %>%
 
 [Smoking, Age, and Physical Activity]{.underline}
 
-**Insert third text whenever ready.**
-
-We also plan to investigate three categorical predictors: smoking status, physical activity, and age. Over 55% of the individuals surveyed were 55 years or older (@tbl-age-freq; @fig-age). In terms of phsyical activity, more than 77% of individuals were active, while 22.41% were inactive (@tbl-physical-freq; @fig-physical).
+We also plan to investigate three categorical predictors: smoking status, physical activity, and age. Over 58.76% of individuals do not smoke, while 41.24% did not (@tbl-smoke-freq; @fig-smoke). Over 55% of the individuals surveyed were 55 years or older (@tbl-age-freq; @fig-ages). In terms of phsyical activity, more than 77% of individuals were active, while 22.41% were inactive (@tbl-physical-freq; @fig-physical).
 
 ```{r}
 #| echo: FALSE
