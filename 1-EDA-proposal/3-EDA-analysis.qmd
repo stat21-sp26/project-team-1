@@ -814,7 +814,7 @@ disease2 %>%
 #| echo: FALSE
 #| label: fig-physical
 #| fig-width: 5.5
-#| fig-height: 3
+#| fig-height: 2.7
 
 disease2 %>% 
   ggplot() +
