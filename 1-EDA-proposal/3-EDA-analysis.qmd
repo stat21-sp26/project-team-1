@@ -627,7 +627,8 @@ disease2 %>%
     "Normal Weight" = "steelblue",
     "Overweight" = "skyblue",
     "Obese" = "tomato"
-  ))
+  )) +
+  theme_classic()
   
 ```
 
