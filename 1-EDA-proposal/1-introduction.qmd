@@ -9,7 +9,15 @@ For dataset 1
 
 ### Data Set 2: Indicators of Heart Disease (2022)
 
-Cardiovascular disease (CVD)
+Cardiovascular disease (CVD) develops through a combination of biological, behavioral, and lifestyle factors that accumulate over time. Rather than acting independently, these elements tend to cluster and reinforce one another, influencing overall cardiovascular health. Obesity is one of the most widely studied contributors to this risk and is closely tied to factors such as physical activity, smoking, and other lifestyle habits [@powell2021obesity]. Therefore, understanding its role in cardiovascular health requires considering it within this broader network of influences.
+
+Body mass index (BMI), calculated from an individual's height and weight, is commonly used in research and healthcare as a simple measure of obesity and a proxy for cardiometabolic health. Higher BMI is generally associated with higher probability of cardiovascular conditions, including heart disease and failure [@carbone2022impact]. However, this relationship is not uniform across all populations. Recent research has found that evidence of the "obesity paradox" suggests that in certain contexts, BMI does not always align with expected health outcomes [@tutor2023updates]. This highlights that its meaning depends on underlying health status and related risk factors. As a result, BMI is best understood as an accessible indicator that reflects multiple underlying influences.
+
+Because of this, BMI is most informative when examined alongside behavioral and demographic factors that affect cardiovascular health. Smoking, physical activity, and self-reported health status are all associated with CVD outcomes and help explain differences in BMI across individuals [@powell2021obesity]. These behaviors also tend to co-occur, forming broader patterns of health behavior that influence both weight and long-term disease risk.
+
+The *Indicators of Heart Disease (2022)* data set from Kaggle includes BMI (a continuous variable) alongside demographic characteristics, health behaviors, and self-reported health status, making it well suited for examining the relationship among these components. Accordingly, this study asks how BMI is associated with these behavioral and demographic characteristics.
+
+Based on prior research, BMI is expected to be higher among individuals who report lower physical activity, poorer general health, and smoking behavior. It is also expected to vary across demographic characteristics such as age, reflecting differences in lifestyle patterns and accumulated health risks over time.
 
 - intro into subject matter
 - motivations for research questions (cite relevant literature)
