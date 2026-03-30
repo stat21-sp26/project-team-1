@@ -9,7 +9,16 @@ For dataset 1
 
 ### Data Set 2: Indicators of Heart Disease (2022)
 
-Cardiovascular disease (CVD)
+Cardiovascular disease (CVD) develops through a combination of biological, behavioral, and lifestyle factors that accumulate over time. Rather than acting independently, these elements tend to cluster and reinforce one another, influencing overall cardiovascular health. Obesity is one of the most widely studied contributors to this risk and is closely tied to factors such as physical activity, smoking, and other lifestyle habits [@article{powell2021obesity,
+  title={Obesity and cardiovascular disease: a scientific statement from the American Heart Association},
+  author={Powell-Wiley, Tiffany M and Poirier, Paul and Burke, Lora E and Despr{\'e}s, Jean-Pierre and Gordon-Larsen, Penny and Lavie, Carl J and Lear, Scott A and Ndumele, Chiadi E and Neeland, Ian J and Sanders, Prashanthan and others},
+  journal={Circulation},
+  volume={143},
+  number={21},
+  pages={e984--e1010},
+  year={2021},
+  publisher={Lippincott Williams \& Wilkins Hagerstown, MD}
+}].
 
 - intro into subject matter
 - motivations for research questions (cite relevant literature)
