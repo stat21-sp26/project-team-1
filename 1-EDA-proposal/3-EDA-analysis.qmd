@@ -751,8 +751,6 @@ disease2$physical_activity <- factor(
   levels = c(0, 1),
   labels = c("Not Active", "Active")
 )
-
-table(disease2$physical_activity)
 ```
 
 ```{r}
@@ -788,13 +786,25 @@ disease2 %>%
   theme_classic()
 ```
 
+```{r}
+# echo: FALSE
+
+# reassigning age-ranges for efficiency
+# 18-34, 35-49, 50-64, 65 and older
+disease2$age_category <- disease_data$age_category
+
+disease2 <- disease2 %>% 
+  mutate(age_category = case_when(
+    age_category %in% c("18-24", "25-29", "30-34") ~ "18-34",
+    age_category %in% c("35-39", "40-44", "45-49", "50-54") ~ "35-54",
+    age_category %in% c("55-59", "60-64", "65-69", "70-74", "75-79", "80 or older") ~ "55 and older"
+  ))
+```
 
 ```{r}
 #| echo: FALSE
 #| label: tbl-age-freq
 #| tbl-cap: "Age Range Frequency"
-
-disease2$age_category <- disease_data$age_category
 
 disease2 %>% 
   count(age_category) %>% 
@@ -802,6 +812,26 @@ disease2 %>%
   mutate(percentage = round(percentage, 2)) %>% 
   kable(col.names =
           c("Age Range", "Count", "Percentage(%)"))
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-ages
+
+disease2 %>% 
+  ggplot() +
+  aes(x = smoking, fill = smoking) +
+  geom_bar() +
+  labs(
+    x = "Smoking Status",
+    y = "Count",
+    fill = "Status"
+  ) +
+  scale_fill_manual(values = c(
+    "Yes" = "tomato",
+    "No" = "skyblue"
+  )) +
+  theme_classic()
 ```
 
 - response
