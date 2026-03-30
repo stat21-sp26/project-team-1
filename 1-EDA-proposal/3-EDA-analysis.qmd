@@ -905,7 +905,7 @@ disease2 %>%
 
 [Sleep Time]{.underline}
 
-In addition, we also plan to analyze a numeric predictor `sleep_time`. An initial histogram of this variable reveals a right-skewed distribution (@fig-sleep-hist), with a mean sleep duration of approximately 7 ± 1.35 hours. The median sleep time is also 7 hours (@tbl-sleep-time).
+In addition, we also plan to analyze a numeric predictor `sleep_time`. An initial histogram of this variable reveals a right-skewed distribution (@fig-sleep-hist), with a mean sleep duration of approximately 7 ± 1.35 hours. The median sleep time is also 7 hours (@tbl-sleep-time). In regards to BMI, the distribution for BMI levels classified as normal weight and overweight appear most prominent, while underweight individuals make up a small portion (@fig-sleep-bmi-hist).
 
 ```{r}
 #| echo: FALSE
