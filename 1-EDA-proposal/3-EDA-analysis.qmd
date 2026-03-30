@@ -683,7 +683,152 @@ disease2 %>%
 
 ***Key Predictors: Smoking, Physical Activity, Sleep Time, and Age***
 
+[Smoking, Age, and Physical Activity]{.underline}
 
+We also plan to investigate three categorical predictors: smoking status, physical activity, and age. Over 58.76% of individuals do not smoke, while 41.24% did not (@tbl-smoke-freq; @fig-smoke). Over 55% of the individuals surveyed were 55 years or older (@tbl-age-freq; @fig-ages). In terms of phsyical activity, more than 77% of individuals were active, while 22.41% were inactive (@tbl-physical-freq; @fig-physical).
+
+```{r}
+#| echo: FALSE
+
+# giving meaningful label to smoking
+
+disease2$smoking <- disease_data$smoking
+
+disease2$smoking <- factor(
+  disease2$smoking,
+  levels = c(0, 1),
+  labels = c("No", "Yes")
+)
+```
+
+```{r}
+#| echo: FALSE
+#| label: tbl-smoke-freq
+#| tbl-cap: "Smoking Status Frequency"
+
+disease2 %>% 
+  count(smoking) %>% 
+  mutate(percentage = (n/nrow(disease2))*100) %>% 
+  mutate(percentage = round(percentage, 2)) %>% 
+  kable(col.names =
+          c("Smoking Status", "Count", "Percentage(%)"))
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-smoke
+
+disease2 %>% 
+  ggplot() +
+  aes(x = smoking, fill = smoking) +
+  geom_bar() +
+  labs(
+    x = "Smoking Status",
+    y = "Count",
+    fill = "Status"
+  ) +
+  scale_fill_manual(values = c(
+    "Yes" = "tomato",
+    "No" = "skyblue"
+  )) +
+  theme_classic()
+```
+
+```{r}
+#| echo: FALSE
+
+# giving meaningful label to physical_activity
+
+disease2$physical_activity <- disease_data$physical_activity
+
+disease2$physical_activity <- factor(
+  disease2$physical_activity,
+  levels = c(0, 1),
+  labels = c("Not Active", "Active")
+)
+```
+
+```{r}
+#| echo: FALSE
+#| label: tbl-physical-freq
+#| tbl-cap: "Physical Activity Frequency"
+
+disease2 %>% 
+  count(physical_activity) %>% 
+  mutate(percentage = (n/nrow(disease2))*100) %>% 
+  mutate(percentage = round(percentage, 2)) %>% 
+  kable(col.names =
+          c("Physical Activity", "Count", "Percentage(%)"))
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-physical
+
+disease2 %>% 
+  ggplot() +
+  aes(x = physical_activity, fill = physical_activity) +
+  geom_bar() +
+  labs(
+    x = "Physical Activity",
+    y = "Count",
+    fill = "Status"
+  ) +
+  scale_fill_manual(values = c(
+    "Active" = "tomato",
+    "Not Active" = "skyblue"
+  )) +
+  theme_classic()
+```
+
+```{r}
+#| echo: FALSE
+
+# reassigning age-ranges for efficiency
+# 18-34, 35-49, 50-64, 65 and older
+disease2$age_category <- disease_data$age_category
+
+disease2 <- disease2 %>% 
+  mutate(age_category = case_when(
+    age_category %in% c("18-24", "25-29", "30-34") ~ "18-34",
+    age_category %in% c("35-39", "40-44", "45-49", "50-54") ~ "35-54",
+    age_category %in% c("55-59", "60-64", "65-69", "70-74", "75-79", "80 or older") ~ "55 and older"
+  ))
+```
+
+```{r}
+#| echo: FALSE
+#| label: tbl-age-freq
+#| tbl-cap: "Age Range Frequency"
+
+disease2 %>% 
+  count(age_category) %>% 
+  mutate(percentage = (n/nrow(disease2))*100) %>% 
+  mutate(percentage = round(percentage, 2)) %>% 
+  kable(col.names =
+          c("Age Range", "Count", "Percentage(%)"))
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-ages
+
+disease2 %>% 
+  ggplot() +
+  aes(x = age_category, fill = age_category) +
+  geom_bar() +
+  labs(
+    x = "Age Range",
+    y = "Count",
+    fill = "Age Range"
+  ) +
+  scale_fill_manual(values = c(
+    "18-34" = "tomato",
+    "35-54" = "skyblue",
+    "55 and older" = "orange"
+  )) +
+  theme_classic()
+```
 
 - response
 variable: - description - visualizations - summary statistics - 1-3
