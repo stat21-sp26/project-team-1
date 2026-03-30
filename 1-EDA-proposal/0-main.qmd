@@ -17,6 +17,7 @@ execute:
   fig-width: 4
   fig-height: 3.5
 bibliography: ../bibliography/references.bib
+engine: knitr
 ---
 
 {{< include 1-introduction.qmd >}}
