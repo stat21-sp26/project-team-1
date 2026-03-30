@@ -12,7 +12,7 @@ library(tidyr)
 library(kableExtra)
 ```
 
-## 2. Exploratory Data Analysis & Analysis Approach
+## 3. Exploratory Data Analysis & Analysis Approach
 
 ### Data Set 1: Diabetic Patient Hospital Readmission in the US
 
@@ -559,9 +559,9 @@ and 3) change in medications.
 
 ***Response Variable: BMI***
 
-In addition to our primary binary response variable (`readmitted`), we will take the variable `bmi` as our another primary response variable. In our cleaned dataset, this continuous variable provides a quantitative measure of body mass that we can use to explore patterns, variability, and potential relationships with other health-related factors.
+In addition to our primary binary response variable (`readmitted`), we will take the variable `bmi` as our another primary response variable. In our cleaned dataset, this continuous variable provides a quantitative measure of body mass that we can use to explore patterns and potential relationships with other health-related factors.
 
-BMI ranged from as low as 15, indicating underweight, to nearly 60, reflecting obesity. On average, individuals in the United States have a BMI around 28, and the median is slightly lower at 27.3 (@tbl-bmi-stat). This difference between the mean and median reflects a right-skewed distribution. Most individuals have BMI values near the mean, but a smaller number have much higher BMI values, reflecting obesity (@fig-bmi-hist).
+BMI ranged from as low as 15 (underweight), to nearly 60 (obesity). On average, individuals in the United States have a BMI around 28, and the median is slightly lower at 27.3 (@tbl-bmi-stat). This difference between the mean and median reflects a right-skewed distribution. Most individuals have BMI values near the mean, but a smaller number have much higher BMI values, reflecting obesity (@fig-bmi-hist).
 
 ```{r}
 #| include: false
@@ -577,6 +577,8 @@ disease_data <- disease_data %>%
 #| echo: FALSE
 #| label: tbl-bmi-stat
 #| tbl-cap: "Summary Statistics for BMI"
+#| fig-width: 5.5
+#| fig-height: 3.5
 
 bmi_stats <- disease_data %>% 
   summarise(
@@ -597,6 +599,8 @@ bmi_stats %>%
 ```{r}
 #| echo: FALSE
 #| label: fig-bmi-hist
+#| fig-width: 5.5
+#| fig-height: 3.5
 
 disease_data %>% 
   ggplot() +
@@ -611,7 +615,7 @@ disease_data %>%
   theme_classic()
 ```
 
-Only 2.27% of individuals in the United States have a BMI classified as underweight. About 29.75% have a BMI in the normal range, 35.90% are overweight, and 32.08% are classified as obese (@tbl-bmi-freq; @fig-bmi-bar).
+Only 2.27% of individuals in the United States have a BMI classified as underweight. About 29.75% have a BMI in the normal range, 35.90% are overweight, and 32.08% are classified as obese (@tbl-bmi-freq). The majority of individuals fall into the overweight or obese categories, indicating that higher BMI levels are common in this dataset (@fig-bmi-bar). This distribution suggests that there is substantial variation in body mass, which may be useful for examining how BMI relates to other health and behavioral factors.
 
 ```{r}
 #| include: FALSE
@@ -661,6 +665,8 @@ bmi_obese_prop <- round(bmi_obese/nrow(disease2)*100, 2)
 #| echo: FALSE
 #| label: tbl-bmi-freq
 #| tbl-cap: "BMI Category Frequency"
+#| fig-width: 5.5
+#| fig-height: 3.5
 
 disease2 %>% 
   count(bmi) %>% 
@@ -668,14 +674,17 @@ disease2 %>%
   mutate(percentage = round(percentage, 2)) %>% 
   kable(col.names = c("BMI Category", "Count", "Percentage (%)"))
 ```
+
 ```{r}
 #| echo: FALSE
 #| label: fig-bmi-bar
+#| fig-width: 5.8
+#| fig-height: 3.5
 
 disease2 %>% 
   ggplot() +
   aes(x = bmi, fill = bmi) +
-  geom_bar() +
+  geom_bar(color = "black") +
   labs(
     x = "BMI Category",
     y = "Count",
@@ -695,7 +704,9 @@ disease2 %>%
 
 [Smoking, Age, and Physical Activity]{.underline}
 
-We also plan to investigate three categorical predictors: smoking status, physical activity, and age. Over 58.76% of individuals do not smoke, while 41.24% did not (@tbl-smoke-freq; @fig-smoke). Over 55% of the individuals surveyed were 55 years or older (@tbl-age-freq; @fig-ages). In terms of phsyical activity, more than 77% of individuals were active, while 22.41% were inactive (@tbl-physical-freq; @fig-physical).
+We plan to investigate three categorical predictors: `smoking`, `physical activity`, and `age`. Over 58.76% of individuals do not smoke, while 41.24% did not (@tbl-smoke-freq; @fig-smoke). Over 54% of the individuals surveyed were 55 years or older, 27.72% were 35 to 54 years old, and 17.75% were 18 to 34 years old (@tbl-age-freq; @fig-ages). In terms of phsyical activity, more than 77% of individuals were active, while 22.41% were inactive (@tbl-physical-freq; @fig-physical).
+
+Interestingly, boxplot visualizations of these variables with respect to BMI reveal only small differences in distributions and medians. For instance, non-smokers have slightly lower BMI compared to smokers (@fig-smoke-bmi-boxplot). Similarly, individuals who are physically active have only slightly lower median BMI than those who are not (@fig-physical-bmi-boxplot). Across age groups, individuals aged 18-34 years have lower median BMI compared to those aged 35-54 and 55 or older (@fig-age-bmi-boxplot). Further statistical analysis would be required to determine whether these differences are statistically significant.
 
 ```{r}
 #| echo: FALSE
@@ -715,23 +726,27 @@ disease2$smoking <- factor(
 #| echo: FALSE
 #| label: tbl-smoke-freq
 #| tbl-cap: "Smoking Status Frequency"
+#| fig-width: 5.5
+#| fig-height: 3.5
 
 disease2 %>% 
   count(smoking) %>% 
   mutate(percentage = (n/nrow(disease2))*100) %>% 
   mutate(percentage = round(percentage, 2)) %>% 
   kable(col.names =
-          c("Smoking Status", "Count", "Percentage(%)"))
+          c("Smoking Status", "Count", "Percentage (%)"))
 ```
 
 ```{r}
 #| echo: FALSE
 #| label: fig-smoke
+#| fig-width: 5.5
+#| fig-height: 3.5
 
 disease2 %>% 
   ggplot() +
   aes(x = smoking, fill = smoking) +
-  geom_bar() +
+  geom_bar(color = "black") +
   labs(
     x = "Smoking Status",
     y = "Count",
@@ -743,6 +758,28 @@ disease2 %>%
   )) +
   theme_classic()
 ```
+
+```{r}
+#| echo: FALSE
+#| label: fig-smoke-bmi-boxplot
+#| fig-width: 5.5
+#| fig-height: 3.5
+
+disease2 %>% 
+  ggplot() +
+  aes(x = smoking,
+      y = disease_data$bmi,
+      fill = smoking) +
+  geom_boxplot() +
+  labs(
+    x = "Smoking Status",
+    y = "BMI",
+    fill = "Smoking Status"
+  ) +
+  theme_classic() +
+  scale_fill_manual(values = c("tomato", "skyblue"))
+```
+
 
 ```{r}
 #| echo: FALSE
@@ -762,23 +799,27 @@ disease2$physical_activity <- factor(
 #| echo: FALSE
 #| label: tbl-physical-freq
 #| tbl-cap: "Physical Activity Frequency"
+#| fig-width: 5.5
+#| fig-height: 3.5
 
 disease2 %>% 
   count(physical_activity) %>% 
   mutate(percentage = (n/nrow(disease2))*100) %>% 
   mutate(percentage = round(percentage, 2)) %>% 
   kable(col.names =
-          c("Physical Activity", "Count", "Percentage(%)"))
+          c("Physical Activity", "Count", "Percentage (%)"))
 ```
 
 ```{r}
 #| echo: FALSE
 #| label: fig-physical
+#| fig-width: 5.5
+#| fig-height: 3.5
 
 disease2 %>% 
   ggplot() +
   aes(x = physical_activity, fill = physical_activity) +
-  geom_bar() +
+  geom_bar(color = "black") +
   labs(
     x = "Physical Activity",
     y = "Count",
@@ -789,6 +830,27 @@ disease2 %>%
     "Not Active" = "skyblue"
   )) +
   theme_classic()
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-physical-bmi-boxplot
+#| fig-width: 5.5
+#| fig-height: 3.5
+
+disease2 %>% 
+  ggplot() +
+  aes(x = physical_activity,
+      y = disease_data$bmi,
+      fill = physical_activity) +
+  geom_boxplot() +
+  labs(
+    x = "Physical Activity",
+    y = "BMI",
+    fill = "Activity Status"
+  ) +
+  theme_classic() +
+  scale_fill_manual(values = c("tomato", "skyblue"))
 ```
 
 ```{r}
@@ -810,23 +872,27 @@ disease2 <- disease2 %>%
 #| echo: FALSE
 #| label: tbl-age-freq
 #| tbl-cap: "Age Range Frequency"
+#| fig-width: 5.5
+#| fig-height: 3.5
 
 disease2 %>% 
   count(age_category) %>% 
   mutate(percentage = (n/nrow(disease2))*100) %>% 
   mutate(percentage = round(percentage, 2)) %>% 
   kable(col.names =
-          c("Age Range", "Count", "Percentage(%)"))
+          c("Age Range", "Count", "Percentage (%)"))
 ```
 
 ```{r}
 #| echo: FALSE
 #| label: fig-ages
+#| fig-width: 5.5
+#| fig-height: 3.5
 
 disease2 %>% 
   ggplot() +
   aes(x = age_category, fill = age_category) +
-  geom_bar() +
+  geom_bar(color = "black") +
   labs(
     x = "Age Range",
     y = "Count",
@@ -838,6 +904,157 @@ disease2 %>%
     "55 and older" = "orange"
   )) +
   theme_classic()
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-age-bmi-boxplot
+#| fig-width: 5.5
+#| fig-height: 3.5
+
+disease2 %>% 
+  ggplot() +
+  aes(x = age_category,
+      y = disease_data$bmi,
+      fill = age_category) +
+  geom_boxplot() +
+  labs(
+    x = "Age Range",
+    y = "BMI",
+    fill = "Age Range"
+  ) +
+  theme_classic() +
+  scale_fill_manual(values = c("tomato", "skyblue", "orange"))
+```
+
+
+[Sleep Time]{.underline}
+
+In addition, we also plan to analyze a numeric predictor `sleep_time`. An initial histogram of this variable reveals a right-skewed distribution (@fig-sleep-hist), with a mean sleep duration of approximately 7 ± 1.35 hours. The median sleep time is also 7 hours (@tbl-sleep-time). In regards to BMI, the distribution for BMI levels classified as normal weight and overweight appear most prominent, while underweight individuals make up a small portion (@fig-sleep-bmi-hist).
+
+```{r}
+#| echo: FALSE
+#| label: tbl-sleep-time
+#| tbl-cap: "Summary Statistics of Sleep Time"
+#| fig-width: 5.5
+#| fig-height: 3.5
+
+disease2$sleep_time <- disease_data$sleep_time
+
+sleep_time_stats <- disease2 %>% 
+  summarise(
+    mean = mean(sleep_time, na.rm = TRUE),
+    median = median(sleep_time, na.rm = TRUE),
+    min = min(sleep_time, na.rm = TRUE),
+    max = max(sleep_time, na.rm = TRUE),
+    sd = sd(sleep_time, na.rm = TRUE)
+  )
+
+# make table
+sleep_time_stats %>% 
+  kable(
+    col.names = c("Mean", "Median", "Min", "Max", "SD")
+  )
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-sleep-hist
+#| fig-width: 5.5
+#| fig-height: 3.5
+
+disease2 %>% 
+  ggplot() +
+  aes(x = sleep_time) +
+  geom_histogram(bins = 10, na.rm = TRUE, fill = "steelblue", color = "black") +
+  geom_vline(xintercept = mean(disease2$sleep_time, na.rm = TRUE),
+             color = "red") +
+  labs(
+    x = "Sleep Time (Hours)",
+    y = "Count"
+  ) +
+  theme_classic()
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-sleep-bmi-hist
+#| fig-width: 5.5
+#| fig-height: 3.5
+
+disease2 %>% 
+  ggplot() +
+  aes(x = sleep_time, fill = bmi) +
+  geom_histogram(bins = 8, color = "black", na.rm = TRUE) +
+  labs(
+    x = "Sleep Time (Hours)",
+    y = "Count",
+    fill = "BMI Category"
+  ) +
+  scale_fill_manual(values = c(
+    "Underweight" = "orange",
+    "Normal Weight" = "steelblue",
+    "Overweight" = "skyblue",
+    "Obese" = "tomato"
+  )) +
+  theme_classic()
+```
+***Other Predictors***
+
+Another binary predictor variable of interest is `diabetic` (@fig-diabetic-bar). A boxplot visualization with respect to BMI can be found at @fig-diabetic-bmi-boxplot. Once again, there is a small difference in median BMI between individuals with diabetes and individuals who do not.
+
+```{r}
+#| echo: FALSE
+
+# giving meaningful label to diabetic
+
+disease2$diabetic <- disease_data$diabetic
+
+disease2$diabetic <- factor(
+  disease2$diabetic,
+  levels = c(0, 1),
+  labels = c("No", "Yes")
+)
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-diabetic-bar
+#| fig-width: 5.5
+#| fig-height: 3.5
+
+disease2 %>% 
+  ggplot() +
+  aes(x = diabetic, fill = diabetic) +
+  geom_bar(color = "black") +
+  labs(
+    x = "Diabetic Status",
+    y = "Count",
+    fill = "Status"
+  ) +
+  theme_classic() +
+  scale_fill_manual(values = c("tomato", "skyblue"))
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-diabetic-bmi-boxplot
+#| fig-width: 5.5
+#| fig-height: 3.5
+
+disease2 %>% 
+  ggplot() +
+  aes(x = diabetic,
+      y = disease_data$bmi,
+      fill = diabetic) +
+  geom_boxplot() +
+  labs(
+    x = "Diabetic Status",
+    y = "BMI",
+    fill = "Diabetic Status"
+  ) +
+  theme_classic() +
+  scale_fill_manual(values = c("tomato", "skyblue"))
 ```
 
 - response
