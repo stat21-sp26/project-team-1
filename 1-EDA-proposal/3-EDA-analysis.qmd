@@ -601,7 +601,7 @@ disease_data %>%
   theme_classic()
 ```
 
-Only 2.27% of individuals in the United States have a BMI classified as underweight. About 29.75% have a BMI in the normal range, 35.90% are overweight, and 32.08% are classified as obese (@tbl-bmi-freq; @fig-bmi-bar).
+Only 2.27% of individuals in the United States have a BMI classified as underweight. About 29.75% have a BMI in the normal range, 35.90% are overweight, and 32.08% are classified as obese (@tbl-bmi-freq). The majority of individuals fall into the overweight or obese categories, indicating that higher BMI levels are common in this dataset (@fig-bmi-bar). This distribution suggests that there is substantial variation in body mass, which may be useful for examining how BMI relates to other health and behavioral factors.
 
 ```{r}
 #| include: FALSE
