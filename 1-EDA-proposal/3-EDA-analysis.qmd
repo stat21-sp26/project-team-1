@@ -632,9 +632,9 @@ disease2 %>%
   
 ```
 
-***Key Predictors: Smoking, Physical Activity, General Health, and Age***
+***Key Predictors: Smoking, Physical Activity, Sleep Time, and Age***
 
-[Hemoglobin A1c & Serum Glucose Test Administration]{.underline}
+[Smoking]{.underline}
 
 - response
 variable: - description - visualizations - summary statistics - 1-3
