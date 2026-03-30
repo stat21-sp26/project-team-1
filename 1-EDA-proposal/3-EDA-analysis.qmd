@@ -543,6 +543,7 @@ binary variable, . The coefficients of interest would be 1)
 administration of HbA1c test, 2) administration of serum glucose test,
 and 3) change in medications.
 
+{{< pagebreak >}}
 
 ### Data Set 2: Indicators of Heart Disease (2022)
 

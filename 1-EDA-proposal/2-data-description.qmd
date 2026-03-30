@@ -16,6 +16,8 @@ This filtering leaves variables for demographics (race, gender, age), type of ho
 
 To prepare for logistic regression analyses of the data, we converted two categorical variables (`max_glu_serum`: measurement of glucose in blood serum; and `a1cresult`: measurement of hemoglobin A1c) into binary variables, where 1 indicates that a certain test was performed and 0 indicates that it was not taken. We similarly converted the `readmitted` variable to be binary, indicating whether a patient was readmitted within 30 days of their discharge or not.
 
+{{< pagebreak >}}
+
 ### Data Set 2: Indicators of Heart Disease (2022)
 
 The current data set on crucial indicators for heart disease from patients in the United States (2022) is sourced from the following website hosted by Kaggle: <https://www.kaggle.com/datasets/kamilpytlak/personal-key-indicators-of-heart-disease>. The data set originally comes from the Centers for Disease Control and Prevention (CDC) and is a part of the Behavioral Risk Factor Surveillance System (BRFSS). It was originally collected by the CDC and BRFSS to gather data on the health status of U.S. residents across all 50 states, the Distirct of Columbia, and 3 U.S. territories. To download the dataset, scroll to the end of the "About Dataset" section and click the download icon (an arrow pointing down). The dataset was downloaded on February 22, 2026.
