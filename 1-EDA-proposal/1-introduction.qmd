@@ -6,13 +6,13 @@
 
 Approximately 40 million Americans (12.5% of the population) are currently diagnosed with the metabolic disorder diabetes mellitus, the vast majority of which (90-95%) are diagnosed with type 2 [@cdc_type2_diabetes]. Type 2 diabetes is characterized by insulin resistant cells, driving the pancreas into overdrive and inducing hyperglycemia and high blood pressure, both of which can lead to a number of severe health issues, including blindness, kidney disease, and cardiovascular events[@cdc_type2_diabetes] [@fang2021trends].
 
-As such, diabetes treatment has rapidly become a pressing public health issue. \_\_\_\_\_\_TRENDS IN DIABETES CARE\_\_\_\_\_\_\_\_ [@fang2021trends].
+As such, diabetes treatment has rapidly become a pressing public health issue, with particular attention paid to reducing the risk of comorbidities via rigorous glycemic, blood-pressure, and lipid management [@fang2021trends].
 
 Since the 1980s, glycated hemoglobin of hemogolbin A1c (HbA1c) has been used in clinical testing to measure a patient's blood glucose levels across 90 days. HbA1c is a variant of hemoglobin (the oxygen binding protein abundant in red blood cells), in which glucose is conjugated to the beta chain of the protein's N-terminal valine. This protein variant is regularly found in diabetic patients, and has been shown to correlate with blood glucose levels. HbA1c's unique chemical properties has made it a reliable marker for diabetes identification and glucose control over 2-3 months (the life span of a red blood cell) [@gallagher2009review]. Given this, hospitals utilize HbA1c measurements to test for glycemic control, as it provides insight into how effective certain diabetes treatments are. Since its popularization in the Diabetes Control & Complications Trial (DCCT), the assay has been internationally standardized under the International Federation of Clinical Chemists (IFCC) [@gallagher2009review].
 
-**Research Question:** Can testing for HbA1c during inpatient visits for individuals with diabetes predict whether the patient will be readmitted within the next month?
+**Research Question:** Can testing for HbA1c during inpatient visits for individuals with diabetes predict whether the patient will be readmitted within the next month? In other words, is HbA1c measurement an indicator of effective diabetes care?
 
-**Hypothesis:** Given this, reliability of the HbA1c test and its insight into diabetes progress, we would expect that patients that are tested for HbA1c at the hospital would receive more accurate treatment and thus would be less likely to encounter further diabetic complications that would lead them to an early readmission.
+**Hypothesis:** Given the reliability of the HbA1c test and its insight into diabetes progress, we would expect that patients tested for HbA1c at the hospital would receive more accurate treatment and thus would be less likely to encounter further diabetic complications that would lead them to an early readmission. As such, we would hypothesize that administration of a HbA1c test (regardless of the test result) would lead to delayed readmission or no readmission.
 
 ### Data Set 2: Indicators of Heart Disease (2022)
 
