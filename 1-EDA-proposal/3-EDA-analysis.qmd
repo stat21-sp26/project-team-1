@@ -842,8 +842,22 @@ disease2 %>%
 ```
 
 [Sleep Time]{.underline}
+We also planned to investigate two numerical predictor variables: 1) the
+number of lab tests administered on the patient in the hospital, and 2)
+the number of unique medications they were administered. However,
+initial visualization of these variables as density plots and box plots
+reveals that there is very little difference in the distribution and
+medians of these variables for late vs early readmission groups. For
+instance, the median number of lab procedures administered for patients
+who were eventually readmitted late vs early was 1 for both. Likewise,
+the mean was 1.4 for both (@tbl-stats-num-procedures). The median number
+of medications administered to a patient was 14 for those who were
+readmitted to the hospital over 30 days later and 15 for those who were
+readmitted within a month. The means for these groups were 15.6 ± 8.3
+and 16.6 ± 8.3, respectively — a difference that is well within the
+standard deviation of both groups (@tbl-stats-num-medications).
 
-In addition, we also plan to analyze a numeric predictor `sleep_time`.
+In addition, we also plan to analyze a numeric predictor `sleep_time`. An initial histogram of this variable reveals a right-skewed distribution (@fig-sleep-hist), with a mean sleep duration of approximately 7 ± 1.35 hours. The median sleep time is also 7 hours (@tbl-sleep-time).
 
 ```{r}
 #| echo: FALSE
