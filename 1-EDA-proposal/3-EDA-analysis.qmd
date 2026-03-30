@@ -731,7 +731,7 @@ table(disease2$physical_activity)
 
 ```{r}
 #| echo: FALSE
-#| label: tbl-smoke-freq
+#| label: tbl-physical-freq
 #| tbl-cap: "Physical Activity Frequency"
 
 disease2 %>% 
@@ -740,6 +740,21 @@ disease2 %>%
   mutate(percentage = round(percentage, 2)) %>% 
   kable(col.names =
           c("Physical Activity", "Count", "Percentage(%)"))
+```
+
+```{r}
+#| echo: FALSE
+#| label: tbl-age-freq
+#| tbl-cap: "Age Range Frequency"
+
+disease2$age_category <- disease_data$age_category
+
+disease2 %>% 
+  count(age_category) %>% 
+  mutate(percentage = (n/nrow(disease2))*100) %>% 
+  mutate(percentage = round(percentage, 2)) %>% 
+  kable(col.names =
+          c("Age Range", "Count", "Percentage(%)"))
 ```
 
 - response
