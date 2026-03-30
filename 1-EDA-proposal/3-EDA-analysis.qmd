@@ -690,7 +690,9 @@ disease2 %>%
 
 [Smoking, Age, and Physical Activity]{.underline}
 
-We plan to investigate three categorical predictors: `smoking`, `physical activity`, and `age`. Over 58.76% of individuals do not smoke, while 41.24% did not (@tbl-smoke-freq; @fig-smoke). Over 54% of the individuals surveyed were 55 years or older, 27.72% were 35 to 54 years old, and 17.75% were 18 to 34 years old (@tbl-age-freq; @fig-ages). In terms of phsyical activity, more than 77% of individuals were active, while 22.41% were inactive (@tbl-physical-freq; @fig-physical). There is a large difference across age groups and between physical activity amongst all individuals. Further statistical analysis would be required to determine any significance.
+We plan to investigate three categorical predictors: `smoking`, `physical activity`, and `age`. Over 58.76% of individuals do not smoke, while 41.24% did not (@tbl-smoke-freq; @fig-smoke). Over 54% of the individuals surveyed were 55 years or older, 27.72% were 35 to 54 years old, and 17.75% were 18 to 34 years old (@tbl-age-freq; @fig-ages). In terms of phsyical activity, more than 77% of individuals were active, while 22.41% were inactive (@tbl-physical-freq; @fig-physical).
+
+Interestingly, boxplot visualizations of these variables with respect to BMI reveal only small differences in distributions and medians. For instance, non-smokers have slightly lower BMI compared to smokers (@fig-smoke-bmi-boxplot). Similarly, individuals who are physically active have only slightly lower median BMI than those who are not (@fig-physical-bmi-boxplot). Across age groups, individuals aged 18-34 years have lower median BMI compared to those aged 35-54 and 55 or older (@fig-age-bmi-boxplot). Further statistical analysis would be required to determine whether these differences are statistically significant.
 
 ```{r}
 #| echo: FALSE
