@@ -1005,6 +1005,8 @@ disease2 %>%
   theme_classic()
 ```
 
+{{< pagebreak >}}
+
 ***Other Predictors***
 
 Another binary predictor variable of interest is `diabetic` (@fig-diabetic-bar). A boxplot visualization with respect to BMI can be found at @fig-diabetic-bmi-boxplot. Once again, there is a small difference in median BMI between individuals with diabetes and individuals who do not.
