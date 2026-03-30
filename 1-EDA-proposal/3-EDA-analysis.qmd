@@ -83,8 +83,6 @@ ggplot(data = diabetes_data, aes(x = factor(readmitted), fill = readmitted)) +
 
 ```
 
-::: {.columns}
-::: {.column width = "50%"}
 ```{r}
 #| echo: false
 #| label: fig-readmission-freq
@@ -99,8 +97,8 @@ ggplot(data = diabetes_data, aes(x = factor(readmitted_binary), fill = readmitte
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
-:::
-::: {.column width = "50%"}
+
+
 ```{r}
 #| echo: false
 #| label: tbl-readmission-freq
@@ -113,6 +111,15 @@ diabetes_data |>
   mutate(percentage = round(percentage, 2)) |>
   kable(col.names = c("Readmission Status", "Count", "Percentage (%)"))
 
+```
+
+
+
+```{r}
+#| echo: false
+#| label: tbl-readmission-freq-binary
+#| tbl-cap: "Hospital Readmission Frequency for Diabetic Patients in the US (Binary)"
+
 # table of readmission counts - BINARY
 diabetes_data |> 
   count(readmitted_binary) |>
@@ -120,8 +127,8 @@ diabetes_data |>
   mutate(percentage = round(percentage, 2)) |>
   kable(col.names = c("Readmission Status", "Count", "Percentage (%)"))
 ```
-:::
-:::
+
+
 
 ***Key Predictors: HbA1c test, number of diagnoses, serum glucose, drug
 tests, etc.***
@@ -130,11 +137,8 @@ tests, etc.***
 
 We initially planned on investigating two categorical predictor
 variables: whether a hemoglobin A1c test was administered and whether a
-serum glucose test was administered. However, based on visual inspection
-of the proportion of HbA1c and serum glucose test administrations for
-late vs early readmissions, there does not appear to be a large
-difference ( HbA1c: @fig-readmission-hba1c; Serum glucose:
-@fig-readmission-serum-glu).
+serum glucose (blood sugar) test was administered. A HbA1c test was not administered for the vast majority of patients (81.8%) (@fig-hba1c-test). Likewise, 952% of patients were not tested for serum glucose levels (@fig-serum-glu)
+
 
 ```{r}
 #| include: false
@@ -154,7 +158,9 @@ diabetes_data$a1cresult_binary
 #| label: fig-hba1c-test
 
 # Hemoglobin A1c Test Results
-table(diabetes_data$a1cresult)
+#table(diabetes_data$a1cresult)
+# No HbA1c test: 81.8%
+# HbA1c test: 18.2%
 
 ggplot(data = diabetes_data, aes(x = factor(a1cresult_binary), fill = a1cresult)) +
   geom_bar(color = "black") + 
@@ -180,7 +186,9 @@ diabetes_data$max_glu_serum_binary <- factor(
 #| echo: false
 #| label: fig-serum-gluc
 
-table(diabetes_data$max_glu_serum)
+#table(diabetes_data$max_glu_serum)
+# Serum glucose test: 4.8%
+# No serum glucose test: 95.2%
 
 # Serum Glucose Test Results
 
@@ -193,6 +201,9 @@ ggplot(data = diabetes_data, aes(x = factor(max_glu_serum_binary), fill = max_gl
   theme(legend.position = "bottom")
 ```
 
+
+Based on visual inspection of the proportion of HbA1c and serum glucose test administrations for late vs early readmissions, there does not appear to be a large difference in the probability of test administration for the two readmission groups (HbA1c: @fig-readmission-hba1c; Serum glucose:
+@fig-readmission-serum-glu).
 ```{r}
 #| echo: false
 #| label: fig-readmission-hba1c
@@ -368,7 +379,7 @@ ggplot(data = diabetes_data, aes(y = num_medications, x = readmitted_binary,
 
 We then inspected the binary predictor variable `change`, indicating
 whether there was a change in the patient's diabetic medications (i.e.
-change in dosage or generic name). Once again, the difference
+change in dosage or generic name). We expected that a change in medications could indicate more attentive hospital care and thus potentially better patient outcome (lower readmission). Once again, the difference
 proportions for the late vs early readmission groups appears quite
 small, though a slightly greater proportion of late readmission patients
 (55.47%) experienced no change in medications compared to early
@@ -549,9 +560,13 @@ ggplot(data = diabetes_data, aes(x = time_in_hospital)) +
 
 If we were to move forward with inferential analysis, we would perform a
 logistic regression given that our predictor (hospital readmission) is a
-binary variable, . The coefficients of interest would be 1)
+binary variable. The coefficients of interest would be 1)
 administration of HbA1c test, 2) administration of serum glucose test,
-and 3) change in medications.
+and 3) change in medications. A possible regression model would be as follows:
+
+$$
+log(Odds_{Readmission}) = \beta_0 + \beta_1HbA1c + \beta_2SerumGlucose + \beta_3MedChange
+$$
 
 {{< pagebreak >}}
 

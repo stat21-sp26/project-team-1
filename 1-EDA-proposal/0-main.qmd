@@ -28,10 +28,7 @@ bibliography: ../bibliography/references.bib
 
 {{< pagebreak >}}
 
-#{{< include 3-EDA-analysis.qmd >}}
-```{r}
-#| child: 3-EDA-analysis.qmd
-```
+{{< include 3-EDA-analysis.qmd >}}
 
 
 {{< pagebreak >}}
