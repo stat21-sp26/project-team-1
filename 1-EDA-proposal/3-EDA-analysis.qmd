@@ -856,6 +856,8 @@ disease2 %>%
   scale_fill_manual(values = c("tomato", "skyblue"))
 ```
 
+{{< pagebreak >}}
+
 ```{r}
 #| echo: FALSE
 
