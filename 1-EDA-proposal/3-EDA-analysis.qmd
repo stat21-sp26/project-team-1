@@ -83,6 +83,7 @@ ggplot(data = diabetes_data, aes(x = factor(readmitted), fill = readmitted)) +
 
 ```
 
+
 ```{r}
 #| echo: false
 #| label: fig-readmission-freq
@@ -98,7 +99,10 @@ ggplot(data = diabetes_data, aes(x = factor(readmitted_binary), fill = readmitte
   theme(legend.position = "bottom")
 ```
 
+:::: {layout="[0.4, 0.1, 0.4]"}
 
+
+:::{#table1}
 ```{r}
 #| echo: false
 #| label: tbl-readmission-freq
@@ -112,9 +116,12 @@ diabetes_data |>
   kable(col.names = c("Readmission Status", "Count", "Percentage (%)"))
 
 ```
+:::
 
+:::{#space}
+:::
 
-
+:::{#table2}
 ```{r}
 #| echo: false
 #| label: tbl-readmission-freq-binary
@@ -127,8 +134,9 @@ diabetes_data |>
   mutate(percentage = round(percentage, 2)) |>
   kable(col.names = c("Readmission Status", "Count", "Percentage (%)"))
 ```
+:::
 
-
+:::: 
 
 ***Key Predictors: HbA1c test, number of diagnoses, serum glucose, drug
 tests, etc.***
@@ -137,7 +145,7 @@ tests, etc.***
 
 We initially planned on investigating two categorical predictor
 variables: whether a hemoglobin A1c test was administered and whether a
-serum glucose (blood sugar) test was administered. A HbA1c test was not administered for the vast majority of patients (81.8%) (@fig-hba1c-test). Likewise, 952% of patients were not tested for serum glucose levels (@fig-serum-glu)
+serum glucose (blood sugar) test was administered. A HbA1c test was not administered for the vast majority of patients (81.8%) (@fig-hba1c-test). Likewise, 952% of patients were not tested for serum glucose levels (@fig-serum-gluc)
 
 
 ```{r}
