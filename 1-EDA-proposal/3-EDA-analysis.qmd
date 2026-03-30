@@ -12,7 +12,7 @@ library(tidyr)
 library(kableExtra)
 ```
 
-## 2. Exploratory Data Analysis & Analysis Approach
+## 3. Exploratory Data Analysis & Analysis Approach
 
 ### Data Set 1: Diabetic Patient Hospital Readmission in the US
 
