@@ -682,7 +682,42 @@ disease2 %>%
 
 ***Key Predictors: Smoking, Physical Activity, Sleep Time, and Age***
 
+[Smoking]{.underline}
 
+```{r}
+#| echo: FALSE
+
+# giving meaningful label to smoking
+
+disease2$smoking <- disease_data$smoking
+
+disease2$smoking <- factor(
+  disease2$smoking,
+  levels = c(0, 1),
+  labels = c("No", "Yes")
+)
+```
+
+```{r}
+#| echo: FALSE
+#| label: tbl-smoke-stats
+#| tbl-cap: "Summary Statistics for Smoking"
+
+
+```
+
+```{r}
+#| echo: FALSE
+#| label: tbl-smoke-freq
+#| tbl-cap: "Smoking Status Frequency"
+
+disease2 %>% 
+  count(smoking) %>% 
+  mutate(percentage = (n/nrow(disease2))*100) %>% 
+  mutate(percentage = round(percentage, 2)) %>% 
+  kable(col.names =
+          c("Smoking Status", "Count", "Percentage(%)"))
+```
 
 - response
 variable: - description - visualizations - summary statistics - 1-3
