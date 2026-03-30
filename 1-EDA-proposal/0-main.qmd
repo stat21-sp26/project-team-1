@@ -27,7 +27,6 @@ bibliography: ../bibliography/references.bib
 
 {{< include 4-discussion.qmd >}}
 
-Example of a citation: @airoldi2008. Delete this example when you are done.
 
 ## Bibliography
 
