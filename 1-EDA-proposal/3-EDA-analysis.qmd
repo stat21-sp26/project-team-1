@@ -632,6 +632,10 @@ disease2 %>%
   
 ```
 
+***Key Predictors: Smoking, Physical Activity, General Health, and Age***
+
+[Hemoglobin A1c & Serum Glucose Test Administration]{.underline}
+
 - response
 variable: - description - visualizations - summary statistics - 1-3
 important predictors: - description - visualizations - summary
