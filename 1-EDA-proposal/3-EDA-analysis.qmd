@@ -686,11 +686,7 @@ disease2 %>%
 
 **Insert third text whenever ready.**
 
-We also initially planned on investigating three categorical predictors: smoking status, physical activity, and age. However, based on visual inspection
-of the proportion of HbA1c and serum glucose test administrations for
-late vs early readmissions, there does not appear to be a large
-difference ( HbA1c: @fig-readmission-hba1c; Serum glucose:
-@fig-readmission-serum-glu).
+We also plan to investigate three categorical predictors: smoking status, physical activity, and age. Over 55% of the individuals surveyed were 55 years or older (@tbl-age-freq; @fig-age). In terms of phsyical activity, more than 77% of individuals were active, while 22.41% were inactive (@tbl-physical-freq; @fig-physical).
 
 ```{r}
 #| echo: FALSE
