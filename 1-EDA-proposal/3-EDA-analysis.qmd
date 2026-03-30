@@ -973,6 +973,47 @@ disease2 %>%
   )) +
   theme_classic()
 ```
+***Other Predictors***
+
+We originally also considered looking at the number of non-lab
+procedures performed during the patient's hospital visit and the number
+of outpatient visits in the year prior to the recorded hospital
+encounter. However, after visualizing these variables as histograms
+(@fig-outpatient-freq; @fig-nolab-tests-freq), these predictor variables
+are highly abnormally distributed. As such, we will likely omit these
+variables from future analyses.
+
+```{r}
+#| echo: FALSE
+
+# giving meaningful label to diabetic
+
+disease2$diabetic <- disease_data$diabetic
+
+disease2$diabetic <- factor(
+  disease2$diabetic,
+  levels = c(0, 1),
+  labels = c("No", "Yes")
+)
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-diabetic-bar
+#| fig-width: 5.5
+
+disease2 %>% 
+  ggplot() +
+  aes(x = diabetic, fill = diabetic) +
+  geom_bar() +
+  labs(
+    x = "Diabetic Status",
+    y = "Count",
+    fill = "Status"
+  ) +
+  theme_classic() +
+  scale_fill_manual(values = c("tomato", "skyblue"))
+```
 
 - response
 variable: - description - visualizations - summary statistics - 1-3
