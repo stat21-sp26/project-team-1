@@ -12,6 +12,8 @@ Since the 1980s, glycated hemoglobin of hemogolbin A1c (HbA1c) has been used in 
 
 **Hypothesis:** Given the reliability of the HbA1c test and its insight into diabetes progress, we would expect that patients tested for HbA1c at the hospital would receive more accurate treatment and thus would be less likely to encounter further diabetic complications that would lead them to an early readmission. As such, we would hypothesize that administration of a HbA1c test (regardless of the test result) would lead to delayed readmission or no readmission.
 
+{{< pagebreak >}}
+
 ### Data Set 2: Indicators of Heart Disease (2022)
 
 **Background & Motivation:**
