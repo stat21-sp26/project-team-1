@@ -14,7 +14,7 @@ library(kableExtra)
 
 ## 2. Exploratory Data Analysis & Analysis Approach
 
-**Data Set 1: Diabetic Patient Hospital Readmission in the US**
+### Data Set 1: Diabetic Patient Hospital Readmission in the US
 
 ***Response Variable: Hospital Readmission***
 
@@ -60,11 +60,11 @@ readmitted \>30 days after their first admission or not at all, i.e.
 late readmission.
 
 The vast majority of diabetic patients (n = `r late_readmission`;
-`r late_readmission_prop`% of all patients) were readmitted only after a
-month (n = `r greater_than_thirty`;`r greater_than_thirty_prop`% of all
+ `r late_readmission_prop`% of all patients) were readmitted only after a
+month (n = `r greater_than_thirty`; `r greater_than_thirty_prop`% of all
 patients) or were never readmitted (n = `r no_readmission`;
-`r no_readmission_prop`% of all patients). The remaining
-`r less_than_thirty` (`r less_than_thirty`%) patients were readmitted
+ `r no_readmission_prop`% of all patients). The remaining
+`r less_than_thirty` (`r less_than_thirty_prop`%) patients were readmitted
 within 30 days of their first admission (@fig-readmission-freq;
 @tbl-readmission-freq).
 
@@ -362,8 +362,11 @@ change in dosage or generic name). Once again, the difference
 proportions for the late vs early readmission groups appears quite
 small, though a slightly greater proportion of late readmission patients
 (55.47%) experienced no change in medications compared to early
-admission patients (52.66%). Further statistical analysis would be
-required to determine significance.
+admission patients (52.66%) (@fig-changed-medication). 
+
+Interestingly, it appears that a larger proportion of patients who were administered an HbA1c test also received a change in medication (55.04%), compared to patients who were not given an HbA1c test (47.34%) (@fig-hba1c-med-change).
+
+Further statistical analysis would be required to determine significance.
 
 ```{r}
 #| echo: false
@@ -405,11 +408,55 @@ early_readmission |> count(change) |>
 # no change: 52.66%
 ```
 
+
+
+```{r}
+#| echo: false
+#| label: fig-hba1c-med-change
+
+ggplot(data = diabetes_data, aes(x = factor(a1cresult_binary), fill = change)) +
+  geom_bar(color = "black", position = "fill") + 
+  labs(x = "HbA1c Result",
+       y = "Proportion",
+       fill = "Change in Medication") +
+  scale_fill_manual(
+    values = c("No" = "tomato", "Ch" = "steelblue"),
+    labels = c("No" = "No", "Ch" = "Yes")) +
+
+  theme_classic()
+
+```
+
+```{r}
+#| include: false
+yes_hba1c <- diabetes_data |> filter(a1cresult_binary == "Test Administered")
+
+yes_hba1c |> count(change) |>
+  mutate(percentage = (n/nrow(yes_hba1c))*100) |>
+  mutate(percentage = round(percentage, 2)) |>
+  kable(col.names = c("Change", "N", "Percentage (%)"))
+# change: 55.04%
+# no change: 44.96%
+
+no_hba1c <- diabetes_data |> filter(a1cresult_binary == "No Test Administered")
+
+no_hba1c |> count(change) |>
+  mutate(percentage = (n/nrow(no_hba1c))*100) |>
+  mutate(percentage = round(percentage, 2)) |>
+  kable(col.names = c("Change", "N", "Percentage (%)"))
+
+# change: 42.5%
+# no change: 57.5%
+```
+
+
 Overall, investigating the influence of all five of these predictors
 (HbA1c testing, serum glucose testing, number of lab tests administered,
 number of medications administered, and change in medication) may not
 yield fruitful results in future analyses given the above
-visualizations.
+visualizations. However, we cannot make any clear conclusions at this stage.
+
+
 
 ***Other Predictors***
 
@@ -495,6 +542,7 @@ logistic regression given that our predictor (hospital readmission) is a
 binary variable, . The coefficients of interest would be 1)
 administration of HbA1c test, 2) administration of serum glucose test,
 and 3) change in medications.
+
 
 ### Data Set 2: Indicators of Heart Disease (2022)
 
@@ -634,7 +682,7 @@ disease2 %>%
 
 ***Key Predictors: Smoking, Physical Activity, General Health, and Age***
 
-[Hemoglobin A1c & Serum Glucose Test Administration]{.underline}
+
 
 - response
 variable: - description - visualizations - summary statistics - 1-3
