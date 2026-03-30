@@ -138,6 +138,8 @@ diabetes_data |>
 
 :::: 
 
+{{< pagebreak >}}
+
 ***Key Predictors: HbA1c test, number of diagnoses, serum glucose, drug
 tests, etc.***
 
@@ -161,6 +163,8 @@ diabetes_data$a1cresult_binary <- factor(
 diabetes_data$a1cresult_binary
 ```
 
+:::: {layout="[0.4, 0.05, 0.4]"}
+::: {#hba1c_plot}
 ```{r}
 #| echo: false
 #| label: fig-hba1c-test
@@ -173,12 +177,16 @@ diabetes_data$a1cresult_binary
 ggplot(data = diabetes_data, aes(x = factor(a1cresult_binary), fill = a1cresult)) +
   geom_bar(color = "black") + 
   labs(x = "Hemoglobin A1c Test Result",
-       y = "Count") +
+       y = "Count",
+       fill = "HbA1c Result") +
   scale_fill_manual(values = c(">7" = "orange", ">8" = "red",  "Norm" = "springgreen2", "None" = "gray")) +
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
+:::
 
+::: {#space}
+:::
 ```{r}
 #| include: false
 # give meaningful label to the serum glucose binary variable
@@ -190,6 +198,7 @@ diabetes_data$max_glu_serum_binary <- factor(
 )
 ```
 
+::: {#serum_gluc_plot}
 ```{r}
 #| echo: false
 #| label: fig-serum-gluc
@@ -203,15 +212,21 @@ diabetes_data$max_glu_serum_binary <- factor(
 ggplot(data = diabetes_data, aes(x = factor(max_glu_serum_binary), fill = max_glu_serum)) +
   geom_bar(color = "black") + 
   labs(x = "Serum Glucose Test Result",
-       y = "Count") +
+       y = "Count",
+       fill = "Max Serum Glucose") +
   scale_fill_manual(values = c(">200" = "orange", ">300" = "red",  "Norm" = "springgreen2", "None" = "gray")) +
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
-
+:::
+::::
 
 Based on visual inspection of the proportion of HbA1c and serum glucose test administrations for late vs early readmissions, there does not appear to be a large difference in the probability of test administration for the two readmission groups (HbA1c: @fig-readmission-hba1c; Serum glucose:
 @fig-readmission-serum-glu).
+
+:::: {layout="[0.4, 0.05, 0.4]"}
+
+::: {#plot1}
 ```{r}
 #| echo: false
 #| label: fig-readmission-hba1c
@@ -220,13 +235,19 @@ Based on visual inspection of the proportion of HbA1c and serum glucose test adm
 ggplot(data = diabetes_data, aes(x = factor(readmitted_binary), fill = factor(a1cresult_binary))) +
   geom_bar(color = "black", position = "fill") + 
   labs(x = "Hospital Readmission Status",
-       y = "Count") +
+       y = "Count",
+       fill = "HbA1c Test") +
   scale_fill_manual(values = c("No Test Administered" = "tomato", "Test Administered" = "steelblue")) +
   theme_classic() + 
   theme(legend.position = "bottom")
   
 ```
+:::
 
+::: {#space}
+:::
+
+::: {#plot2}
 ```{r}
 #| echo: false
 #| label: fig-readmission-serum-glu
@@ -235,10 +256,14 @@ ggplot(data = diabetes_data, aes(x = factor(readmitted_binary), fill = factor(a1
 ggplot(data = diabetes_data, aes(x = factor(readmitted_binary), fill = factor(max_glu_serum_binary))) +
   geom_bar(color = "black", position = "fill") + 
   labs(x = "Hospital Readmission Status",
-       y = "Count") +
+       y = "Count",
+       fill = "HbA1c Test") +
   scale_fill_manual(values = c("No Test Administered" = "tomato", "Test Administered" = "steelblue")) +
-  theme_classic()
+  theme_classic() + 
+  theme(legend.position = "bottom")
 ```
+:::
+::::
 
 [Number of Lab Tests & Medications Administered]{.underline}
 
@@ -279,6 +304,60 @@ num_procedures_stats |> kable(col.names = c("Readmission Status", "Count", "Mean
 
 ```
 
+```{r, include=FALSE}
+#| eval: false
+#| include: false
+
+# Histogram for number of lab tests performed
+ggplot(data = diabetes_data, aes(x = num_lab_procedures, fill = readmitted_binary)) +
+  geom_histogram(bins = 20, color = "black") + 
+  labs(x = "Lab Procedures Administered",
+       y = "Count") +
+  theme_classic()
+```
+
+
+:::: {layout="[0.4, 0.05, 0.4]"}
+::: {#densityplot}
+```{r}
+#| echo: false
+#| label: fig-lab-tests-freq
+
+# Density plot
+ggplot(data = diabetes_data, aes(x = num_lab_procedures, fill = readmitted_binary)) +
+  geom_density(alpha = 0.5, color = "black") + 
+  labs(x = "Lab Procedures Administered",
+       y = "Count",
+       fill = "Readmission Status") +
+  theme_classic() +
+  theme(legend.position = "bottom")
+```
+:::
+
+::: {#space}
+:::
+
+::: {#boxplot}
+```{r}
+#| echo: false
+#| label: fig-lab-tests-boxplot
+
+# Side-by-Side Boxplots
+ggplot(data = diabetes_data, aes(y = num_lab_procedures, x = readmitted_binary, 
+                            fill = readmitted_binary)) +
+  geom_boxplot() + 
+  labs(x = "Hospital Readmission Status", y = "Number of Lab Procedures Administered") + 
+  #scale_fill_manual(values = c("Adelie" = "white",
+  #                             "Chinstrap" = "black",
+   #                            "Gentoo" = "grey")) +
+  theme_classic() +
+  theme(legend.position = "none")
+```
+:::
+::::
+
+
+
 ```{r}
 #| echo: false
 #| label: tbl-stats-num-medications
@@ -300,47 +379,7 @@ num_meds_stats <- diabetes_data |>
 num_meds_stats |> kable(col.names = c("Readmission Status", "Count", "Mean", "Median", "Min", "Max", "SD"))
 ```
 
-```{r, include=FALSE}
-#| eval: false
-#| include: false
-
-# Histogram for number of lab tests performed
-ggplot(data = diabetes_data, aes(x = num_lab_procedures, fill = readmitted_binary)) +
-  geom_histogram(bins = 20, color = "black") + 
-  labs(x = "Lab Procedures Administered",
-       y = "Count") +
-  theme_classic()
-```
-
-```{r}
-#| echo: false
-#| label: fig-lab-tests-freq
-
-# Density plot
-ggplot(data = diabetes_data, aes(x = num_lab_procedures, fill = readmitted_binary)) +
-  geom_density(alpha = 0.5, color = "black") + 
-  labs(x = "Lab Procedures Administered",
-       y = "Count",
-       fill = "Readmission Status") +
-  theme_classic() +
-  theme(legend.position = "bottom")
-```
-
-```{r}
-#| echo: false
-#| label: fig-lab-tests-boxplot
-
-# Side-by-Side Boxplots
-ggplot(data = diabetes_data, aes(y = num_lab_procedures, x = readmitted_binary, 
-                            fill = readmitted_binary)) +
-  geom_boxplot() + 
-  labs(x = "Hospital Readmission Status", y = "Number of Lab Procedures Administered") + 
-  #scale_fill_manual(values = c("Adelie" = "white",
-  #                             "Chinstrap" = "black",
-   #                            "Gentoo" = "grey")) +
-  theme_classic() +
-  theme(legend.position = "none")
-```
+:::: {layout="[0.4, 0.05, 0.4]"}
 
 ```{r}
 #| eval: false
@@ -356,6 +395,8 @@ ggplot(data = diabetes_data, aes(x = num_medications, fill = readmitted_binary))
 
 ```
 
+
+::: {#densityplot}
 ```{r}
 #| echo: false
 #| label: fig-medications-freq
@@ -368,7 +409,12 @@ ggplot(data = diabetes_data, aes(x = num_medications, fill = readmitted_binary))
   theme_classic() +
   theme(legend.position = "bottom")
 ```
+:::
 
+::: {#space}
+:::
+
+::: {#boxplot}
 ```{r}
 #| echo: false
 #| label: fig-medications-boxplot
@@ -384,6 +430,12 @@ ggplot(data = diabetes_data, aes(y = num_medications, x = readmitted_binary,
   theme_classic() +
   theme(legend.position = "none")
 ```
+:::
+::::
+
+{{< pagebreak >}}
+
+[Change in Medication Prescription]{.underline}
 
 We then inspected the binary predictor variable `change`, indicating
 whether there was a change in the patient's diabetic medications (i.e.
@@ -397,6 +449,10 @@ Interestingly, it appears that a larger proportion of patients who were administ
 
 Further statistical analysis would be required to determine significance.
 
+
+:::: {layout="[0.4, 0.05, 0.4]"}
+
+::: {#plot1}
 ```{r}
 #| echo: false
 #| label: fig-changed-medication
@@ -409,11 +465,17 @@ ggplot(data = diabetes_data, aes(x = factor(readmitted_binary), fill = change)) 
     values = c("No" = "tomato", "Ch" = "steelblue"),
     labels = c("No" = "No", "Ch" = "Yes")) +
 
-  theme_classic()
+  theme_classic() +
+  theme(legend.position = "bottom")
 
 
 
 ```
+:::
+
+::: {#space}
+:::
+
 
 ```{r}
 #| include: false
@@ -438,7 +500,7 @@ early_readmission |> count(change) |>
 ```
 
 
-
+::: {#plot2}
 ```{r}
 #| echo: false
 #| label: fig-hba1c-med-change
@@ -452,9 +514,13 @@ ggplot(data = diabetes_data, aes(x = factor(a1cresult_binary), fill = change)) +
     values = c("No" = "tomato", "Ch" = "steelblue"),
     labels = c("No" = "No", "Ch" = "Yes")) +
 
-  theme_classic()
+  theme_classic() +
+  theme(legend.position = "bottom")
 
 ```
+:::
+::::
+
 
 ```{r}
 #| include: false
@@ -479,11 +545,14 @@ no_hba1c |> count(change) |>
 ```
 
 
+[Summary]{.underline}
+
 Overall, investigating the influence of all five of these predictors
 (HbA1c testing, serum glucose testing, number of lab tests administered,
 number of medications administered, and change in medication) may not
 yield fruitful results in future analyses given the above
 visualizations. However, we cannot make any clear conclusions at this stage.
+
 
 
 
@@ -497,6 +566,10 @@ encounter. However, after visualizing these variables as histograms
 are highly abnormally distributed. As such, we will likely omit these
 variables from future analyses.
 
+:::: {layout="[0.4, 0.1, 0.4]"}
+
+
+:::{#plot1}
 ```{r}
 #| echo: false
 #| label: fig-nolab-tests-freq
@@ -508,7 +581,12 @@ ggplot(data = diabetes_data, aes(x = num_procedures)) +
        y = "Count") +
   theme_classic()
 ```
+:::
 
+:::{#space}
+:::
+
+:::{#plot2}
 ```{r}
 #| echo: false
 #| label: fig-outpatient-freq
@@ -520,6 +598,8 @@ ggplot(data = diabetes_data, aes(x = num_outpatient_visits)) +
        y = "Count") +
   theme_classic()
 ```
+:::
+::::
 
 We then performed initial visualizations for all other variables, which
 included race, gender, and the 23 different drugs that hospitals may
@@ -733,6 +813,8 @@ We plan to investigate three categorical predictors: `smoking`, `physical activi
 
 Interestingly, boxplot visualizations of these variables with respect to BMI reveal only small differences in distributions and medians. For instance, non-smokers have slightly lower BMI compared to smokers (@fig-smoke-bmi-boxplot). Similarly, individuals who are physically active have only slightly lower median BMI than those who are not (@fig-physical-bmi-boxplot). Across age groups, individuals aged 18-34 years have lower median BMI compared to those aged 35-54 and 55 or older (@fig-age-bmi-boxplot). Further statistical analysis would be required to determine whether these differences are statistically significant.
 
+***Smoking Status***
+
 ```{r}
 #| echo: FALSE
 
@@ -762,6 +844,10 @@ disease2 %>%
           c("Smoking Status", "Count", "Percentage (%)"))
 ```
 
+
+:::: {layout="[0.4, 0.05, 0.4]"}
+
+::: {#barplot}
 ```{r}
 #| echo: FALSE
 #| label: fig-smoke
@@ -783,7 +869,12 @@ disease2 %>%
   )) +
   theme_classic()
 ```
+:::
 
+::: {#space}
+:::
+
+::: {#boxplot}
 ```{r}
 #| echo: FALSE
 #| label: fig-smoke-bmi-boxplot
@@ -804,8 +895,10 @@ disease2 %>%
   theme_classic() +
   scale_fill_manual(values = c("tomato", "skyblue"))
 ```
+:::
+::::
 
-{{< pagebreak >}}
+
 
 ```{r}
 #| echo: FALSE
@@ -820,6 +913,11 @@ disease2$physical_activity <- factor(
   labels = c("Not Active", "Active")
 )
 ```
+
+
+{{< pagebreak >}}
+
+***Physical Activity***
 
 ```{r}
 #| echo: FALSE
@@ -836,6 +934,11 @@ disease2 %>%
           c("Physical Activity", "Count", "Percentage (%)"))
 ```
 
+
+
+
+:::: {layout="[0.4, 0.05, 0.4]"}
+::: {#boxplot}
 ```{r}
 #| echo: FALSE
 #| label: fig-physical
@@ -857,7 +960,12 @@ disease2 %>%
   )) +
   theme_classic()
 ```
+:::
 
+::: {#space}
+:::
+
+::: {#boxplot}
 ```{r}
 #| echo: FALSE
 #| label: fig-physical-bmi-boxplot
@@ -878,8 +986,9 @@ disease2 %>%
   theme_classic() +
   scale_fill_manual(values = c("tomato", "skyblue"))
 ```
+:::
+::::
 
-{{< pagebreak >}}
 
 ```{r}
 #| echo: FALSE
@@ -895,6 +1004,9 @@ disease2 <- disease2 %>%
     age_category %in% c("55-59", "60-64", "65-69", "70-74", "75-79", "80 or older") ~ "55 and older"
   ))
 ```
+
+
+***Age***
 
 ```{r}
 #| echo: FALSE
@@ -1004,6 +1116,8 @@ disease2 %>%
   theme_classic()
 ```
 
+{{< pagebreak >}}
+
 ```{r}
 #| echo: FALSE
 #| label: fig-sleep-bmi-hist
@@ -1028,7 +1142,6 @@ disease2 %>%
   theme_classic()
 ```
 
-{{< pagebreak >}}
 
 ***Other Predictors***
 

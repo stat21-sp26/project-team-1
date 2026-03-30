@@ -30,7 +30,6 @@ bibliography: ../bibliography/references.bib
 
 {{< include 3-EDA-analysis.qmd >}}
 
-
 {{< pagebreak >}}
 
 {{< include 4-discussion.qmd >}}
