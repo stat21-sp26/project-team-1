@@ -14,11 +14,7 @@ execute:
   message: false
   warning: false
   echo: false
-<<<<<<< HEAD
-  fig-width: 4.5
-=======
   fig-width: 5
->>>>>>> 190e4cc78f38b455221ac81962c369bc98ddae43
   fig-height: 3.5
 bibliography: ../bibliography/references.bib
 ---
@@ -31,7 +27,11 @@ bibliography: ../bibliography/references.bib
 
 {{< pagebreak >}}
 
-{{< include 3-EDA-analysis.qmd >}}
+#{{< include 3-EDA-analysis.qmd >}}
+```{r}
+#| child: 3-EDA-analysis.qmd
+```
+
 
 {{< pagebreak >}}
 

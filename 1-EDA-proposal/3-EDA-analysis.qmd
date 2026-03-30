@@ -68,7 +68,7 @@ patients) or were never readmitted (n = `r no_readmission`;
 within 30 days of their first admission (@fig-readmission-freq;
 @tbl-readmission-freq).
 
-::: {.layout-ncol=2}
+
 ```{r}
 #| include: false
 
@@ -78,10 +78,13 @@ ggplot(data = diabetes_data, aes(x = factor(readmitted), fill = readmitted)) +
   labs(x = "Hospital Readmission Status",
        y = "Count") +
   scale_fill_manual(values = c("<30" = "tomato", ">30" = "skyblue", "NO" = "steelblue")) +
-  theme_classic()
+  theme_classic() + 
+  theme(legend.position = "bottom")
 
 ```
 
+::: {.columns}
+::: {.column width = "50%"}
 ```{r}
 #| echo: false
 #| label: fig-readmission-freq
@@ -93,9 +96,11 @@ ggplot(data = diabetes_data, aes(x = factor(readmitted_binary), fill = readmitte
   #scale_x_discrete(labels = c("0" = "Late Readmission (>30 Days)",
   #                            "1" = "Early Readmission (<30 Days)")) +
   scale_fill_manual(values = c("<30" = "tomato", ">30" = "skyblue", "NO" = "steelblue")) +
-  theme_classic()
+  theme_classic() + 
+  theme(legend.position = "bottom")
 ```
-
+:::
+::: {.column width = "50%"}
 ```{r}
 #| echo: false
 #| label: tbl-readmission-freq
@@ -115,6 +120,7 @@ diabetes_data |>
   mutate(percentage = round(percentage, 2)) |>
   kable(col.names = c("Readmission Status", "Count", "Percentage (%)"))
 ```
+:::
 :::
 
 ***Key Predictors: HbA1c test, number of diagnoses, serum glucose, drug
@@ -155,7 +161,8 @@ ggplot(data = diabetes_data, aes(x = factor(a1cresult_binary), fill = a1cresult)
   labs(x = "Hemoglobin A1c Test Result",
        y = "Count") +
   scale_fill_manual(values = c(">7" = "orange", ">8" = "red",  "Norm" = "springgreen2", "None" = "gray")) +
-  theme_classic()
+  theme_classic() + 
+  theme(legend.position = "bottom")
 ```
 
 ```{r}
@@ -182,7 +189,8 @@ ggplot(data = diabetes_data, aes(x = factor(max_glu_serum_binary), fill = max_gl
   labs(x = "Serum Glucose Test Result",
        y = "Count") +
   scale_fill_manual(values = c(">200" = "orange", ">300" = "red",  "Norm" = "springgreen2", "None" = "gray")) +
-  theme_classic()
+  theme_classic() + 
+  theme(legend.position = "bottom")
 ```
 
 ```{r}
@@ -195,7 +203,9 @@ ggplot(data = diabetes_data, aes(x = factor(readmitted_binary), fill = factor(a1
   labs(x = "Hospital Readmission Status",
        y = "Count") +
   scale_fill_manual(values = c("No Test Administered" = "tomato", "Test Administered" = "steelblue")) +
-  theme_classic()
+  theme_classic() + 
+  theme(legend.position = "bottom")
+  
 ```
 
 ```{r}
