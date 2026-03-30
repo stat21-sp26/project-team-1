@@ -248,6 +248,17 @@ bmi_obese <- disease2 %>%
 bmi_obese_prop <- round(bmi_obese/nrow(disease2)*100, 2)
 ```
 
+```{r}
+#| echo: FALSE
+#| label: tbl-bmi-freq
+#| tbl-cap: "BMI Category Frequency"
+
+disease2 %>% 
+  count(bmi) %>% 
+  mutate(percentage = (n/nrow(disease2))*100) %>% 
+  mutate(percentage = round(percentage, 2)) %>% 
+  kable(col.names = c("BMI Category", "Count", "Percentage (%"))
+```
 
 - response
 variable: - description - visualizations - summary statistics - 1-3
