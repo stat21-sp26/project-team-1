@@ -686,6 +686,12 @@ disease2 %>%
 
 **Insert third text whenever ready.**
 
+We also initially planned on investigating three categorical predictors: smoking status, physical activity, and age. However, based on visual inspection
+of the proportion of HbA1c and serum glucose test administrations for
+late vs early readmissions, there does not appear to be a large
+difference ( HbA1c: @fig-readmission-hba1c; Serum glucose:
+@fig-readmission-serum-glu).
+
 ```{r}
 #| echo: FALSE
 
