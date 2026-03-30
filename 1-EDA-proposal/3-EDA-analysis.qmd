@@ -877,13 +877,36 @@ sleep_time_stats %>%
 disease2 %>% 
   ggplot() +
   aes(x = sleep_time) +
-  geom_histogram(bins = 15, na.rm = TRUE, fill = "steelblue", color = "black") +
+  geom_histogram(bins = 10, na.rm = TRUE, fill = "steelblue", color = "black") +
   geom_vline(xintercept = mean(disease2$sleep_time, na.rm = TRUE),
              color = "red") +
   labs(
     x = "Sleep Time (Hours)",
     y = "Count"
   ) +
+  theme_classic()
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-sleep-bmi-hist
+#| fig-width: 5.5
+
+disease2 %>% 
+  ggplot() +
+  aes(x = sleep_time, fill = bmi) +
+  geom_histogram(bins = 8, color = "black", na.rm = TRUE) +
+  labs(
+    x = "Sleep Time (Hours)",
+    y = "Count",
+    fill = "BMI Category"
+  ) +
+  scale_fill_manual(values = c(
+    "Underweight" = "orange",
+    "Normal Weight" = "steelblue",
+    "Overweight" = "skyblue",
+    "Obese" = "tomato"
+  )) +
   theme_classic()
 ```
 
