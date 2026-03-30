@@ -10,6 +10,7 @@ format:
       - left=20mm
       - right=20mm
       - heightrounded
+    linestretch: 1.15
 execute: 
   message: false
   warning: false
