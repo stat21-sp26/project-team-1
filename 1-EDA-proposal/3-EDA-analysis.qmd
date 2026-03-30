@@ -692,7 +692,7 @@ disease2 %>%
 
 ***Key Predictors: Smoking, Physical Activity, Sleep Time, and Age***
 
-[Smoking, Age, and Physical Activity]{.underline}
+[Smoking, Physical Activity, and Age]{.underline}
 
 We plan to investigate three categorical predictors: `smoking`, `physical activity`, and `age`. Over 58.76% of individuals do not smoke, while 41.24% did not (@tbl-smoke-freq; @fig-smoke). Over 54% of the individuals surveyed were 55 years or older, 27.72% were 35 to 54 years old, and 17.75% were 18 to 34 years old (@tbl-age-freq; @fig-ages). In terms of phsyical activity, more than 77% of individuals were active, while 22.41% were inactive (@tbl-physical-freq; @fig-physical).
 
@@ -1046,6 +1046,21 @@ disease2 %>%
   theme_classic() +
   scale_fill_manual(values = c("tomato", "skyblue"))
 ```
+
+***Regression Model Technique***
+
+If we were to move forward with inferential analysis, we would perform a
+multiple linear regression given that our predictor (`bmi`) is a
+continuous variable. The coefficients of interest would be the following: `smoking`, `physical activity`, `age`, and `sleep_time`. An example of the model we would fit is the following:
+
+$$ \text{BMI}_i = \beta_0
++ \beta_1 \text{Smoking}_i +
+\beta_2 \text{PhysicalActivity}_i +
+\beta_3 \text{Age}_i +
+\beta_4 \text{SleepTime}_i +
+\epsilon_i $$
+
+
 
 - response
 variable: - description - visualizations - summary statistics - 1-3
