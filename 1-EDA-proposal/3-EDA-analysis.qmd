@@ -719,7 +719,7 @@ disease2 %>%
   mutate(percentage = (n/nrow(disease2))*100) %>% 
   mutate(percentage = round(percentage, 2)) %>% 
   kable(col.names =
-          c("Smoking Status", "Count", "Percentage(%)"))
+          c("Smoking Status", "Count", "Percentage (%)"))
 ```
 
 ```{r}
@@ -789,7 +789,7 @@ disease2 %>%
   mutate(percentage = (n/nrow(disease2))*100) %>% 
   mutate(percentage = round(percentage, 2)) %>% 
   kable(col.names =
-          c("Physical Activity", "Count", "Percentage(%)"))
+          c("Physical Activity", "Count", "Percentage (%)"))
 ```
 
 ```{r}
@@ -859,7 +859,7 @@ disease2 %>%
   mutate(percentage = (n/nrow(disease2))*100) %>% 
   mutate(percentage = round(percentage, 2)) %>% 
   kable(col.names =
-          c("Age Range", "Count", "Percentage(%)"))
+          c("Age Range", "Count", "Percentage (%)"))
 ```
 
 ```{r}
