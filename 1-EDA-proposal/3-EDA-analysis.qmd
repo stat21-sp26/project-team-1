@@ -500,6 +500,8 @@ and 3) change in medications.
 
 ***Response Variable: BMI***
 
+**Insert first text here whenever ready.**
+
 ```{r}
 #| include: false
 
@@ -531,8 +533,6 @@ bmi_stats %>%
   )
 ```
 
-<insert text here whenever ready>
-
 ```{r}
 #| echo: FALSE
 #| label: fig-bmi-hist
@@ -550,6 +550,8 @@ disease_data %>%
   theme_classic()
 ```
 
+**Insert second text here whenever ready.**
+
 ```{r}
 #| include: FALSE
 
@@ -563,6 +565,14 @@ disease2 <- disease_data %>%
   ))
 
 table(disease2$bmi)
+
+# ordering bmi categories
+disease2 <- disease2 %>% 
+  mutate(
+    bmi = factor(
+      bmi, levels = c("Underweight", "Normal Weight", "Overweight", "Obese")
+    )
+  )
 
 # assign counts to bmi
 bmi_underweight <- disease2 %>% 
@@ -596,6 +606,27 @@ disease2 %>%
   mutate(percentage = (n/nrow(disease2))*100) %>% 
   mutate(percentage = round(percentage, 2)) %>% 
   kable(col.names = c("BMI Category", "Count", "Percentage (%)"))
+```
+```{r}
+#| echo: FALSE
+#| label: fig-bmi-bar
+
+disease2 %>% 
+  ggplot() +
+  aes(x = bmi, fill = bmi) +
+  geom_bar() +
+  labs(
+    x = "BMI Category",
+    y = "Count",
+    fill = "Category"
+  ) +
+  scale_fill_manual(values = c(
+    "Underweight" = "orange",
+    "Normal Weight" = "steelblue",
+    "Overweight" = "skyblue",
+    "Obese" = "tomato"
+  ))
+  
 ```
 
 - response
