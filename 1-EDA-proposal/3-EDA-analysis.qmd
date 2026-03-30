@@ -578,7 +578,7 @@ disease_data <- disease_data %>%
 #| label: tbl-bmi-stat
 #| tbl-cap: "Summary Statistics for BMI"
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 bmi_stats <- disease_data %>% 
   summarise(
@@ -600,7 +600,7 @@ bmi_stats %>%
 #| echo: FALSE
 #| label: fig-bmi-hist
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease_data %>% 
   ggplot() +
@@ -679,7 +679,7 @@ disease2 %>%
 #| echo: FALSE
 #| label: fig-bmi-bar
 #| fig-width: 5.8
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease2 %>% 
   ggplot() +
@@ -702,7 +702,7 @@ disease2 %>%
 
 ***Key Predictors: Smoking, Physical Activity, Sleep Time, and Age***
 
-[Smoking, Age, and Physical Activity]{.underline}
+[Smoking, Physical Activity, and Age]{.underline}
 
 We plan to investigate three categorical predictors: `smoking`, `physical activity`, and `age`. Over 58.76% of individuals do not smoke, while 41.24% did not (@tbl-smoke-freq; @fig-smoke). Over 54% of the individuals surveyed were 55 years or older, 27.72% were 35 to 54 years old, and 17.75% were 18 to 34 years old (@tbl-age-freq; @fig-ages). In terms of phsyical activity, more than 77% of individuals were active, while 22.41% were inactive (@tbl-physical-freq; @fig-physical).
 
@@ -727,7 +727,7 @@ disease2$smoking <- factor(
 #| label: tbl-smoke-freq
 #| tbl-cap: "Smoking Status Frequency"
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease2 %>% 
   count(smoking) %>% 
@@ -741,7 +741,7 @@ disease2 %>%
 #| echo: FALSE
 #| label: fig-smoke
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease2 %>% 
   ggplot() +
@@ -763,7 +763,7 @@ disease2 %>%
 #| echo: FALSE
 #| label: fig-smoke-bmi-boxplot
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease2 %>% 
   ggplot() +
@@ -800,7 +800,7 @@ disease2$physical_activity <- factor(
 #| label: tbl-physical-freq
 #| tbl-cap: "Physical Activity Frequency"
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease2 %>% 
   count(physical_activity) %>% 
@@ -814,7 +814,7 @@ disease2 %>%
 #| echo: FALSE
 #| label: fig-physical
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease2 %>% 
   ggplot() +
@@ -836,7 +836,7 @@ disease2 %>%
 #| echo: FALSE
 #| label: fig-physical-bmi-boxplot
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease2 %>% 
   ggplot() +
@@ -873,7 +873,7 @@ disease2 <- disease2 %>%
 #| label: tbl-age-freq
 #| tbl-cap: "Age Range Frequency"
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease2 %>% 
   count(age_category) %>% 
@@ -887,7 +887,7 @@ disease2 %>%
 #| echo: FALSE
 #| label: fig-ages
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease2 %>% 
   ggplot() +
@@ -910,7 +910,7 @@ disease2 %>%
 #| echo: FALSE
 #| label: fig-age-bmi-boxplot
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease2 %>% 
   ggplot() +
@@ -937,7 +937,7 @@ In addition, we also plan to analyze a numeric predictor `sleep_time`. An initia
 #| label: tbl-sleep-time
 #| tbl-cap: "Summary Statistics of Sleep Time"
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease2$sleep_time <- disease_data$sleep_time
 
@@ -961,7 +961,7 @@ sleep_time_stats %>%
 #| echo: FALSE
 #| label: fig-sleep-hist
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease2 %>% 
   ggplot() +
@@ -980,7 +980,7 @@ disease2 %>%
 #| echo: FALSE
 #| label: fig-sleep-bmi-hist
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease2 %>% 
   ggplot() +
@@ -999,6 +999,7 @@ disease2 %>%
   )) +
   theme_classic()
 ```
+
 ***Other Predictors***
 
 Another binary predictor variable of interest is `diabetic` (@fig-diabetic-bar). A boxplot visualization with respect to BMI can be found at @fig-diabetic-bmi-boxplot. Once again, there is a small difference in median BMI between individuals with diabetes and individuals who do not.
@@ -1021,7 +1022,7 @@ disease2$diabetic <- factor(
 #| echo: FALSE
 #| label: fig-diabetic-bar
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease2 %>% 
   ggplot() +
@@ -1040,7 +1041,7 @@ disease2 %>%
 #| echo: FALSE
 #| label: fig-diabetic-bmi-boxplot
 #| fig-width: 5.5
-#| fig-height: 3.5
+#| fig-height: 3
 
 disease2 %>% 
   ggplot() +
@@ -1057,9 +1058,15 @@ disease2 %>%
   scale_fill_manual(values = c("tomato", "skyblue"))
 ```
 
-- response
-variable: - description - visualizations - summary statistics - 1-3
-important predictors: - description - visualizations - summary
-statistics - other available predictors (list them in a paragraph &
-provide range of values, mean, & SD) - regression model technique -
-indicate which model coefficients will be important to research question
+***Regression Model Technique***
+
+If we were to move forward with inferential analysis, we would perform a
+multiple linear regression given that our predictor (`bmi`) is a
+continuous variable. The coefficients of interest would be the following: `smoking`, `physical activity`, `age`, and `sleep_time`. An example of the model we would fit is the following:
+
+$$ \text{BMI}_i = \beta_0
++ \beta_1 \text{Smoking}_i +
+\beta_2 \text{PhysicalActivity}_i +
+\beta_3 \text{Age}_i +
+\beta_4 \text{SleepTime}_i +
+\epsilon_i $$
