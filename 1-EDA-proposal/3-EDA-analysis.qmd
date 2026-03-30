@@ -721,6 +721,26 @@ disease2 %>%
 
 ```{r}
 #| echo: FALSE
+#| label: fig-smoke
+
+disease2 %>% 
+  ggplot() +
+  aes(x = smoking, fill = smoking) +
+  geom_bar() +
+  labs(
+    x = "Smoking Status",
+    y = "Count",
+    fill = "Status"
+  ) +
+  scale_fill_manual(values = c(
+    "Yes" = "tomato",
+    "No" = "skyblue"
+  )) +
+  theme_classic()
+```
+
+```{r}
+#| echo: FALSE
 
 # giving meaningful label to physical_activity
 
@@ -747,6 +767,27 @@ disease2 %>%
   kable(col.names =
           c("Physical Activity", "Count", "Percentage(%)"))
 ```
+
+```{r}
+#| echo: FALSE
+#| label: fig-physical
+
+disease2 %>% 
+  ggplot() +
+  aes(x = physical_activity, fill = physical_activity) +
+  geom_bar() +
+  labs(
+    x = "Physical Activity",
+    y = "Count",
+    fill = "Status"
+  ) +
+  scale_fill_manual(values = c(
+    "Active" = "tomato",
+    "Not Active" = "skyblue"
+  )) +
+  theme_classic()
+```
+
 
 ```{r}
 #| echo: FALSE
