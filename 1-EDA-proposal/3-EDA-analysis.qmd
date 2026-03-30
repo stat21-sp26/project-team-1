@@ -549,9 +549,9 @@ and 3) change in medications.
 
 ***Response Variable: BMI***
 
-In addition to our primary binary response variable (`readmitted`), we will take the variable `bmi` as our another primary response variable. In our cleaned dataset, this continuous variable provides a quantitative measure of body mass that we can use to explore patterns, variability, and potential relationships with other health-related factors.
+In addition to our primary binary response variable (`readmitted`), we will take the variable `bmi` as our another primary response variable. In our cleaned dataset, this continuous variable provides a quantitative measure of body mass that we can use to explore patterns and potential relationships with other health-related factors.
 
-BMI ranged from as low as 15, indicating underweight, to nearly 60, reflecting obesity. On average, individuals in the United States have a BMI around 28, and the median is slightly lower at 27.3 (@tbl-bmi-stat). This difference between the mean and median reflects a right-skewed distribution. Most individuals have BMI values near the mean, but a smaller number have much higher BMI values, reflecting obesity (@fig-bmi-hist).
+BMI ranged from as low as 15 (underweight), to nearly 60 (obesity). On average, individuals in the United States have a BMI around 28, and the median is slightly lower at 27.3 (@tbl-bmi-stat). This difference between the mean and median reflects a right-skewed distribution. Most individuals have BMI values near the mean, but a smaller number have much higher BMI values, reflecting obesity (@fig-bmi-hist).
 
 ```{r}
 #| include: false
