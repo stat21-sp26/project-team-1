@@ -820,16 +820,17 @@ disease2 %>%
 
 disease2 %>% 
   ggplot() +
-  aes(x = smoking, fill = smoking) +
+  aes(x = age_category, fill = age_category) +
   geom_bar() +
   labs(
-    x = "Smoking Status",
+    x = "Age Range",
     y = "Count",
-    fill = "Status"
+    fill = "Age Range"
   ) +
   scale_fill_manual(values = c(
-    "Yes" = "tomato",
-    "No" = "skyblue"
+    "18-34" = "tomato",
+    "35-54" = "skyblue",
+    "55 and older" = "orange"
   )) +
   theme_classic()
 ```
