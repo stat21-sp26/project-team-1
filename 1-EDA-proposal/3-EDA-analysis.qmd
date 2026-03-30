@@ -682,7 +682,9 @@ disease2 %>%
 
 ***Key Predictors: Smoking, Physical Activity, Sleep Time, and Age***
 
-[Smoking]{.underline}
+[Smoking, Age, and Physical Activity]{.underline}
+
+**Insert third text whenever ready.**
 
 ```{r}
 #| echo: FALSE
@@ -700,14 +702,6 @@ disease2$smoking <- factor(
 
 ```{r}
 #| echo: FALSE
-#| label: tbl-smoke-stats
-#| tbl-cap: "Summary Statistics for Smoking"
-
-
-```
-
-```{r}
-#| echo: FALSE
 #| label: tbl-smoke-freq
 #| tbl-cap: "Smoking Status Frequency"
 
@@ -717,6 +711,35 @@ disease2 %>%
   mutate(percentage = round(percentage, 2)) %>% 
   kable(col.names =
           c("Smoking Status", "Count", "Percentage(%)"))
+```
+
+```{r}
+#| echo: FALSE
+
+# giving meaningful label to physical_activity
+
+disease2$physical_activity <- disease_data$physical_activity
+
+disease2$physical_activity <- factor(
+  disease2$physical_activity,
+  levels = c(0, 1),
+  labels = c("Not Active", "Active")
+)
+
+table(disease2$physical_activity)
+```
+
+```{r}
+#| echo: FALSE
+#| label: tbl-smoke-freq
+#| tbl-cap: "Physical Activity Frequency"
+
+disease2 %>% 
+  count(physical_activity) %>% 
+  mutate(percentage = (n/nrow(disease2))*100) %>% 
+  mutate(percentage = round(percentage, 2)) %>% 
+  kable(col.names =
+          c("Physical Activity", "Count", "Percentage(%)"))
 ```
 
 - response
