@@ -631,15 +631,3 @@ disease2 %>%
   theme_classic()
   
 ```
-
-***Key Predictors: Smoking, Physical Activity, Sleep Time, and Age***
-
-[Smoking]{.underline}
-
-- response
-variable: - description - visualizations - summary statistics - 1-3
-important predictors: - description - visualizations - summary
-statistics - other available predictors (list them in a paragraph &
-provide range of values, mean, & SD) - regression model technique -
-indicate which model coefficients will be important to research question
-
