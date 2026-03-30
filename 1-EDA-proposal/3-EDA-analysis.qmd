@@ -1,28 +1,165 @@
-## 2. Exploratory Data Analysis \& Analysis Approach
+---
+editor: 
+  markdown: 
+    wrap: 72
+---
 
-**Data Set 1**
-- response variable:
-  - description
-  - visualizations
-  - summary statistics
-  - 1-3 important predictors:
-      - description
-      - visualizations
-      - summary statistics
-  - other available predictors (list them in a paragraph & provide range of values, mean, & SD)
-  - regression model technique
-      - indicate which model coefficients will be important to research question
-      
-**Data Set 2**
-- response variable:
-  - description
-  - visualizations
-  - summary statistics
-  - 1-3 important predictors:
-      - description
-      - visualizations
-      - summary statistics
-  - other available predictors (list them in a paragraph & provide range of values, mean, & SD)
-  - regression model technique
-      - indicate which model coefficients will be important to research question
-      
+```{r}
+#| include: false
+
+library(tidyverse)
+library(tidyr)
+library(kableExtra)
+```
+
+## 2. Exploratory Data Analysis & Analysis Approach
+
+**Data Set 1: Diabetic Patient Hospital Readmission in the US**
+
+***Response Variable: Hospital Readmission***
+
+```{r}
+#| include: false
+# PREPPING DATA & VARIABLES
+diabetes_data <- readRDS("../diabetes_data/diabetes_data-prepared.RDS")
+
+# give meaningful label to the readmitted binary variable
+diabetes_data$readmitted_binary <- factor(
+  diabetes_data$readmitted_binary,
+  levels = c(0, 1),
+  labels = c("Late Readmission (>30 Days)",
+             "Early Readmission (<30 Days)")
+)
+
+# assign counts to variables
+less_than_thirty<- diabetes_data |>
+  filter(readmitted == "<30") |>
+  count()
+less_than_thirty_prop<- round(less_than_thirty/nrow(diabetes_data)*100, 2)
+
+greater_than_thirty <- diabetes_data |>
+  filter(readmitted == ">30") |>
+  count()
+greater_than_thirty_prop <- round(greater_than_thirty/nrow(diabetes_data)*100, 2)
+
+no_readmission <- diabetes_data |>
+  filter(readmitted == "NO") |>
+  count()
+no_readmission_prop <- round(no_readmission/nrow(diabetes_data)*100, 2)
+
+late_readmission <- greater_than_thirty + no_readmission
+late_readmission_prop <- round(late_readmission/nrow(diabetes_data)*100,2)
+
+```
+
+We will take the hospital inpatient readmission indicator (`readmitted`)
+as our primary predictory variable. In our cleaned dataset, this binary
+variable indicates whether a diabetic patient was a) readmitted within
+30 days of their first admission, i.e. early readmission or b)
+readmitted \>30 days after their first admission or not at all, i.e.
+late readmission.
+
+The vast majority of diabetic patients (n = `r late_readmission`;
+`r late_readmission_prop`% of all patients) were readmitted only after a
+month (n = `r greater_than_thirty`;`r greater_than_thirty_prop`% of all
+patients) or were never readmitted (n = `r no_readmission`;
+`r no_readmission_prop`% of all patients). The remaining
+`r less_than_thirty` (`r less_than_thirty`%) patients were readmitted
+within 30 days of their first admission (@fig-readmission-freq;
+@tbl-readmission-freq).
+
+::: {.layout-ncol=2}
+```{r}
+#| include: false
+
+# readmitted - NONBINARY
+ggplot(data = diabetes_data, aes(x = factor(readmitted), fill = readmitted)) +
+  geom_bar(color = "black") + 
+  labs(x = "Hospital Readmission Status",
+       y = "Count") +
+  scale_fill_manual(values = c("<30" = "tomato", ">30" = "skyblue", "NO" = "steelblue")) +
+  theme_classic()
+
+```
+
+```{r}
+#| echo: false
+#| label: fig-readmission-freq
+# readmitted - BINARY
+ggplot(data = diabetes_data, aes(x = factor(readmitted_binary), fill = readmitted)) +
+  geom_bar(color = "black") + 
+  labs(x = "Hospital Readmission Status",
+       y = "Count") +
+  #scale_x_discrete(labels = c("0" = "Late Readmission (>30 Days)",
+  #                            "1" = "Early Readmission (<30 Days)")) +
+  scale_fill_manual(values = c("<30" = "tomato", ">30" = "skyblue", "NO" = "steelblue")) +
+  theme_classic()
+```
+
+```{r}
+#| echo: false
+#| label: tbl-readmission-freq
+#| tbl-cap: "Hospital Readmission Frequency for Diabetic Patients in the US"
+
+# table of readmission counts - NONBINARY
+diabetes_data |> 
+  count(readmitted) |>
+  mutate(percentage = (n/nrow(diabetes_data))*100) |>
+  mutate(percentage = round(percentage, 2)) |>
+  kable(col.names = c("Readmission Status", "Count", "Percentage (%)"))
+
+# table of readmission counts - BINARY
+diabetes_data |> 
+  count(readmitted_binary) |>
+  mutate(percentage = (n/nrow(diabetes_data))*100) |>
+  mutate(percentage = round(percentage, 2)) |>
+  kable(col.names = c("Readmission Status", "Count", "Percentage (%)"))
+```
+:::
+
+***Key Predictors: HbA1c test, number of diagnoses, serum glucose, drug
+tests, etc.***
+
+\- **1-3 important predictors**: - description - visualizations -
+summary statistics
+
+```{r}
+# give meaningful label to the HbA1c binary variable
+diabetes_data$a1cresult_binary <- factor(
+  diabetes_data$a1cresult_binary,
+  levels = c(0, 1),
+  labels = c("No Test Administered",
+             "Test Administered")
+)
+```
+
+```{r}
+#| echo: false
+#| label: fig-readmission-hba1c
+
+table(diabetes_data$a1cresult)
+
+ggplot(data = diabetes_data, aes(x = factor(a1cresult_binary), fill = a1cresult)) +
+  geom_bar(color = "black") + 
+  labs(x = "Hemoglobin A1c Test Result",
+       y = "Count") +
+  scale_fill_manual(values = c(">7" = "orange", ">8" = "red",  "Norm" = "springgreen2", "None" = "gray")) +
+  theme_classic()
+```
+
+***Other Predictors***
+
+\- **other available predictors** (list them in a paragraph & provide
+range of values, mean, & SD)
+
+***Regression Model Technique***
+
+Given that our predictor (hospital readmission) is a binary variable, we
+will perform a logistic regression.
+
+**Data Set 2: Indicators of Heart Disease (2022)** - response
+variable: - description - visualizations - summary statistics - 1-3
+important predictors: - description - visualizations - summary
+statistics - other available predictors (list them in a paragraph &
+provide range of values, mean, & SD) - regression model technique -
+indicate which model coefficients will be important to research question
