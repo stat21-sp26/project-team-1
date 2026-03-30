@@ -17,6 +17,7 @@ execute:
   echo: false
   fig-width: 5
   fig-height: 3.5
+engine: knitr
 bibliography: ../bibliography/references.bib
 ---
 
