@@ -743,6 +743,26 @@ disease2 %>%
 
 ```{r}
 #| echo: FALSE
+#| label: fig-smoke-bmi-boxplot
+#| fig-width: 5.5
+
+disease2 %>% 
+  ggplot() +
+  aes(x = smoking,
+      y = disease_data$bmi,
+      fill = smoking) +
+  geom_boxplot() +
+  labs(
+    x = "Smoking Status",
+    y = "BMI",
+    fill = "Smoking Status"
+  ) +
+  theme_classic()
+```
+
+
+```{r}
+#| echo: FALSE
 
 # giving meaningful label to physical_activity
 
@@ -792,7 +812,7 @@ disease2 %>%
 
 ```{r}
 #| echo: FALSE
-#| label: fig-physical-bmi-hist
+#| label: fig-physical-bmi-boxplot
 #| fig-width: 5.5
 
 disease2 %>% 
