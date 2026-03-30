@@ -21,12 +21,19 @@ bibliography: ../bibliography/references.bib
 
 {{< include 1-introduction.qmd >}}
 
+{{< pagebreak >}}
+
 {{< include 2-data-description.qmd >}}
+
+{{< pagebreak >}}
 
 {{< include 3-EDA-analysis.qmd >}}
 
+{{< pagebreak >}}
+
 {{< include 4-discussion.qmd >}}
 
+{{< pagebreak >}}
 
 ## Bibliography
 
