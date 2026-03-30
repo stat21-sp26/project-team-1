@@ -792,6 +792,25 @@ disease2 %>%
 
 ```{r}
 #| echo: FALSE
+#| label: fig-physical-bmi-hist
+#| fig-width: 5.5
+
+disease2 %>% 
+  ggplot() +
+  aes(x = physical_activity,
+      y = disease_data$bmi,
+      fill = physical_activity) +
+  geom_boxplot() +
+  labs(
+    x = "Physical Activity",
+    y = "BMI",
+    fill = "Activity Status"
+  ) +
+  theme_classic()
+```
+
+```{r}
+#| echo: FALSE
 
 # reassigning age-ranges for efficiency
 # 18-34, 35-49, 50-64, 65 and older
