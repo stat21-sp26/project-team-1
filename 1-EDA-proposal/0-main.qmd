@@ -14,8 +14,8 @@ execute:
   message: false
   warning: false
   echo: false
-  fig-width: 4
-  fig-height: 3.5
+  fig-width: 5
+  fig-height: 4
 bibliography: ../bibliography/references.bib
 ---
 
