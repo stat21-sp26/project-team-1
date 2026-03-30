@@ -496,16 +496,108 @@ binary variable, . The coefficients of interest would be 1)
 administration of HbA1c test, 2) administration of serum glucose test,
 and 3) change in medications.
 
-**Data Set 2: Indicators of Heart Disease (2022)**
+### Data Set 2: Indicators of Heart Disease (2022)
 
-\- **response variable:** - description - visualizations - summary
-statistics
+***Response Variable: BMI***
 
-\- **1-3 important predictors:** - description - visualizations -
-summary statistics
+```{r}
+#| include: false
 
-\- **other available predictors** (list them in a paragraph & provide
-range of values, mean, & SD)
+# Prepping data and variables
+disease_data <- readRDS("../disease_data/disease-prepared.RDS")
 
-\- **regression model technique** - indicate which model coefficients
-will be important to research question
+disease_data <- disease_data %>% 
+  filter(!is.na(bmi))
+
+bmi_table <- summary(disease_data$bmi, na.rm = TRUE)
+
+bmi_summary <- data.frame(
+  Statistic = names(bmi_table),
+  BMI = as.numeric(bmi_table)
+)
+```
+
+<insert text here whenever ready>
+
+```{r}
+#| echo: FALSE
+#| label: fig-bmi-sum
+#| tbl-cap: "Summary Statistics for BMI"
+
+# Summary Statistics of BMI
+bmi_summary %>% 
+  kable(
+    col.names = c("Statistic", "BMI")
+  )
+```
+
+```{r}
+#| echo: FALSE
+#| label: fig-bmi-hist
+
+disease_data %>% 
+  ggplot() +
+  aes(x = bmi) +
+  geom_histogram(bins = 25, na.rm = TRUE) +
+  geom_vline(xintercept = mean(disease_data$bmi, na.rm = TRUE),
+             color = "tomato") +
+  labs(
+    x = "BMI",
+    y = "Count"
+  ) +
+  theme_classic()
+```
+
+```{r}
+# changing bmi to categorical variable
+disease2 <- disease_data %>% 
+  mutate(bmi = case_when(
+    bmi < 19 ~ "Underweight",
+    bmi >= 19 & bmi < 25 ~ "Normal Weight",
+    bmi >= 25 & bmi < 30 ~ "Overweight",
+    bmi >= 30 ~ "Obese"
+  ))
+
+table(disease2$bmi)
+
+# assign counts to bmi
+bmi_underweight <- disease2 %>% 
+  filter(bmi == "Underweight") %>% 
+  count()
+bmi_under_prop <- round(bmi_underweight/nrow(disease2)*100, 2)
+
+bmi_normal <- disease2 %>% 
+  filter(bmi == "Normal Weight") %>% 
+  count()
+bmi_norm_prop <- round(bmi_normal/nrow(disease2)*100, 2)
+
+bmi_overweight <- disease2 %>% 
+  filter(bmi == "Overweight") %>% 
+  count()
+bmi_over_prop <- round(bmi_overweight/nrow(disease2)*100, 2)
+
+bmi_obese <- disease2 %>% 
+  filter(bmi == "Obese") %>% 
+  count()
+bmi_obese_prop <- round(bmi_obese/nrow(disease2)*100, 2)
+```
+
+```{r}
+#| echo: FALSE
+#| label: tbl-bmi-freq
+#| tbl-cap: "BMI Category Frequency"
+
+disease2 %>% 
+  count(bmi) %>% 
+  mutate(percentage = (n/nrow(disease2))*100) %>% 
+  mutate(percentage = round(percentage, 2)) %>% 
+  kable(col.names = c("BMI Category", "Count", "Percentage (%"))
+```
+
+- response
+variable: - description - visualizations - summary statistics - 1-3
+important predictors: - description - visualizations - summary
+statistics - other available predictors (list them in a paragraph &
+provide range of values, mean, & SD) - regression model technique -
+indicate which model coefficients will be important to research question
+
