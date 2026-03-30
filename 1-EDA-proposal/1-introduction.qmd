@@ -24,4 +24,4 @@ Because of this, BMI is most informative when examined alongside behavioral and 
 
 The *Indicators of Heart Disease (2022)* data set from Kaggle includes BMI (a continuous variable) alongside demographic characteristics, health behaviors, and self-reported health status, making it well suited for examining the relationship among these components. Accordingly, this study asks how BMI is associated with these behavioral and demographic characteristics.
 
-Based on prior research, BMI is expected to be higher among individuals who report lower physical activity, poorer general health, and smoking behavior. It is also expected to vary across demographic characteristics such as age, reflecting differences in lifestyle patterns and accumulated health risks over time.
+Based on prior studies, BMI is expected to be higher among individuals who report lower physical activity, poorer general health, and smoking behavior. It is also expected to vary across demographic characteristics such as age, reflecting differences in lifestyle patterns and accumulated health risks over time.
