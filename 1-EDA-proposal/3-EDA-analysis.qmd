@@ -700,6 +700,8 @@ disease2 %>%
   
 ```
 
+{{< pagebreak >}}
+
 ***Key Predictors: Smoking, Physical Activity, Sleep Time, and Age***
 
 [Smoking, Physical Activity, and Age]{.underline}
