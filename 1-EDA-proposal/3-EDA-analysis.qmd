@@ -159,14 +159,6 @@ will perform a logistic regression.
 
 ### Data Set 2: Indicators of Heart Disease (2022)
 
-```{r}
-#| include: FALSE
-
-library(tidyverse)
-library(tidyr)
-library(kableExtra)
-```
-
 ***Response Variable: BMI***
 
 ```{r}
