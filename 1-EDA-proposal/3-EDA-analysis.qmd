@@ -508,29 +508,30 @@ disease_data <- readRDS("../disease_data/disease-prepared.RDS")
 
 disease_data <- disease_data %>% 
   filter(!is.na(bmi))
-
-bmi_table <- summary(disease_data$bmi, na.rm = TRUE)
-
-bmi_summary <- data.frame(
-  Statistic = names(bmi_table),
-  BMI = as.numeric(bmi_table)
-)
 ```
-
-<insert text here whenever ready>
 
 ```{r}
 #| echo: FALSE
-#| label: fig-bmi-sum
+#| label: tbl-bmi-stat
 #| tbl-cap: "Summary Statistics for BMI"
 
-# Summary Statistics of BMI
-bmi_summary %>% 
+bmi_stats <- disease_data %>% 
+  summarise(
+    mean = mean(bmi, na.rm = TRUE),
+    median = median(bmi, na.rm = TRUE),
+    min = min(bmi, na.rm = TRUE),
+    max = max(bmi, na.rm = TRUE),
+    sd = sd(bmi, na.rm = TRUE)
+  )
+
+# make table
+bmi_stats %>% 
   kable(
-    col.names = c("Statistic", "BMI")
-  ) %>% 
-  kable_classic(full_width = FALSE)
+    col.names = c("Mean", "Median", "Min", "Max", "SD")
+  )
 ```
+
+<insert text here whenever ready>
 
 ```{r}
 #| echo: FALSE
@@ -550,6 +551,8 @@ disease_data %>%
 ```
 
 ```{r}
+#| include: FALSE
+
 # changing bmi to categorical variable
 disease2 <- disease_data %>% 
   mutate(bmi = case_when(
@@ -592,8 +595,7 @@ disease2 %>%
   count(bmi) %>% 
   mutate(percentage = (n/nrow(disease2))*100) %>% 
   mutate(percentage = round(percentage, 2)) %>% 
-  kable(col.names = c("BMI Category", "Count", "Percentage (%")) %>% 
-  kable_classic(full_width = FALSE)
+  kable(col.names = c("BMI Category", "Count", "Percentage (%)"))
 ```
 
 - response
