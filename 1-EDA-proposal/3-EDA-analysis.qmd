@@ -665,7 +665,7 @@ disease2 %>%
 ```{r}
 #| echo: FALSE
 #| label: fig-bmi-bar
-#| fig-width: 5.5
+#| fig-width: 5.8
 
 disease2 %>% 
   ggplot() +
