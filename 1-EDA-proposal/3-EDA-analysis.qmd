@@ -886,20 +886,6 @@ disease2 %>%
   ) +
   theme_classic()
 ```
-```{r}
-#| echo: FALSE
-#| label: fig-sleep-box
-#| fig-width: 5.5
-
-disease2 %>% 
-  ggplot() +
-  aes(y = sleep_time) +
-  geom_boxplot(fill = "steelblue") +
-  labs(
-    y = "Sleep Time (Hours)"
-  ) +
-  theme_classic()
-```
 
 - response
 variable: - description - visualizations - summary statistics - 1-3
