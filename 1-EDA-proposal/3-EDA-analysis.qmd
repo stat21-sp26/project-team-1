@@ -567,6 +567,7 @@ disease_data <- disease_data %>%
 #| echo: FALSE
 #| label: tbl-bmi-stat
 #| tbl-cap: "Summary Statistics for BMI"
+#| fig-width: 5.5
 
 bmi_stats <- disease_data %>% 
   summarise(
@@ -587,6 +588,7 @@ bmi_stats %>%
 ```{r}
 #| echo: FALSE
 #| label: fig-bmi-hist
+#| fig-width: 5.5
 
 disease_data %>% 
   ggplot() +
@@ -651,6 +653,7 @@ bmi_obese_prop <- round(bmi_obese/nrow(disease2)*100, 2)
 #| echo: FALSE
 #| label: tbl-bmi-freq
 #| tbl-cap: "BMI Category Frequency"
+#| fig-width: 5.5
 
 disease2 %>% 
   count(bmi) %>% 
@@ -658,9 +661,11 @@ disease2 %>%
   mutate(percentage = round(percentage, 2)) %>% 
   kable(col.names = c("BMI Category", "Count", "Percentage (%)"))
 ```
+
 ```{r}
 #| echo: FALSE
 #| label: fig-bmi-bar
+#| fig-width: 5.5
 
 disease2 %>% 
   ggplot() +
@@ -705,6 +710,7 @@ disease2$smoking <- factor(
 #| echo: FALSE
 #| label: tbl-smoke-freq
 #| tbl-cap: "Smoking Status Frequency"
+#| fig-width: 5.5
 
 disease2 %>% 
   count(smoking) %>% 
@@ -717,6 +723,7 @@ disease2 %>%
 ```{r}
 #| echo: FALSE
 #| label: fig-smoke
+#| fig-width: 5.5
 
 disease2 %>% 
   ggplot() +
@@ -752,6 +759,7 @@ disease2$physical_activity <- factor(
 #| echo: FALSE
 #| label: tbl-physical-freq
 #| tbl-cap: "Physical Activity Frequency"
+#| fig-width: 5.5
 
 disease2 %>% 
   count(physical_activity) %>% 
@@ -764,6 +772,7 @@ disease2 %>%
 ```{r}
 #| echo: FALSE
 #| label: fig-physical
+#| fig-width: 5.5
 
 disease2 %>% 
   ggplot() +
@@ -800,6 +809,7 @@ disease2 <- disease2 %>%
 #| echo: FALSE
 #| label: tbl-age-freq
 #| tbl-cap: "Age Range Frequency"
+#| fig-width: 5.5
 
 disease2 %>% 
   count(age_category) %>% 
@@ -812,6 +822,7 @@ disease2 %>%
 ```{r}
 #| echo: FALSE
 #| label: fig-ages
+#| fig-width: 5.5
 
 disease2 %>% 
   ggplot() +
