@@ -871,7 +871,7 @@ sleep_time_stats %>%
 
 ```{r}
 #| echo: FALSE
-#| label: fig-sleep-time
+#| label: fig-sleep-hist
 #| fig-width: 5.5
 
 disease2 %>% 
@@ -887,7 +887,18 @@ disease2 %>%
   theme_classic()
 ```
 ```{r}
+#| echo: FALSE
+#| label: fig-sleep-box
+#| fig-width: 5.5
 
+disease2 %>% 
+  ggplot() +
+  aes(y = sleep_time) +
+  geom_boxplot(fill = "steelblue") +
+  labs(
+    y = "Sleep Time (Hours)"
+  ) +
+  theme_classic()
 ```
 
 - response
