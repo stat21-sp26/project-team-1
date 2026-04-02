@@ -1,0 +1,24 @@
+## Results
+
+
+### Research question 1: ....
+
+#### Descriptive Statistics
+
+#### Regression Analysis
+
+
+### Research question 2: ....
+
+#### Descriptive Statistics
+
+#### Regression Analysis
+
+
+<!-- 
+If you have more than 2 research questions, try to group them into no 
+more than 2 groups. Rename the subsections to give a short description of the
+group of questions (e.g. "Landscape of US colleges" and "Factors associated with dropout")
+-->
+
+
