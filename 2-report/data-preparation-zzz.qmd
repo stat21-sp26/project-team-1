@@ -1,0 +1,76 @@
+---
+title: "Preparation of XXX dataset"
+format: html
+---
+
+This file includes all steps that we took to prepare the original data for the analyses that we conducted in our study.
+
+<!-- [This is a comment, it won't be shown as text if you render this file.] 
+
+     If your original data is >100Mb, you cannot include it in your GitHub repo.
+     Make sure every team member has the dataset stored on their computer, 
+     in this project folder, at the same path, so you can load it with the same 
+     code. But don't push it. You can add the path to the dataset to the file 
+     .gitignore, and this way you will never be prompted to commit it.
+     
+     If your GitHub repo does not have your original data file, add a statement 
+     below this comment that explains this and provides a link to a Google drive 
+     folder. You can copy the statement you wrote in Homework 7.
+-->
+
+## Load libraries
+
+These are the R libraries needed for the preparation steps:
+
+```{r}
+
+```
+
+## Load original data
+
+Here we load the original datasets used in our study:
+
+```{r}
+
+```
+
+Here we clean the variable names using the function `clean_names()`:
+
+```{r}
+
+```
+
+
+## Prepare data
+
+<!-- [This is a comment, it won't be shown as text if you render this file.]
+
+     This section is unstructured because the sequence of preparation steps
+     that you take here are specific to your particular datasets and research 
+     questions. For example, you may or may not need to join multiple datasets,
+     pivot the data, filter observations, mutate variables, etc. The sequence 
+     in which you need to do these operations (e.g. join and then add variables, 
+     or viceversa) is also specific to your case.
+     
+     You should include in this section all and only the preparation steps that  
+     are necessary (leave out any unnecessary steps that you did in HW 7 for
+     practice). 
+     
+     Break down the steps into subtasks, each executed in a separate chunk and 
+     preceded by a short explanation of what the chunk will achieve. 
+     For example:
+     "Prepare the datasets to be joined" followed by a chunk where you change
+     some of the country names so all countries have the same name in both
+     datasets and R can join them. 
+     "Join datasets X and Z" followed by a chunk where you join the datasets.
+     "Filter observations from 2010" followed by a chunk where you filter.
+     "Remove unnecessary variables" followed by a chunk where you select away 
+     some variables.
+     Etc. etc.
+-->
+
+
+
+
+
+
