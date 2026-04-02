@@ -1,0 +1,22 @@
+## Methodology
+
+<!-- If you use a single dataset, use this structure -->
+### Data
+
+### Statistical methods
+
+<!-- Otherwise, if you use two datasets, use this structure -->
+
+### Dataset 1: ...
+
+#### Data
+
+#### Statistical methods
+
+
+
+### Dataset 2: ...
+
+#### Data
+
+#### Statistical methods
