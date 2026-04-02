@@ -1,0 +1,43 @@
+---
+title: "Draft Report"
+authors: "Your names"
+format: 
+  pdf:
+    documentclass: article
+    number-sections: true
+    geometry:
+      - top=20mm
+      - left=25mm
+      - right=25mm
+      - heightrounded
+execute: 
+  message: false
+  warning: false
+  echo: false
+bibliography: ../bibliography/references.bib
+engine: knitr
+---
+
+\begin{abstract}
+
+1-2 sentences that summarize introduction and background. 
+1-2 sentences about the methods (data, methodologies). 
+1-2 sentences about the results (what did you find? Confidence intervals? P-values?). 
+
+\end{abstract}
+
+{{< include 1-introduction.qmd >}}
+
+{{< include 2-data-methods.qmd >}}
+
+{{< include 3-results.qmd >}}
+
+{{< include 4-discussion.qmd >}}
+
+\newpage 
+
+## Bibliography {-}
+
+<!-- This section should not be edited by hand. If you add bibliographic sources to bibliography/references.bib and then cite them in your report using @... then the citations will be automatically printed here. -->
+
+<!-- This section does not count towards your page limit -->
