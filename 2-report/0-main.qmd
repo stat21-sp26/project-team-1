@@ -1,5 +1,5 @@
 ---
-title: "Draft Report"
+title: "Give a title to your study"
 authors: "Your names"
 format: 
   pdf:
