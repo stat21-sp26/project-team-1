@@ -51,8 +51,17 @@ heart_data <- clean_names(heart_data)
 ### Prepare Numeric Variables
 
 ```{r}
+#| message: FALSE
+# numeric variables: bmi, physical_health, mental_health, sleep_time
 
+summary(heart_data)
 ```
+
+The numeric variables of this dataset include the following: `bmi`, `physical_health`, `mental_health`, and `sleep_time`.
+
+bmi: Contains unexpected value (minimum = 12.02). A BMI of 12 is not normal and indicates being severely underweight. These will be treated as NA.
+
+sleep_time: Contains unexpected values (minimum = 1, maximum = 24). Although plausible, 1 or 24 hours of sleep is extremely concerning and may influence data analyses. These will be treated as NA.
 
 <!-- [This is a comment, it won't be shown as text if you render this file.]
 
