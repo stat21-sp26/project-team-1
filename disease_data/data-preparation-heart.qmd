@@ -23,6 +23,7 @@ This file includes all steps that we took to prepare the original data for the a
 These are the R libraries needed for the preparation steps:
 
 ```{r}
+#| echo: FALSE
 library(tidyverse)
 library(janitor)
 library(tidyr)
@@ -34,6 +35,7 @@ library(readr)
 Here we load the original dataset used in our study:
 
 ```{r}
+#| echo: FALSE
 heart_data <- read_csv("disease-raw.csv")
 ```
 
@@ -47,6 +49,11 @@ heart_data <- clean_names(heart_data)
 ## Prepare Data
 
 ### Prepare Numeric Variables
+
+```{r}
+
+```
+
 <!-- [This is a comment, it won't be shown as text if you render this file.]
 
      This section is unstructured because the sequence of preparation steps
