@@ -50,6 +50,8 @@ heart_data <- clean_names(heart_data)
 
 ### Prepare Numeric Variables
 
+[Summary of Numeric Variables]{.underline}
+
 ```{r}
 #| message: FALSE
 # numeric variables: bmi, physical_health, mental_health, sleep_time
@@ -60,6 +62,33 @@ summary(heart_data)
 The numeric variables of this dataset include the following: `bmi`, `physical_health`, `mental_health`, and `sleep_time`.
 
 `bmi` contains enexpected values, including a minimum = 12.02. A BMI of 12 is not normal and indicates being severely underweight. Such values will be treated as NA. `sleep_time` also contains unexpected values (in hours), including a minimum = 1 and a maximum = 24. Although plausible, 1 or 24 hours of sleep is extremely concerning and may influence data analyses. These will also be treated as NA.
+
+[Mutating Variables]{.underline}
+
+```{r}
+#| message: FALSE
+
+# mutating bmi
+heart_data <- heart_data %>% 
+  mutate(
+    bmi = case_when(
+      bmi < 15 ~ NA,
+      bmi > 60 ~ NA,
+      TRUE ~ bmi
+    )
+  )
+
+# mutating sleep_time
+
+heart_data <- heart_data %>% 
+  mutate(
+    sleep_time = case_when(
+      sleep_time < 3 ~ NA,
+      sleep_time > 16 ~ NA,
+      TRUE ~ sleep_time
+    )
+  )
+```
 
 <!-- [This is a comment, it won't be shown as text if you render this file.]
 
