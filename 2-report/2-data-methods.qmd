@@ -2,21 +2,31 @@
 
 <!-- If you use a single dataset, use this structure -->
 ### Data
+The current dataset on crucial indicators for heart disease from patients in the United States (2022) is sourced from the following website hosted by Kaggle: <https://www.kaggle.com/datasets/kamilpytlak/personal-key-indicators-of-heart-disease>. The dataset originally comes from the Centers for Disease Control and Prevention (CDC) and is a part of the Behavioral Risk Factor Surveillance System (BRFSS). It was originally collected by the CDC and BRFSS to gather data on the health status of U.S. residents across all 50 states, the District of Columbia, and 3 U.S. territories. To download the dataset, scroll to the end of the "About Dataset" section and click the download icon (an arrow pointing down). The dataset was downloaded on February 22, 2026.
+
+The raw dataset contains 319795 observations, each representing an individual surveyed through the BRFSS in 2022. Each individual answered a series of questions regarding their health. Eighteen variables were recorded for each individual, including identity characteristics (e.g., sex and race) and indicators of overall cardiovascular health, such as BMI, smoking status, mental health, and diabetes status.
+
+The original purpose of the dataset was to monitor the population health and identify crucial risk factors for diseases such as heart disease to inform public health policy and prevention efforts. This research builds on that goal by providing further insight into how these risk factors contribute to the prediction of heart disease and overall cardiovascular health outcomes.
+
+The dataset was cleaned by addressing implausible values in numeric variables, specifically `bmi` and `sleep_time`. In the `bmi` variable, extremely low values were observed (minimum = 12.02) that are considered physiologically implausible; these values were treated as NA. Similarly, the `sleep_time` variable included extreme values (minimum = 1 hour and maximum = 24 hours). While achieving such durations is technically possible, they are highly unusual and could disproportionately influence subsequent analyses, so they were also recorded as NA to improve data quality and reliability. In addition, the `diabetic` variable was altered to have only two levels ("Yes" and "No") instead of its original four levels ("Yes", "No", "Yes (during pregnancy)", and "No, borderline diabetes"). This simplifies future analyses, where we will only be concerned whether diabetes was present, regardless of when or in what context.
+
+
+TO DO:
+- [] add EDA visualizations
 
 ### Statistical methods
+# Multiple Linear Regression
+- coefficients of interest
+- reasoning for fitting the model:
+     - other models we considered
+     - assessing the validity of conditions
+     - variable transformations
+     
+# Logistic Regression
+- coefficients of interest
+- reasoning for fitting the model:
+     - other models we considered
+     - assessing the validity of conditions
+     - variable transformations
+     
 
-<!-- Otherwise, if you use two datasets, use this structure -->
-
-### Dataset 1: ...
-
-#### Data
-
-#### Statistical methods
-
-
-
-### Dataset 2: ...
-
-#### Data
-
-#### Statistical methods
