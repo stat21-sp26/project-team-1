@@ -1,14 +1,14 @@
 ## Results
 
 
-### Research question 1: ....
+### Factors Associated with BMI ....
 
 #### Descriptive Statistics
 
 #### Regression Analysis
 
 
-### Research question 2: ....
+### Predicting Heart Attack Risk ....
 
 #### Descriptive Statistics
 
