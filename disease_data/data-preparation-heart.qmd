@@ -26,20 +26,21 @@ These are the R libraries needed for the preparation steps:
 library(tidyverse)
 library(janitor)
 library(tidyr)
+library(readr)
 ```
 
 ## Load original data
 
-Here we load the original datasets used in our study:
+Here we load the original dataset used in our study:
 
 ```{r}
-
+heart_data <- read_csv("disease-raw.csv")
 ```
 
 Here we clean the variable names using the function `clean_names()`:
 
 ```{r}
-
+heart_data <- clean_names(heart_data)
 ```
 
 
