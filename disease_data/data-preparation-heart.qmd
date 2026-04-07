@@ -1,5 +1,5 @@
 ---
-title: "Preparation of XXX dataset"
+title: "Preparation of Heart Disease dataset"
 format: html
 ---
 
@@ -23,7 +23,9 @@ This file includes all steps that we took to prepare the original data for the a
 These are the R libraries needed for the preparation steps:
 
 ```{r}
-
+library(tidyverse)
+library(janitor)
+library(tidyr)
 ```
 
 ## Load original data
