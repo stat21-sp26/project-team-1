@@ -1,4 +1,21 @@
 ## Introduction
 
+**Background & Motivation:**
 
+Cardiovascular disease (CVD) develops through a combination of biological, behavioral, and lifestyle factors that accumulate over time. Rather than acting independently, these elements tend to cluster and reinforce one another, influencing overall cardiovascular health. Obesity is one of the most widely studied contributors to this risk and is closely tied to factors such as physical activity, smoking, and other lifestyle habits [@powell2021obesity]. Therefore, understanding its role in cardiovascular health requires considering it within this broader network of influences.
 
+Body mass index (BMI), calculated from an individual's height and weight, is commonly used in research and healthcare as a simple measure of obesity and a proxy for cardiometabolic health. Higher BMI is generally associated with higher probability of cardiovascular conditions, including heart disease and failure [@carbone2022impact]. However, this relationship is not uniform across all populations. Recent research has found that evidence of the "obesity paradox" suggests that in certain contexts, BMI does not always align with expected health outcomes [@tutor2023updates]. This highlights that its meaning depends on underlying health status and related risk factors. As a result, BMI is best understood as an accessible indicator that reflects multiple underlying influences.
+
+Because of this, BMI is most informative when examined alongside behavioral and demographic factors that affect cardiovascular health. Smoking, physical activity, and self-reported health status are all associated with CVD outcomes and help explain differences in BMI across individuals [@powell2021obesity]. These behaviors also tend to co-occur, forming broader patterns of health behavior that influence both weight and long-term disease risk.
+
+**Research Questions:**
+
+1\) The Indicators of Heart Disease (2022) data set from Kaggle includes BMI (a continuous variable) alongside demographic characteristics, health behaviors, and self-reported health status, making it well suited for examining the relationship among these components. Accordingly, **this study asks how BMI is associated with these behavioral and demographic characteristics.**
+
+2\) How do demographic factors (e.g. sex, age, race) and health factors (e.g. smoking, drinking, previous health conditions, sleep) impact the probability that an individual will experience a heart attack?
+
+**Hypotheses:**
+
+1\) Based on prior studies, BMI is expected to be higher among individuals who report lower physical activity, poorer general health, and smoking behavior. It is also expected to vary across demographic characteristics such as age, reflecting differences in lifestyle patterns and accumulated health risks over time.
+
+2\) Furthermore, we hypothesize that previous health complications (e.g. diabetes, kidney disease) will increase the probability of heart attack. Using White individuals as a baseline, we would also predict that Black, Native American, and Hispanic individuals may be at higher risk for heart attack due to historic disenfranchisement that has impacted access to education, food sources, health care, etc – limitations on which would likely negatively impact these communities health outcomes, including cardiovascular health. Finally, we would expect that individuals who receive on average more sleep per night would have lowered risk of heart attack due to the general health benefits of proper sleep.
