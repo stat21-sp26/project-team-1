@@ -15,13 +15,17 @@ TO DO:
 - [] add EDA visualizations
 
 ### Statistical methods
+
 #### Multiple Linear Regression: Factors that determine BMI
-- coefficients of interest
+
+- coefficients of interest: 
 - reasoning for fitting the model:
      - other models we considered
      - assessing the validity of conditions
      - variable transformations
-     
+
+We are interested in exploring how various behaviors () health conditionsin assessing an individual's risk for heart attack based on demographics, particularly race, behavior (smoking, drinking alcohol, sleep, physical activity), and other health conditions (diabetes, stroke, kidney disease, asthma). In addition, we will be investigating BMI as a potential predictor for heart attack, as BMI is a simple and readily accessible health measurement. Given that `heart_disease` is a binary outcome variable, we performed the following logistic regression to model the odds of an individual being diagnosed with heart disease:
+
 #### Logistic Regression: Predicting Heart Attack
 - coefficients of interest
 - reasoning for fitting the model:
