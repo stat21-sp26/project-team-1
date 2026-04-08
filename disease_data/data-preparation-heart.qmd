@@ -1,5 +1,5 @@
 ---
-title: "Preparation of Heart Disease dataset"
+title: "Preparation of Heart Disease Dataset"
 format: html
 ---
 
@@ -48,7 +48,7 @@ heart_data <- clean_names(heart_data)
 
 ## Prepare Data
 
-### Prepare Numeric Variables
+### Numeric Variables
 
 [Summary of Numeric Variables]{.underline}
 
@@ -90,38 +90,76 @@ heart_data <- heart_data %>%
   )
 ```
 
-<!-- [This is a comment, it won't be shown as text if you render this file.]
+Here, implausible values in `bmi` and `sleep_time` have been recoded as NA. Specifically, BMI values belo 15 or above 60 are treated as unrealistic, while sleep times below 3 hours or above 16 hours are flagged as extreme and set to NA. All other values are retained as originally recorded. This ensures that outliers and likely data entry errors do not distort subsequent analyses.
 
-     This section is unstructured because the sequence of preparation steps
-     that you take here are specific to your particular datasets and research 
-     questions. For example, you may or may not need to join multiple datasets,
-     pivot the data, filter observations, mutate variables, etc. The sequence 
-     in which you need to do these operations (e.g. join and then add variables, 
-     or viceversa) is also specific to your case.
-     
-     You should include in this section all and only the preparation steps that  
-     are necessary (leave out any unnecessary steps that you did in HW 7 for
-     practice). 
-     
-     Break down the steps into subtasks, each executed in a separate chunk and 
-     preceded by a short explanation of what the chunk will achieve. 
-     For example:
-     "Prepare the datasets to be joined" followed by a chunk where you change
-     some of the country names so all countries have the same name in both
-     datasets and R can join them. 
-     "Join datasets X and Z" followed by a chunk where you join the datasets.
-     "Filter observations from 2010" followed by a chunk where you filter.
-     "Remove unnecessary variables" followed by a chunk where you select away 
-     some variables.
-     Etc. etc.
--->
+### Binary and Categorical Variables
+
+[Summary of Binary and Categorical Variables]{.underline}
+
+```{r}
+#| message: FALSE
+
+summary(heart_data)
+
+# binary variables: heart_disease, smoking, alcohol_drinking, stroke, diff_walking, physical_activity, asthma, kidney_disease, skin_cancer, sex
+
+# other categorical variables: age_category, race, diabetic, gen_health
+```
+
+None of the binary and other categorical variables contain unexpected or NA values.
+
+[Recoding Binary Variables into a Numeric Format]{.underline}
+
+```{r}
+# changing levels of binary variables: heart_disease, smoking, alcohol_drinking, stroke, diff_walking, physical_activity, asthma, kidney_disease, skin_cancer, sex
+
+heart_data <- heart_data %>% 
+  mutate(
+    heart_disease = ifelse(heart_disease == "Yes", 1, 0),
+    smoking = ifelse(smoking == "Yes", 1, 0),
+    alcohol_drinking = ifelse(alcohol_drinking == "Yes", 1, 0),
+    stroke = ifelse(stroke == "Yes", 1, 0),
+    diff_walking = ifelse(diff_walking == "Yes", 1, 0),
+    physical_activity = ifelse(physical_activity == "Yes", 1, 0),
+    asthma = ifelse(asthma == "Yes", 1, 0),
+    kidney_disease = ifelse(kidney_disease == "Yes", 1, 0),
+    skin_cancer = ifelse(skin_cancer == "Yes", 1, 0),
+    sex = ifelse(sex == "Female", 1, 0)
+  )
+```
+
+We recorded several binary variables into numeric form. "Yes" responses (and "Female" for sex) are converted to 1, while "No" responses (and "Male" for sex) are converted to 0. This allows the variables to be used more effectively in analysis and modeling.
+
+[Recoding `Diabetic` Variable into a Numeric Format]{.underline}
+
+```{r}
+# changing levels of diabetic variable
+
+table(heart_data$diabetic) 
+# No | No, borderline diabetes | Yes | Yes (during pregnancy)
+
+heart_data <- heart_data %>% 
+  mutate(
+    diabetic = case_when(
+      diabetic %in% c("No", "No, borderline diabetes") ~ "No",
+      diabetic %in% c("Yes", "Yes (during pregnancy)") ~ "Yes"
+    )
+  )
+
+heart_data <- heart_data %>% 
+  mutate(
+    diabetic = ifelse(diabetic == "Yes", 1, 0)
+    )
+```
+
+We simplified the `diabetic` variable by combining related categories into two groups: "No" (including borderline diabetes) and "Yes" (including diabetes during pregnancy). We then recoded the variable into numeric form, where "Yes" is represented as 1 and "No" as 0. This creates a clear binary variable that is easier to use in analysis and modeling.
 
 ## Save Data
 
 In the following chunk, we save our dataset as an RDS file using the function `saveRDS()`. 
 
 ```{r}
-
+saveRDS(heart_data, "heart-prepared.RDS")
 ```
 
 
