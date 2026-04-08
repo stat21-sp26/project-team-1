@@ -36,6 +36,11 @@ heartdisease <- readRDS("../disease_data/heart-prepared.RDS")
 heartdisease$race <- relevel(factor(heartdisease$race), ref = "White")
 
 # create MLR
+mlr_model <- lm(
+  bmi ~ race + smoking + physical_activity + alcohol_drinking + sleep_time
+        + diabetic + heart_disease + asthma,
+  data = heartdisease
+)
 ```
 
 
