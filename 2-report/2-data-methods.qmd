@@ -41,6 +41,8 @@ mlr_model <- lm(
         + diabetic + heart_disease + asthma,
   data = heartdisease
 )
+
+summary(mlr_model)
 ```
 
 
