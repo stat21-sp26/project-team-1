@@ -1,6 +1,6 @@
 ---
-title: "Give a title to your study"
-authors: "Your names"
+title: "Predicting Heart Disease and BMI"
+authors: "Katelynne De Lara & Lily von Behren"
 format: 
   pdf:
     documentclass: article
