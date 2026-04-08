@@ -1,5 +1,5 @@
 ---
-title: "Preparation of Heart Disease dataset"
+title: "Preparation of Heart Disease Dataset"
 format: html
 ---
 
@@ -48,7 +48,7 @@ heart_data <- clean_names(heart_data)
 
 ## Prepare Data
 
-### Prepare Numeric Variables
+### Numeric Variables
 
 [Summary of Numeric Variables]{.underline}
 
@@ -91,6 +91,23 @@ heart_data <- heart_data %>%
 ```
 
 Here, implausible values in `bmi` and `sleep_time` have been recoded as NA. Specifically, BMI values belo 15 or above 60 are treated as unrealistic, while sleep times below 3 hours or above 16 hours are flagged as extreme and set to NA. All other values are retained as originally recorded. This ensures that outliers and likely data entry errors do not distort subsequent analyses.
+
+### Binary and Categorical Variables
+
+```{r}
+#| message: FALSE
+
+summary(heart_data)
+
+# binary variables: heart_disease, smoking, alcohol_drinking, stroke, diff_walking, physical_activity, asthma, kidney_disease, skin_cancer, sex
+
+# other categorical variables: age_category, race, diabetic, gen_health
+```
+
+None of the binary and other categorical variables contain unexpected or NA values.
+
+
+
 
 <!-- [This is a comment, it won't be shown as text if you render this file.]
 
