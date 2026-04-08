@@ -45,6 +45,11 @@ mlr_model <- lm(
 summary(mlr_model)
 ```
 
+$$
+BMI = \beta_0 + \beta_1raceNativeAmerican + \beta_2raceAsian + \\ \beta_3raceBlack + \beta_4raceHispanic + \beta_5raceOther
++ \beta_6Smoking + \\ \beta_7PhysicalActivity + \beta_8Alcohol + \\ \beta_9Sleep + \beta_{10}Diabetes + \beta_{11}HeartDisease + \beta_{12}Asthma
+$$
+
 
 #### Logistic Regression: Predicting Heart Attack
 - coefficients of interest
