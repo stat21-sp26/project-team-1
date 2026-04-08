@@ -46,8 +46,8 @@ summary(mlr_model)
 ```
 
 $$
-BMI = \beta_0 + \beta_1raceNativeAmerican + \beta_2raceAsian + \\ \beta_3raceBlack + \beta_4raceHispanic + \beta_5raceOther
-+ \beta_6Smoking + \\ \beta_7PhysicalActivity + \beta_8Alcohol + \\ \beta_9Sleep + \beta_{10}Diabetes + \beta_{11}HeartDisease
+BMI_i = \beta_0 + \beta_1raceNativeAmerican_i + \beta_2raceAsian_i + \\ \beta_3raceBlack_i + \beta_4raceHispanic_i + \beta_5raceOther_i
++ \beta_6Smoking_i + \\ \beta_7PhysicalActivity_i + \beta_8Alcohol_i + \\ \beta_9Sleep_i + \beta_{10}Diabetes_i + \beta_{11}HeartDisease_i
 $$
 
 
