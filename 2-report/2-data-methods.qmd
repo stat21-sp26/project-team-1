@@ -15,18 +15,67 @@ TO DO:
 - [] add EDA visualizations
 
 ### Statistical methods
-# Multiple Linear Regression
+#### Multiple Linear Regression: Factors that determine BMI
 - coefficients of interest
 - reasoning for fitting the model:
      - other models we considered
      - assessing the validity of conditions
      - variable transformations
      
-# Logistic Regression
+#### Logistic Regression: Predicting Heart Attack
 - coefficients of interest
 - reasoning for fitting the model:
      - other models we considered
      - assessing the validity of conditions
      - variable transformations
-     
+
+
+We are interested in assessing an individual's risk for heart attack based on demographics, particularly race, behavior (smoking, drinking alcohol, sleep, physical activity), and other health conditions (diabetes, stroke, kidney disease, asthma). In addition, we will be investigating BMI as a potential predictor for heart attack, as BMI is a simple and readily accessible health measurement. Given that `heart_disease` is a binary outcome variable, we performed the following logistic regression to model the odds of an individual being diagnosed with heart disease:
+
+```{r}
+#| include: false
+
+library(tidyverse)
+library(tidyr)
+library(kableExtra)
+```
+
+```{r}
+#| include: false
+
+# load data
+disease_data <- readRDS("../disease_data/disease-prepared.RDS")
+
+# relevel the data to make sure that raceWhite is used as the baseline
+disease_data$race <- relevel(factor(disease_data$race), ref = "White")
+
+# create the logistic regression 
+logistic_model <- glm(
+  heart_disease ~ bmi + sleep_time + alcohol_drinking + race + diabetic 
+            + age_category + smoking + stroke + physical_activity + kidney_disease +
+            asthma,
+  data = disease_data,
+  family = "binomial"
+)
+
+
+summary(logistic_model)
+```
+
+
+$$
+log(Odds_{HeartAttack}) = \beta_0 + \beta_1raceAsian + \beta_2raceBlack + \\ \beta_3raceHispanic + \beta_4raceOther +
+\beta_5Diabetes + \\ \beta_6KidneyDisease + \beta_7PhysicalActivity + \\ \beta_8Sleep + \beta_9Alchohol + \beta_{10}BMI
+$$
+
+**Assumptions**
+1) binary dependent variable
+2) independent observations
+3) linear relationship between continuous predictor variables & log-odds of outcome
+4) no multicollinearity
+5) large sample size
+6) no outliers
+
+Normality and homoscedasticity of the residuals are not required assumptions to perform this analysis.
+
 
