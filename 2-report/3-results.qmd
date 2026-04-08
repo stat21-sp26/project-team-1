@@ -181,7 +181,6 @@ ggplot(data = disease_data, aes(x = bmi, fill = factor(heart_disease))) +
   theme_classic() +
   theme(legend.position = "bottom")
 
-
 # BMI
 ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease), 
                             fill = factor(heart_disease))) +
@@ -217,6 +216,25 @@ ggplot(data = disease2, aes(x = factor(heart_disease), fill = bmi)) +
 
 ::::
 
+
+```{r}
+#| include: false
+
+# BMI
+ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease), 
+                            fill = factor(heart_disease))) +
+  geom_boxplot() + 
+  labs(x = "Heart Disease", y = "BMI") + 
+  scale_x_discrete(labels = c("0" = "No Heart Disease",
+                              "1" = "Heart Disease")) +
+  scale_fill_manual(
+    values = c("0" = "skyblue", "1" = "tomato"),
+    labels = c("No", "Yes")
+  ) +
+  theme_classic() +
+  theme(legend.position = "none")
+
+```
 
 :::: {layout="[0.3, 0.3, 0.3]"}
 
