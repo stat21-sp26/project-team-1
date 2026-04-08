@@ -24,7 +24,7 @@ TO DO:
      - assessing the validity of conditions
      - variable transformations
 
-We are interested in exploring how demographics (specifically race), various behaviors (smoking, physical activity, alcohol consumption, sleep), and health conditions (diabetes, heart disease, asthma) affect an individual's BMI. Given that `bmi` is a numeric outcome variable, we performed the following mutiple linear regression to examine how these factors correlate with BMI:
+We are interested in exploring how demographics (specifically race), various behaviors (smoking, physical activity, alcohol consumption, sleep), and health conditions (diabetes, heart disease, asthma) affect an individual's BMI. Given that `bmi` is a numeric outcome variable, we created the following mutiple linear regression model to examine how these factors correlate with BMI:
 
 ```{r}
 #| include: false
@@ -47,7 +47,7 @@ summary(mlr_model)
 
 $$
 BMI = \beta_0 + \beta_1raceNativeAmerican + \beta_2raceAsian + \\ \beta_3raceBlack + \beta_4raceHispanic + \beta_5raceOther
-+ \beta_6Smoking + \\ \beta_7PhysicalActivity + \beta_8Alcohol + \\ \beta_9Sleep + \beta_{10}Diabetes + \beta_{11}HeartDisease + \beta_{12}Asthma
++ \beta_6Smoking + \\ \beta_7PhysicalActivity + \beta_8Alcohol + \\ \beta_9Sleep + \beta_{10}Diabetes + \beta_{11}HeartDisease
 $$
 
 
