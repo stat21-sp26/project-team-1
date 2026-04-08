@@ -24,7 +24,13 @@ TO DO:
      - assessing the validity of conditions
      - variable transformations
 
-We are interested in exploring how various behaviors () health conditionsin assessing an individual's risk for heart attack based on demographics, particularly race, behavior (smoking, drinking alcohol, sleep, physical activity), and other health conditions (diabetes, stroke, kidney disease, asthma). In addition, we will be investigating BMI as a potential predictor for heart attack, as BMI is a simple and readily accessible health measurement. Given that `heart_disease` is a binary outcome variable, we performed the following logistic regression to model the odds of an individual being diagnosed with heart disease:
+We are interested in exploring how demographics (specifically race), various behaviors (smoking, physical activity, alcohol consumption, sleep), and health conditions (diabetes, kidney disease, asthma) affect an individual's BMI. Given that `bmi` is a numeric outcome variable, we performed the following mutiple linear regression to model 
+
+the odds of an individual being diagnosed with heart disease:
+
+***Key Predictors: Smoking, Physical Activity, Sleep Time, and Age***
+
+[Smoking, Physical Activity, and Age]{.underline}
 
 #### Logistic Regression: Predicting Heart Attack
 - coefficients of interest
