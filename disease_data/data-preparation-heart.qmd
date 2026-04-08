@@ -94,6 +94,8 @@ Here, implausible values in `bmi` and `sleep_time` have been recoded as NA. Spec
 
 ### Binary and Categorical Variables
 
+[Summary of Binary and Categorical Variables]{.underline}
+
 ```{r}
 #| message: FALSE
 
@@ -106,7 +108,27 @@ summary(heart_data)
 
 None of the binary and other categorical variables contain unexpected or NA values.
 
+[Recoding Binary Variables into a Numeric Format]{.underline}
 
+```{r}
+# changing levels of binary variables: heart_disease, smoking, alcohol_drinking, stroke, diff_walking, physical_activity, asthma, kidney_disease, skin_cancer, sex
+
+heart_data <- heart_data %>% 
+  mutate(
+    heart_disease = ifelse(heart_disease == "Yes", 1, 0),
+    smoking = ifelse(smoking == "Yes", 1, 0),
+    alcohol_drinking = ifelse(alcohol_drinking == "Yes", 1, 0),
+    stroke = ifelse(stroke == "Yes", 1, 0),
+    diff_walking = ifelse(diff_walking == "Yes", 1, 0),
+    physical_activity = ifelse(physical_activity == "Yes", 1, 0),
+    asthma = ifelse(asthma == "Yes", 1, 0),
+    kidney_disease = ifelse(kidney_disease == "Yes", 1, 0),
+    skin_cancer = ifelse(skin_cancer == "Yes", 1, 0),
+    sex = ifelse(sex == "Female", 1, 0)
+  )
+```
+
+We recorded several binary variables into numeric form. "Yes" responses (and "Female" for sex) are converted to 1, while "No" responses (and "Male" for sex) are converted to 0. This allows the variables to be used more effectively in analysis and modeling.
 
 
 <!-- [This is a comment, it won't be shown as text if you render this file.]
