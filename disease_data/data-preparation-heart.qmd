@@ -159,7 +159,7 @@ We simplified the `diabetic` variable by combining related categories into two g
 In the following chunk, we save our dataset as an RDS file using the function `saveRDS()`. 
 
 ```{r}
-
+saveRDS(heart_data, "heart-prepared.RDS")
 ```
 
 
