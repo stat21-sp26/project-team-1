@@ -90,6 +90,8 @@ heart_data <- heart_data %>%
   )
 ```
 
+Here, implausible values in `bmi` and `sleep_time` have been recoded as NA. Specifically, BMI values belo 15 or above 60 are treated as unrealistic, while sleep times below 3 hours or above 16 hours are flagged as extreme and set to NA. All other values are retained as originally recorded. This ensures that outliers and likely data entry errors do not distort subsequent analyses.
+
 <!-- [This is a comment, it won't be shown as text if you render this file.]
 
      This section is unstructured because the sequence of preparation steps
