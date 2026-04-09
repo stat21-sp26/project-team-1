@@ -26,6 +26,9 @@ TO DO:
 
 We are interested in exploring how demographics (specifically race), various behaviors (smoking, physical activity, alcohol consumption, sleep), and health conditions (diabetes, heart disease, asthma) affect an individual's BMI. Given that `bmi` is a numeric outcome variable, we created the following multiple linear regression model to examine how these factors correlate with BMI:
 
+- forward vs. backward selection
+- AIC & BIC
+
 ```{r}
 #| include: false
 
