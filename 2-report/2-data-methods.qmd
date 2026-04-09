@@ -49,6 +49,15 @@ $$
 BMI_i = \beta_0 + \beta_1raceNativeAmerican_i + \beta_2raceAsian_i + \\ \beta_3raceBlack_i + \beta_4raceHispanic_i + \beta_5raceOther_i
 + \beta_6Smoking_i + \\ \beta_7PhysicalActivity_i + \beta_8Alcohol_i + \\ \beta_9Sleep_i + \beta_{10}Diabetes_i + \beta_{11}HeartDisease_i
 $$
+**Assumptions**
+1) binary dependent variable
+2) independent observations
+3) linear relationship between continuous predictor variables & log-odds of outcome
+4) no multicollinearity
+5) large sample size
+6) no outliers
+
+Normality and homoscedasticity of the residuals are not required assumptions to perform this analysis.
 
 #### Logistic Regression: Predicting Heart Attack
 - coefficients of interest
