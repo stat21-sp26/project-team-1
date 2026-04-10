@@ -31,7 +31,28 @@ TO DO:
 
 #### BMI and Predictors
 
+```{r}
+#| include: false
+#| label: fig-bmi-hist
 
+heartdisease %>% 
+  ggplot() +
+  aes(x = bmi) +
+  geom_histogram()
+
+# bmi is slightly right-skewed
+```
+
+```{r}
+#| include: false
+#| label: fig-bmi-genhealth
+
+heartdisease %>% 
+  filter(!is.na(gen_health), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = gen_health, y = bmi, fill = gen_health) +
+  geom_boxplot()
+```
 
 ### Statistical Methods
 
