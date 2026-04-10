@@ -63,9 +63,9 @@ $$
 
 We assessed the assumptions of linear regression using standard diagnostic plots. Linearity and homoscedasticity were evaluated using a residuals versus fitted values plot (@fig-diagnostic-1). The homoscedasticity assumption is violated, as prediction error increases significantly at higher BMI values.
 
-Next, normality of residuals was assessed through a Q-Q plot [**insert figure**].
+Next, normality of residuals was assessed through a Q-Q plot (@fig-diagnostic-2).
 
-We also examined potential influential observations using a residuals versus leverage plot [**insert figure**].
+We also examined potential influential observations using a residuals versus leverage plot (@fig-diagnostic-3).
 
 Lastly, we assessed multicollinearity by calculating variance inflation factors (VIFs) [**insert figure**].
 
@@ -86,6 +86,24 @@ plot(first_mlr, which = 1)
 
 plot(first_mlr, which = 2)
 ```
+
+```{r}
+#| echo: false
+#| label: fig-diagnostic-3
+
+# residuals vs leverage plot
+
+plot(first_mlr, which = 3)
+```
+
+```{r}
+#| echo: false
+
+vif(first_mlr)
+
+# how to make it into a table? needed?
+```
+
 
 **Model Selecion**
 
