@@ -16,18 +16,19 @@ TO DO:
 
 ### Statistical Methods
 
-#### Multiple Linear Regression: Factors that determine BMI
+#### Multiple Linear Regression: Factors that Determine BMI
 
 - coefficients of interest: 
 - reasoning for fitting the model:
      - other models we considered
      - assessing the validity of conditions
      - variable transformations
-
-We are interested in exploring how demographics (specifically race), various behaviors (smoking, physical activity, alcohol consumption, sleep), and health conditions (diabetes, heart disease, asthma) affect an individual's BMI. Given that `bmi` is a numeric outcome variable, we created the following multiple linear regression model to examine how these factors correlate with BMI:
-
 - forward vs. backward selection
 - AIC & BIC
+
+We are interested in exploring how demographics, various behaviors, and health conditions affect an individual's BMI. Given that `bmi` is a continuous outcome variable, we used a multiple linear regression to examine its association with demographic, behavioral, and health-related factors.
+
+We began with a full model that included race, behavioral variables (smoking, physical activity, alcohol consumption, sleep), and health conditions (diabetes, heart disease, asthma, skin cancer) as predictors. `race` was included as a categorical variable with White as the reference category. Similarly, `age_category` was included as a categorical variable with ages 18-24 as the reference category. To assess whether this model was appropriate, we evaluated standard linear regression assumptions using diagnostic plots:
 
 ```{r}
 #| include: false
@@ -37,6 +38,9 @@ heartdisease <- readRDS("../disease_data/heart-prepared.RDS")
 
 # relevel data to make sure that "White" in raceWhite is used as the baseline
 heartdisease$race <- relevel(factor(heartdisease$race), ref = "White")
+
+# relevel data to make youngest age category as baseline
+heartdisease$age_category <- relevel(factor(heartdisease$age_category), ref = "18-24")
 
 # create MLR
 mlr_model <- lm(
