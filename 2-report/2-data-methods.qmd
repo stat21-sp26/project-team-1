@@ -114,8 +114,13 @@ heartdisease %>%
     "Asian" = "skyblue",
     "Black" = "orange",
     "Hispanic" = "lightsalmon",
-    "Other" = "plum")
-    )
+    "Other" = "plum"),
+    labels = c(
+      "American Indian/Alaskan Native" = "Native American"
+      )
+    ) +
+  scale_x_discrete(labels = c(
+  "American Indian/Alaskan Native" = "Native American"))
 ```
 
 ```{r}
