@@ -38,11 +38,12 @@ The following model served as the starting point for evaluating model assumption
 # loading data
 heartdisease <- readRDS("../disease_data/heart-prepared.RDS")
 
-# relevel data to make sure that "White" in raceWhite is used as the baseline
+# relevel data to set baselines for some predictors
 heartdisease$race <- relevel(factor(heartdisease$race), ref = "White")
 
-# relevel data to make youngest age category as baseline
 heartdisease$age_category <- relevel(factor(heartdisease$age_category), ref = "18-24")
+
+heartdisease$gen_health <- relevel(factor(heartdisease$gen_health), ref = "Poor")
 
 # create MLR: first model
 first_mlr <- lm(
