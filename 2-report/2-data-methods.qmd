@@ -89,7 +89,21 @@ heartdisease %>%
   filter(!is.na(race), !is.na(bmi)) %>%
   ggplot() +
   aes(x = race, y = bmi, fill = race) +
-  geom_boxplot()
+  geom_boxplot() +
+  labs(
+    x = "Race",
+    y = "BMI",
+    fill = "Race"
+  ) +
+  theme_classic() +
+  scale_fill_manual(values = c(
+    "White" = "antiquewhite",
+    "American Indian/Alaskan Native" = "tomato",
+    "Asian" = "skyblue",
+    "Black" = "orange",
+    "Hispanic" = "lightsalmon",
+    "Other" = "plum")
+    )
 ```
 
 ```{r}
