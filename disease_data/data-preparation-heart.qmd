@@ -195,8 +195,8 @@ heart_data <- heart_data %>%
 ```{r}
 # ordering variables
 
-heartdisease$gen_health <- factor(
-  heartdisease$gen_health, 
+heart_data$gen_health <- factor(
+  heart_data$gen_health, 
   levels = c("Poor", "Fair", "Good", "Very Good", "Excellent")
 ```
 
