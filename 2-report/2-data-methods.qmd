@@ -50,16 +50,9 @@ first_mlr <- lm(
   bmi ~ .,
   data = heartdisease
 )
-
-summary(first_mlr)
 ```
 
-$$
-BMI_i = \beta_0 + \beta_1raceNativeAmerican_i + \beta_2raceAsian_i + \\ \beta_3raceBlack_i + \beta_4raceHispanic_i + \beta_5raceOther_i
-+ \beta_6Smoking_i + \\ \beta_7PhysicalActivity_i + \beta_8Alcohol_i + \\ \beta_9Sleep_i + \beta_{10}Diabetes_i + \beta_{11}HeartDisease_i
-$$
-
-**Initial Model Diagnostics and Assumptions**
+**Initial Model Diagnostics and Assumptions** MAKE IT FOR FINAL MODEL INSTEAD!
 
 We assessed the assumptions of linear regression using standard diagnostic plots. Linearity and homoscedasticity were evaluated using a residuals versus fitted values plot (@fig-diagnostic-1). The homoscedasticity assumption is violated, as prediction error increases significantly at higher BMI values.
 
@@ -69,40 +62,14 @@ We also examined potential influential observations using a residuals versus lev
 
 Lastly, we assessed multicollinearity by calculating variance inflation factors (VIFs) [**insert figure**].
 
-```{r}
-#| echo: false
-#| label: fig-diagnostic-1
-
-# residual vs. fitted plot
-
-plot(first_mlr, which = 1)
-```
-
-```{r}
-#| echo: false
-#| label: fig-diagnostic-2
-
-# Q-Q plot
-
-plot(first_mlr, which = 2)
-```
-
-```{r}
-#| echo: false
-#| label: fig-diagnostic-3
-
-# residuals vs leverage plot
-
-plot(first_mlr, which = 3)
 ```
 
 ```{r}
 #| echo: false
 
 # vif -> package & how to make table? needed?
-
+  # can just report in a sentence!
 ```
-
 
 **Model Selecion**
 
@@ -114,11 +81,10 @@ n <-nrow(heartdisease)
 train_indices <- sample(1:n, size = round(0.80 * n))
 
 # add indices to data
-heartdisease <- heartdisease %>% 
-  mutate(
-    row_id = row_number(),
-    set = ifelse(row_id %in% train_indices, "train", "test")
-  )
+heartdisease <- heartdisease %>% mutate(
+  row_id = row_number(),
+  set = ifelse(row_id %in% train_indices, "train", "test")
+)
 
 # filter train data
 heart_train <- heartdisease %>% 
