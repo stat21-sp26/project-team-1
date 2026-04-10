@@ -43,24 +43,41 @@ TO DO:
 
 #### BMI and Predictors
 
+The distribution of BMI (@fig-bmi-hist) shows a strong right-skew. Most observations are clustered between 25 and 30, but a few outliers extend to 60. This non-normality suggests that a standard linear model might be biased by extreme values.
+
 ```{r}
-#| include: false
+#| echo: false
 #| label: fig-bmi-hist
 
 heartdisease %>% 
   ggplot() +
   aes(x = bmi) +
-  geom_histogram()
+  geom_histogram(na.rm = TRUE, fill = "skyblue", color = "black") +
+  geom_vline(xintercept = mean(heartdisease$bmi, na.rm = TRUE),
+             color = "red") +
+  labs(
+    x = "BMI",
+    y = "Count"
+  ) +
+  theme_classic()
 
 # bmi is slightly right-skewed
 
-heartdisease %>% 
-  ggplot() +
-  aes( x = log(bmi)) +
-  geom_histogram()
-
 # log(bmi) is less skewed
 ```
+
+
+```{r}
+#| echo: false
+
+summary(heartdisease$bmi)
+# min = 15
+# median = 27.32
+# mean = 28.28
+# max = 59.97
+```
+
+
 
 ```{r}
 #| echo: false
@@ -122,6 +139,7 @@ heartdisease %>%
   scale_x_discrete(labels = c(
   "American Indian/Alaskan Native" = "Native American"))
 ```
+
 
 ```{r}
 # correlations
