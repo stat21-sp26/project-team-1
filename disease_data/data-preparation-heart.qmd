@@ -168,7 +168,8 @@ heart_data <- heart_data %>%
     asthma = as_factor(asthma),
     kidney_disease = as_factor(kidney_disease),
     skin_cancer = as_factor(skin_cancer),
-    sex = as_factor(sex)
+    sex = as_factor(sex),
+    diabetic = as_factor(diabetic)
   )
 
 # changing age_category
