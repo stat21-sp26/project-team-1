@@ -192,6 +192,14 @@ heart_data <- heart_data %>%
   )
 ```
 
+```{r}
+# ordering variables
+
+heartdisease$gen_health <- factor(
+  heartdisease$gen_health, 
+  levels = c("Poor", "Fair", "Good", "Very Good", "Excellent")
+```
+
 ## Save Data
 
 In the following chunk, we save our dataset as an RDS file using the function `saveRDS()`. 
