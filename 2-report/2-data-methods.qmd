@@ -58,15 +58,28 @@ $$
 BMI_i = \beta_0 + \beta_1raceNativeAmerican_i + \beta_2raceAsian_i + \\ \beta_3raceBlack_i + \beta_4raceHispanic_i + \beta_5raceOther_i
 + \beta_6Smoking_i + \\ \beta_7PhysicalActivity_i + \beta_8Alcohol_i + \\ \beta_9Sleep_i + \beta_{10}Diabetes_i + \beta_{11}HeartDisease_i
 $$
+
 **Initial Model Diagnostics and Assumptions**
 
-We assessed the assumptions of linear regression using standard diagnostic plots [**insert figure**]. Linearity and homoscedasticity were evaluated using a residuals versus fitted values plot [**insert figure**].
+We assessed the assumptions of linear regression using standard diagnostic plots. Linearity and homoscedasticity were evaluated using a residuals versus fitted values plot (@fig-diagnostic-1).
 
 Normality of residuals was assessed through a Q-Q plot [**insert figure**].
 
 We also examined potential influential observations using a residuals versus leverage plot [**insert figure**].
 
 Lastly, we assessed multicollinearity by calculating variance inflation factors (VIFs) [**insert figure**].
+
+```{r}
+#| echo: false
+#| label: fig-diagnostic-1
+
+# diagnostic plots
+
+plot(first_mlr, which = 1)
+```
+
+**Model Selecion**
+
 
 **Assumptions**
 1) binary dependent variable
