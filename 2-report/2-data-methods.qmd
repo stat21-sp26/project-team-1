@@ -61,9 +61,9 @@ $$
 
 **Initial Model Diagnostics and Assumptions**
 
-We assessed the assumptions of linear regression using standard diagnostic plots. Linearity and homoscedasticity were evaluated using a residuals versus fitted values plot (@fig-diagnostic-1).
+We assessed the assumptions of linear regression using standard diagnostic plots. Linearity and homoscedasticity were evaluated using a residuals versus fitted values plot (@fig-diagnostic-1). The homoscedasticity assumption is violated, as prediction error increases significantly at higher BMI values.
 
-Normality of residuals was assessed through a Q-Q plot [**insert figure**].
+Next, normality of residuals was assessed through a Q-Q plot [**insert figure**].
 
 We also examined potential influential observations using a residuals versus leverage plot [**insert figure**].
 
@@ -78,7 +78,41 @@ Lastly, we assessed multicollinearity by calculating variance inflation factors 
 plot(first_mlr, which = 1)
 ```
 
+```{r}
+#| echo: false
+#| label: fig-diagnostic-2
+
+# Q-Q plot
+
+plot(first_mlr, which = 2)
+```
+
 **Model Selecion**
+
+```{r}
+set.seed(1234)
+
+# 80% of data
+n <-nrow(heartdisease)
+train_indices <- sample(1:n, size = round(0.80 * n))
+
+# add indices to data
+heartdisease <- heartdisease %>% 
+  mutate(
+    row_id = row_number(),
+    set = ifelse(row_id %in% train_indices, "train", "test")
+  )
+
+# filter train data
+heart_train <- heartdisease %>% 
+  filter(set == "train") %>% 
+  select(-row_id, -set)
+
+# filter test data
+heart_test <- heartdisease %>% 
+  filter(set == "test") %>% 
+  select(-row_id, -set)
+```
 
 
 **Assumptions**
