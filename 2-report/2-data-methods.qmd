@@ -51,29 +51,7 @@ heartdisease %>%
 ```
 
 ```{r}
-#| include: false
-#| label: fig-bmi-genhealth
-
-heartdisease %>% 
-  filter(!is.na(gen_health), !is.na(bmi)) %>%
-  ggplot() +
-  aes(x = gen_health, y = bmi, fill = gen_health) +
-  geom_boxplot()
-```
-
-```{r}
-#| include: false
-#| label: fig-bmi-sex
-
-heartdisease %>% 
-  filter(!is.na(sex), !is.na(bmi)) %>%
-  ggplot() +
-  aes(x = sex, y = bmi, fill = sex) +
-  geom_boxplot()
-```
-
-```{r}
-#| include: false
+#| echo: false
 #| label: fig-bmi-age
 
 heartdisease %>% 
@@ -83,86 +61,9 @@ heartdisease %>%
   geom_boxplot()
 ```
 
-```{r}
-#| include: false
-#| label: fig-bmi-heartdisease
-
-heartdisease %>% 
-  filter(!is.na(heart_disease), !is.na(bmi)) %>%
-  ggplot() +
-  aes(x = heart_disease, y = bmi, fill = heart_disease) +
-  geom_boxplot()
-```
 
 ```{r}
-#| include: false
-#| label: fig-bmi-alcohol
-
-heartdisease %>% 
-  filter(!is.na(alcohol_drinking), !is.na(bmi)) %>%
-  ggplot() +
-  aes(x = alcohol_drinking, y = bmi, fill = alcohol_drinking) +
-  geom_boxplot()
-```
-
-```{r}
-#| include: false
-#| label: fig-bmi-smoke
-
-heartdisease %>% 
-  filter(!is.na(smoking), !is.na(bmi)) %>%
-  ggplot() +
-  aes(x = smoking, y = bmi, fill = smoking) +
-  geom_boxplot()
-```
-
-```{r}
-#| include: false
-#| label: fig-bmi-kidney
-
-heartdisease %>% 
-  filter(!is.na(kidney_disease), !is.na(bmi)) %>%
-  ggplot() +
-  aes(x = kidney_disease, y = bmi, fill = kidney_disease) +
-  geom_boxplot()
-```
-
-```{r}
-#| include: false
-#| label: fig-bmi-smoke
-
-heartdisease %>% 
-  filter(!is.na(smoking), !is.na(bmi)) %>%
-  ggplot() +
-  aes(x = smoking, y = bmi, fill = smoking) +
-  geom_boxplot()
-```
-
-```{r}
-#| include: false
-#| label: fig-bmi-stroke
-
-heartdisease %>% 
-  filter(!is.na(stroke), !is.na(bmi)) %>%
-  ggplot() +
-  aes(x = stroke, y = bmi, fill = stroke) +
-  geom_boxplot()
-
-```
-
-```{r}
-#| include: false
-#| label: fig-bmi-diabetic
-
-heartdisease %>% 
-  filter(!is.na(diabetic), !is.na(bmi)) %>%
-  ggplot() +
-  aes(x = diabetic, y = bmi, fill = diabetic) +
-  geom_boxplot()
-```
-
-```{r}
-#| include: false
+#| echo: false
 #| label: fig-bmi-race
 
 heartdisease %>% 
@@ -173,52 +74,22 @@ heartdisease %>%
 ```
 
 ```{r}
-#| include: false
-#| label: fig-bmi-phys-act
+# correlations
 
-heartdisease %>% 
-  filter(!is.na(physical_activity), !is.na(bmi)) %>%
-  ggplot() +
-  aes(x = physical_activity, y = bmi, fill = physical_activity) +
-  geom_boxplot()
+cor(heartdisease$sleep_time, heartdisease$bmi, use = "complete.obs") # -0.05622031
+
+cor(heartdisease$physical_health, heartdisease$bmi, use = "complete.obs") # 0.1069033
+
+cor(heartdisease$mental_health, heartdisease$bmi, use = "complete.obs") #0.06191527
 ```
 
 ```{r}
-#| include: false
-#| label: fig-bmi-asthma
+# interactions?
 
-heartdisease %>% 
-  filter(!is.na(asthma), !is.na(bmi)) %>%
-  ggplot() +
-  aes(x = asthma, y = bmi, fill = asthma) +
-  geom_boxplot()
+aggregate(bmi ~ sleep_time, data = heartdisease, FUN = mean)
+
 ```
 
-```{r}
-#| include: false
-#| label: fig-bmi-walking
-
-heartdisease %>% 
-  filter(!is.na(diff_walking), !is.na(bmi)) %>%
-  ggplot() +
-  aes(x = diff_walking, y = bmi, fill = diff_walking) +
-  geom_boxplot()
-```
-
-```{r}
-#| include: false
-#| label: fig-bmi-skin
-
-heartdisease %>% 
-  filter(!is.na(skin_cancer), !is.na(bmi)) %>%
-  ggplot() +
-  aes(x = skin_cancer, y = bmi, fill = skin_cancer) +
-  geom_boxplot()
-```
-
-```{r}
-# for numeric predictors
-```
 
 ### Statistical Methods
 
