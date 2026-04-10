@@ -138,7 +138,22 @@ best_mlr_bwd <- bestglm(heart_train, family = gaussian,
 ```
 
 ```{r}
+# table comparison of best models
 
+all_vars <- colnames(heart_train)[-ncol(heart_train)]
+
+comparison_mlr <- tibble(
+  Variable = all_vars,
+  Exhaustive = all_vars %in% names(coef(best_mlr_bic$BestModel)),
+  Forward = all_vars %in% names(coef(best_mlr_fwd$BestModel)),
+  Backward = all_vars %in% names(coef(best_mlr_bwd$BestModel))
+)
+
+comparison_mlr %>% 
+  mutate(across(where(is.logical), ifelse(., "X", "-"))) %>% 
+  kable(align = "clll", caption = "Comparison of Variables Selected by Search Method") %>% 
+  kable_styling(bootstrap_options = c("striped", "hover")) %>% 
+  column_spec(1, bold = TRUE)
 ```
 
 **Assumptions**
