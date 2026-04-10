@@ -73,7 +73,7 @@ Lastly, we assessed multicollinearity by calculating variance inflation factors 
 #| echo: false
 #| label: fig-diagnostic-1
 
-# diagnostic plots
+# residual vs. fitted plot
 
 plot(first_mlr, which = 1)
 ```
