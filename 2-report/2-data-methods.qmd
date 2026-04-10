@@ -270,11 +270,11 @@ plot(best_mlr_bwd, scale = "adjr2")
 
 **Initial Model Diagnostics and Assumptions** MAKE IT FOR FINAL MODEL INSTEAD!
 
-We assessed the assumptions of linear regression using standard diagnostic plots. Linearity and homoscedasticity were evaluated using a residuals versus fitted values plot (@fig-diagnostic-1). The homoscedasticity assumption is violated, as prediction error increases significantly at higher BMI values.
+We assessed the assumptions of linear regression using standard diagnostic plots. Linearity and homoscedasticity were evaluated using a residuals versus fitted values plot. The homoscedasticity assumption is violated, as prediction error increases significantly at higher BMI values.
 
-Next, normality of residuals was assessed through a Q-Q plot (@fig-diagnostic-2).
+Next, normality of residuals was assessed through a Q-Q plot.
 
-We also examined potential influential observations using a residuals versus leverage plot (@fig-diagnostic-3).
+We also examined potential influential observations using a residuals versus leverage plot.
 
 Lastly, we assessed multicollinearity by calculating variance inflation factors (VIFs) [**insert figure**].
 
