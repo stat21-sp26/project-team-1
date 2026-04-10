@@ -99,9 +99,8 @@ plot(first_mlr, which = 3)
 ```{r}
 #| echo: false
 
-vif(first_mlr)
+# vif -> package & how to make table? needed?
 
-# how to make it into a table? needed?
 ```
 
 
