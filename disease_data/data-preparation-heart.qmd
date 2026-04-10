@@ -197,7 +197,8 @@ heart_data <- heart_data %>%
 
 heart_data$gen_health <- factor(
   heart_data$gen_health, 
-  levels = c("Poor", "Fair", "Good", "Very Good", "Excellent")
+  levels = c("Poor", "Fair", "Good", "Very Good", "Excellent"))
+
 ```
 
 ## Save Data
