@@ -2,6 +2,20 @@
 
 <!-- If you use a single dataset, use this structure -->
 ### Data
+
+```{r}
+# loading data
+heartdisease <- readRDS("../disease_data/heart-prepared.RDS")
+
+# relevel data to set baselines for some predictors
+heartdisease$race <- relevel(factor(heartdisease$race), ref = "White")
+
+heartdisease$age_category <- relevel(factor(heartdisease$age_category), ref = "18-24")
+
+heartdisease$gen_health <- relevel(factor(heartdisease$gen_health), ref = "Poor")
+
+```
+
 The current dataset on crucial indicators for heart disease from patients in the United States (2022) is sourced from the following website hosted by Kaggle: <https://www.kaggle.com/datasets/kamilpytlak/personal-key-indicators-of-heart-disease>. The dataset originally comes from the Centers for Disease Control and Prevention (CDC) and is a part of the Behavioral Risk Factor Surveillance System (BRFSS). It was originally collected by the CDC and BRFSS to gather data on the health status of U.S. residents across all 50 states, the District of Columbia, and 3 U.S. territories. To download the dataset, scroll to the end of the "About Dataset" section and click the download icon (an arrow pointing down). The dataset was downloaded on February 22, 2026.
 
 The raw dataset contains 319795 observations, each representing an individual surveyed through the BRFSS in 2022. Each individual answered a series of questions regarding their health. Eighteen variables were recorded for each individual, including identity characteristics (e.g., sex and race) and indicators of overall cardiovascular health, such as BMI, smoking status, mental health, and diabetes status.
@@ -28,22 +42,12 @@ TO DO:
 
 We are interested in exploring how demographics, various behaviors, and health conditions affect an individual's BMI. Given that `bmi` is a continuous outcome variable, we used a multiple linear regression to examine its association with demographic, behavioral, and health-related factors.
 
-We began with a full model that included demographics (race, sex, age), behavioral variables (smoking, physical activity, alcohol consumption, sleep), and health conditions (general health, mental health, stroke, difficulty walking, diabetes, heart disease, asthma, skin cancer) as predictors. The categorical variables `race`, `age_category`, and `diff_walking` were included with White, 18-24, and Poor respectively as the reference categories.
+We began with a full model that included demographics (race, sex, age), behavioral variables (smoking, physical activity, alcohol consumption, sleep), and health conditions (general health, mental health, stroke, difficulty walking, diabetes, heart disease, asthma, skin cancer) as predictors. The categorical variables `race`, `age_category`, and `diff_walking` were included with White, 18-24, and Poor respectively as the reference categories. Furthermore, 
 
 The following model served as the starting point for evaluating model assumptions and conducting model selection:
 
 ```{r}
 #| include: false
-
-# loading data
-heartdisease <- readRDS("../disease_data/heart-prepared.RDS")
-
-# relevel data to set baselines for some predictors
-heartdisease$race <- relevel(factor(heartdisease$race), ref = "White")
-
-heartdisease$age_category <- relevel(factor(heartdisease$age_category), ref = "18-24")
-
-heartdisease$gen_health <- relevel(factor(heartdisease$gen_health), ref = "Poor")
 
 # create MLR: first model
 first_mlr <- lm(
@@ -62,13 +66,19 @@ We also examined potential influential observations using a residuals versus lev
 
 Lastly, we assessed multicollinearity by calculating variance inflation factors (VIFs) [**insert figure**].
 
-```
-
 ```{r}
 #| echo: false
 
+# create MLR: first model
+first_mlr <- lm(
+  bmi ~ .,
+  data = heartdisease
+)
 # vif -> package & how to make table? needed?
   # can just report in a sentence!
+
+library(car)
+vif(first_mlr)
 ```
 
 **Model Selecion**
@@ -98,45 +108,61 @@ heart_test <- heartdisease %>%
 ```
 
 ```{r}
-library(bestglm)
 
-heart_train <- heart_train %>% 
-  relocate(bmi, .after = last_col())
+# heart_train <- heart_train %>% 
+#   relocate(bmi, .after = last_col()) %>% 
+#   drop_na() %>% 
+#   as.data.frame() 
 
-# best subset selection using BIC
-best_mlr_bic <- bestglm(heart_train, family = gaussian, IC = "BIC")
-
-# best subset selection using BIC
-best_mlr_aic <- bestglm(heart_train, family = gaussian, IC = "AIC")
 ```
+
+```{r}
+# All subset selection
+
+
+best_mlr_all_sub <- regsubsets(bmi ~ .,
+                         nvmax = 17,
+                         data = heart_train)
+
+```
+
+```{r}
+plot(best_mlr_all_sub, scale = "adjr2")
+
+```
+
 
 ```{r}
 # forward selection
-best_mlr_fwd <- bestglm(heart_train, family = gaussian,
-                        IC = "BIC", method = "forward")
+# best_mlr_fwd <- bestglm(heart_train, family = gaussian,
+#                         IC = "BIC", method = "forward")
 
-# backward selection
-best_mlr_bwd <- bestglm(heart_train, family = gaussian,
-                        IC = "BIC", method = "backward")
+best_mlr_fwd <- regsubsets(bmi ~ .,
+                         method = "forward",
+                         nvmax = 17,
+                         data = heart_train)
+
+
+
 ```
 
 ```{r}
-# table comparison of best models
+plot(best_mlr_fwd, scale = "adjr2")
+```
 
-all_vars <- colnames(heart_train)[-ncol(heart_train)]
+```{r}
+# backward selection
+# best_mlr_bwd <- bestglm(heart_train, family = gaussian,
+#                         IC = "BIC", method = "backward")
 
-comparison_mlr <- tibble(
-  Variable = all_vars,
-  Exhaustive = all_vars %in% names(coef(best_mlr_bic$BestModel)),
-  Forward = all_vars %in% names(coef(best_mlr_fwd$BestModel)),
-  Backward = all_vars %in% names(coef(best_mlr_bwd$BestModel))
-)
+best_mlr_bwd <- regsubsets(bmi ~ .,
+                         method = "backward",
+                         nvmax = 17,
+                         data = heart_train)
+```
 
-comparison_mlr %>% 
-  mutate(across(where(is.logical), ifelse(., "X", "-"))) %>% 
-  kable(align = "clll", caption = "Comparison of Variables Selected by Search Method") %>% 
-  kable_styling(bootstrap_options = c("striped", "hover")) %>% 
-  column_spec(1, bold = TRUE)
+```{r}
+plot(best_mlr_bwd, scale = "adjr2")
 ```
 
 **Assumptions**
