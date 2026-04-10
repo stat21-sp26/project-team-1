@@ -41,6 +41,13 @@ heartdisease %>%
   geom_histogram()
 
 # bmi is slightly right-skewed
+
+heartdisease %>% 
+  ggplot() +
+  aes( x = log(bmi)) +
+  geom_histogram()
+
+# log(bmi) is less skewed
 ```
 
 ```{r}
@@ -52,6 +59,95 @@ heartdisease %>%
   ggplot() +
   aes(x = gen_health, y = bmi, fill = gen_health) +
   geom_boxplot()
+```
+
+```{r}
+#| include: false
+#| label: fig-bmi-sex
+
+heartdisease %>% 
+  filter(!is.na(sex), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = sex, y = bmi, fill = sex) +
+  geom_boxplot()
+```
+
+```{r}
+#| include: false
+#| label: fig-bmi-age
+
+heartdisease %>% 
+  filter(!is.na(age_category), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = age_category, y = bmi, fill = age_category) +
+  geom_boxplot()
+```
+
+```{r}
+#| include: false
+#| label: fig-bmi-heartdisease
+
+heartdisease %>% 
+  filter(!is.na(heart_disease), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = heart_disease, y = bmi, fill = heart_disease) +
+  geom_boxplot()
+```
+
+```{r}
+#| include: false
+#| label: fig-bmi-alcohol
+
+heartdisease %>% 
+  filter(!is.na(alcohol_drinking), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = alcohol_drinking, y = bmi, fill = alcohol_drinking) +
+  geom_boxplot()
+```
+
+```{r}
+#| include: false
+#| label: fig-bmi-smoke
+
+heartdisease %>% 
+  filter(!is.na(smoking), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = smoking, y = bmi, fill = smoking) +
+  geom_boxplot()
+```
+
+```{r}
+#| include: false
+#| label: fig-bmi-kidney
+
+heartdisease %>% 
+  filter(!is.na(kidney_disease), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = kidney_disease, y = bmi, fill = kidney_disease) +
+  geom_boxplot()
+```
+
+```{r}
+#| include: false
+#| label: fig-bmi-smoke
+
+heartdisease %>% 
+  filter(!is.na(smoking), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = smoking, y = bmi, fill = smoking) +
+  geom_boxplot()
+```
+
+```{r}
+#| include: false
+#| label: fig-bmi-genhealth
+
+heartdisease %>% 
+  filter(!is.na(gen_health), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = gen_health, y = bmi, fill = gen_health) +
+  geom_boxplot()
+
 ```
 
 ### Statistical Methods
