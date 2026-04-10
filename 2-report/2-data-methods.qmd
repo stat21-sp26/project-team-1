@@ -114,6 +114,32 @@ heart_test <- heartdisease %>%
   select(-row_id, -set)
 ```
 
+```{r}
+library(bestglm)
+
+heart_train <- heart_train %>% 
+  relocate(bmi, .after = last_col())
+
+# best subset selection using BIC
+best_mlr_bic <- bestglm(heart_train, family = gaussian, IC = "BIC")
+
+# best subset selection using BIC
+best_mlr_aic <- bestglm(heart_train, family = gaussian, IC = "AIC")
+```
+
+```{r}
+# forward selection
+best_mlr_fwd <- bestglm(heart_train, family = gaussian,
+                        IC = "BIC", method = "forward")
+
+# backward selection
+best_mlr_bwd <- bestglm(heart_train, family = gaussian,
+                        IC = "BIC", method = "backward")
+```
+
+```{r}
+
+```
 
 **Assumptions**
 1) binary dependent variable
