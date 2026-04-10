@@ -140,14 +140,88 @@ heartdisease %>%
 
 ```{r}
 #| include: false
-#| label: fig-bmi-genhealth
+#| label: fig-bmi-stroke
 
 heartdisease %>% 
-  filter(!is.na(gen_health), !is.na(bmi)) %>%
+  filter(!is.na(stroke), !is.na(bmi)) %>%
   ggplot() +
-  aes(x = gen_health, y = bmi, fill = gen_health) +
+  aes(x = stroke, y = bmi, fill = stroke) +
   geom_boxplot()
 
+```
+
+```{r}
+#| include: false
+#| label: fig-bmi-diabetic
+
+heartdisease %>% 
+  filter(!is.na(diabetic), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = diabetic, y = bmi, fill = diabetic) +
+  geom_boxplot()
+```
+
+```{r}
+#| include: false
+#| label: fig-bmi-race
+
+heartdisease %>% 
+  filter(!is.na(race), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = race, y = bmi, fill = race) +
+  geom_boxplot()
+```
+
+```{r}
+#| include: false
+#| label: fig-bmi-phys-act
+
+heartdisease %>% 
+  filter(!is.na(physical_activity), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = physical_activity, y = bmi, fill = physical_activity) +
+  geom_boxplot()
+```
+
+```{r}
+#| include: false
+#| label: fig-bmi-asthma
+
+heartdisease %>% 
+  filter(!is.na(asthma), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = asthma, y = bmi, fill = asthma) +
+  geom_boxplot()
+```
+
+```{r}
+#| include: false
+#| label: fig-bmi-walking
+
+heartdisease %>% 
+  filter(!is.na(diff_walking), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = diff_walking, y = bmi, fill = diff_walking) +
+  geom_boxplot()
+```
+
+```{r}
+#| include: false
+#| label: fig-bmi-skin
+
+heartdisease %>% 
+  filter(!is.na(skin_cancer), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = skin_cancer, y = bmi, fill = skin_cancer) +
+  geom_boxplot()
+```
+
+```{r}
+heartdisease %>% 
+  ggplot() +
+  aes(x = sleep_time, y = bmi) +
+  geom_point(alpha = 0.1) +
+  geom_smooth(method = "lm", color = "red")
 ```
 
 ### Statistical Methods
