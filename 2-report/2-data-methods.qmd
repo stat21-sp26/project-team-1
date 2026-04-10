@@ -4,6 +4,18 @@
 ### Data
 
 ```{r}
+#| include: false
+# loading libraries
+
+library(tidyverse)
+library(tidyr)
+library(kableExtra)
+library(bestglm)
+library(car)
+
+```
+
+```{r}
 # loading data
 heartdisease <- readRDS("../disease_data/heart-prepared.RDS")
 
