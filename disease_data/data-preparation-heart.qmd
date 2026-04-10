@@ -154,6 +154,44 @@ heart_data <- heart_data %>%
 
 We simplified the `diabetic` variable by combining related categories into two groups: "No" (including borderline diabetes) and "Yes" (including diabetes during pregnancy). We then recoded the variable into numeric form, where "Yes" is represented as 1 and "No" as 0. This creates a clear binary variable that is easier to use in analysis and modeling.
 
+[Mutating Binary and Categorical Variables]{.underline}
+
+```{r}
+heart_data <- heart_data %>% 
+  mutate(
+    heart_disease = as_factor(heart_disease),
+    smoking = as_factor(smoking),
+    alcohol_drinking = as_factor(alcohol_drinking),
+    stroke = as_factor(stroke),
+    diff_walking = as_factor(diff_walking),
+    physical_activity = as_factor(physical_activity),
+    asthma = as_factor(asthma),
+    kidney_disease = as_factor(kidney_disease),
+    skin_cancer = as_factor(skin_cancer),
+    sex = as_factor(sex)
+  )
+
+# changing age_category
+heart_data <- heart_data %>% 
+  mutate(age_category = case_when(
+    age_category %in% c("18-24", "25-29", "30-34") ~ "18-34",
+    age_category %in% c("35-39", "40-44", "45-49", "50-54") ~ "35-54",
+    age_category %in% c("55-59", "60-64", "65-69", "70-74", "75-79", "80 or older") ~ "55 and older"
+  ))
+
+heart_data <- heart_data %>% 
+  mutate(age_category = case_when(
+    age_category == "18-34" ~ 1,
+    age_category == "35-54" ~ 2,
+    age_category == "55 and older" ~ 3
+  ))
+
+heart_data <- heart_data %>%
+  mutate(
+    age_category = as_factor(age_category)
+  )
+```
+
 ## Save Data
 
 In the following chunk, we save our dataset as an RDS file using the function `saveRDS()`. 
