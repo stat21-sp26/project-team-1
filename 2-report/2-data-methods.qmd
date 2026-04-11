@@ -251,6 +251,8 @@ heart_test <- heartdisease %>%
 
 To determine the most effective predictors for BMI while maintaining model parsimony, we performed automated model selection using three distinct algorithmic approaches: (1) all-subset selection, (2) forward stepwise selection, and (3) backward elimination. Each method evaluated models with up to 17 predictors. By comparing these three approaches, we aimed to identify a consistent set of variables that optimize the balance between model complexity and predictive performance.
 
+The final model was selected by comparing the results of all three search strategies using the Bayesian Information Criterion (BIC) (@fig-all-subset, @fig-fwd, @fig-bwd). We prioritized BIC over Adjusted R-squared to ensure model parsimony and to minimize the risk of overfitting.
+
 ```{r}
 #| include: false
 # all-subset selection
@@ -302,7 +304,7 @@ best_mlr_bwd <- regsubsets(bmi ~ .,
 plot(best_mlr_bwd, scale = "bic")
 ```
 
-The final model was selected by comparing the results of all three search strategies using the Bayesian Information Criterion (BIC) (@fig-all-subset, @fig-fwd, @fig-bwd). We prioritized BIC over Adjusted R-squared to ensure model parsimony and to minimize the risk of overfitting. All three algorithms (all-subset, forward, and backward) converged on the same subset of 13 predictors, indicating a highly stable and robust selection. These predictors include the following: `sex`, `race` (specifically Asian and Black), age group (`age_category`, specifically 35-54 and 55+), `smoking`, alcohol consumption (`alcohol_drinking`), `stroke`, difficulty walking (`diff_walking`), `sleep_time`, `diabetic`, `physical_activity`, `general_health`, `asthma`, and `skin_cancer`.
+All three algorithms (all-subset, forward, and backward) converged on the same subset of 13 predictors, indicating a highly stable and robust selection. These predictors include the following: `sex`, `race` (specifically Asian and Black), age group (`age_category`, specifically 35-54 and 55+), `smoking`, alcohol consumption (`alcohol_drinking`), `stroke`, difficulty walking (`diff_walking`), `sleep_time`, `diabetic`, `physical_activity`, `general_health`, `asthma`, and `skin_cancer`.
 
 To satisfy the linear regression assumption of normality (particularly given the right-skewness observed in the raw BMI distribution), the final model was fit using a natural log transformation of BMI (log(`bmi`)). This transformation stabilizes variance and ensures more reliable coefficient estimates. The final model is evaluated through diagnostic plots below.
 
