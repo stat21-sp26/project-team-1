@@ -374,7 +374,7 @@ Linearity and homoscedasticity were evaluated using a residuals versus fitted va
 plot(final_mlr, which = 1)
 ```
 
-Next, normality of residuals was assessed through a Q-Q plot (@fig-mlr-qq).
+Next, normality of residuals was assessed through a Q-Q plot (@fig-mlr-qq). The majority of the standardized residuals follow the theoretical normal line closely. While there is slight "thin-tailing" at the extremes, the distribution of errors is sufficiently normal for robust statistical inference, especially given the large sample size.
 
 ```{r}
 #| echo: false
@@ -383,13 +383,13 @@ Next, normality of residuals was assessed through a Q-Q plot (@fig-mlr-qq).
 plot(final_mlr, which = 2)
 ```
 
-We also examined potential influential observations using a residuals versus leverage plot (@fig-mlr-leverage).
+We also examined potential influential observations using a residuals versus leverage plot (i.e., a Cook's distance plot) (@fig-mlr-leverage). All values remained well below the common threshold of 1.0, indicating that no single observation is unduly biasing the model's estimates.
 
 ```{r}
 #| echo: false
 #| label: fig-mlr-leverage
 
-plot(final_mlr, which = 3)
+plot(final_mlr, which = 4)
 ```
 
 Lastly, we assessed multicollinearity by calculating the General Variance Inflation Factors (GVIFs). All GVIF values were below 2.0, indicating that multicollinearity is not a concern for our final model.
