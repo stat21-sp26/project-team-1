@@ -434,14 +434,42 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(stroke)
 #### Regression Analysis
 
 -   final regression equation
+```{r}
+#| echo: false
+#| tbl-cap: "Logistic Regression Coefficients"
+reg_sum <- summary(final_log_reg)
+
+coefficients <- as.data.frame(reg_sum$coefficients)
+coeff_sorted <- coefficients[order(coefficients$Estimate, decreasing = TRUE), ]
+
+coeff_sorted |> kable() |>
+  kable_styling() |>
+  row_spec(which(coeff_sorted$Estimate >= 0),  background = "#e6ffe6") |>
+  row_spec(which(coeff_sorted$Estimate < 0), background = "#ffe6e6") |>
+  row_spec(which(coeff_sorted$`Pr(>|z|)` > 0.05), background = "gray")
+```
 
 -   interpretation of coefficients
 
 -   odds interpretation (odds ratio, confidence interval)
 
 -   probability interpretation
+```{r}
+#| include: false
 
--   Receiver operating characteristic (ROC) curve
+
+# calculate the odds & probability
+heart_test <- heart_test |>
+  mutate(
+    log_odds = predict(final_log_reg, newdata = heart_test, type = "link"),
+    odds = exp(log_odds),
+    prob = odds / (1 + odds)
+  )
+
+```
+
+
+
 
 ```{r}
 #| echo: false
@@ -481,7 +509,10 @@ topleft <- coords(roc, "best", best.method = "closest.topleft")
 
 ```
 
--   confusion matrix (sensitivity & specificity)
+
+
+:::: {layout="[0.5, 0.4]"}
+:::{#plot1}
 
 ```{r}
 #| echo: false
@@ -500,7 +531,8 @@ colnames(confusion_matrix) <- c("No Heart Disease (Actual)", "Heart Disease (Act
 
 confusion_matrix|> kable()
 ```
-
+:::
+:::{#plot2}
 ```{r}
 #| echo: false
 
@@ -530,6 +562,8 @@ rates_tbl <- data.frame(
 rates_tbl |> kable()
 
 ```
+:::
+::::
 
 ```{=html}
 <!-- 
