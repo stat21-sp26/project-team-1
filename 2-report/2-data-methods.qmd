@@ -68,7 +68,7 @@ heartdisease %>%
 
 
 ```{r}
-#| echo: false
+#| include: false
 
 summary(heartdisease$bmi)
 # min = 15
@@ -77,7 +77,7 @@ summary(heartdisease$bmi)
 # max = 59.97
 ```
 
-
+The boxplot of BMI across age groups (@fig-bmi-age) reveals that the median BMI is highest in the middle-age group (35-54) and slightly lower in the youngest (18-34) and oldest (55+) cohorts. While the interquartile ranges are similar across groups, all three groups exhibit a massive density of high-value outliers, with BMI values extending up to 60. This suggests that extreme BMI values are prevalent regardless of age.
 
 ```{r}
 #| echo: false
@@ -89,9 +89,9 @@ heartdisease %>%
   aes(x = age_category, y = bmi, fill = age_category) +
   geom_boxplot() +
   labs(
-    x = "Age Category",
+    x = "Age Groups",
     y = "BMI",
-    fill = "Age Category"
+    fill = "Age Groups"
   ) +
   theme_classic() +
   scale_fill_manual(values = c(
@@ -109,6 +109,8 @@ heartdisease %>%
   "3" = "55 and older"
 ))
 ```
+
+Comparing BMI across racial groups (@fig-bmi-race) shows noticeable variation in central tendency; Asian individuals display the lowest median BMI and a narrower overall distribution, while Black and Native American individuals show higher median values. Similar to the age categories, every racial group contains a significant number of extreme outliers, indicating a consistent right-skew in the BMI data across all individuals.
 
 ```{r}
 #| echo: false
