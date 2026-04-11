@@ -178,8 +178,36 @@ ggplot(data = disease_data, aes(x = age_category, fill = factor(heart_disease)))
 
 
 [Behavior]{.underline}
+
+
+As we expected, our model predicts that individuals who smoke are at higher risk for heart disease. In particular, their odds of having a heart attack are 1.41 times (95% CI: [1.35, 1.46]) the odds for individuals who do not smoke, holding all other predictors constant (@fig-heartdisease-smoking; @tbl-log-reg-coeffs). Interestingly, alcohol consumption is predicted to have a significant negative effect on the risk of heart disease. Individuals who drink alcohol have 0.70 times (95% CI: [0.64, 0.76]) the odds of heart disease compared to individuals who do not drink alcohol (@fig-heartdisease-alcohol; @tbl-log-reg-coeffs).
+
 ```{r}
 #| echo: false
+#| label: fig-heartdisease-smoking
+
+# SMOKING
+ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(smoking))) +
+  geom_bar(color = "black", position = "fill") + 
+  labs(x = "Heart Disease Status",
+       y = "Count",
+       fill = "Smoker") +
+  scale_x_discrete(labels = c("0" = "No Heart Disease",
+                              "1" = "Heart Disease")) +
+  scale_fill_manual(
+    values = c("0" = "skyblue", "1" = "tomato"),
+    labels = c("No", "Yes")
+  ) +
+  theme_classic() + 
+  theme(legend.position = "bottom")
+
+
+
+```
+
+```{r}
+#| echo: false
+#| label: fig-heartdisease-alcohol
 
 # ALCOHOL
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(alcohol_drinking))) +
@@ -198,46 +226,11 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(alcohol
 ```
 
 </div>
-
-<div>
-
-```{r}
-#| echo: false
-
-# SMOKING
-ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(smoking))) +
-  geom_bar(color = "black", position = "fill") + 
-  labs(x = "Heart Disease Status",
-       y = "Count",
-       fill = "Smoker") +
-  scale_x_discrete(labels = c("0" = "No Heart Disease",
-                              "1" = "Heart Disease")) +
-  scale_fill_manual(
-    values = c("0" = "skyblue", "1" = "tomato"),
-    labels = c("No", "Yes")
-  ) +
-  theme_classic() + 
-  theme(legend.position = "bottom")
-
-
-# PHYSICAL ACTIVITY
-ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(physical_activity))) +
-  geom_bar(color = "black", position = "fill") + 
-  labs(x = "Heart Disease Status",
-       y = "Count",
-       fill = "Physically Active") +
-  scale_x_discrete(labels = c("0" = "No Heart Disease",
-                              "1" = "Heart Disease")) +
-  scale_fill_manual(
-    values = c("0" = "skyblue", "1" = "tomato"),
-    labels = c("No", "Yes")
-  ) +
-  theme_classic() + 
-  theme(legend.position = "bottom")
-```
-
-</div>
 ::::::
+
+
+[Medical Conditions]{.underline}
+
 
 :::::: {layout="[0.3, 0.3, 0.3]"}
 <div>

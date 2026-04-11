@@ -514,6 +514,27 @@ ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease),
 
 ```
 
+
+
+```{r}
+#| echo: false
+
+# PHYSICAL ACTIVITY
+ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(physical_activity))) +
+  geom_bar(color = "black", position = "fill") + 
+  labs(x = "Heart Disease Status",
+       y = "Count",
+       fill = "Physically Active") +
+  scale_x_discrete(labels = c("0" = "No Heart Disease",
+                              "1" = "Heart Disease")) +
+  scale_fill_manual(
+    values = c("0" = "skyblue", "1" = "tomato"),
+    labels = c("No", "Yes")
+  ) +
+  theme_classic() + 
+  theme(legend.position = "bottom")
+```
+
 :::::: {layout="[0.3, 0.3, 0.3]"}
 <div>
 
