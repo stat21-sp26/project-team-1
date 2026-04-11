@@ -5,6 +5,7 @@
 library(tidyverse)
 library(tidyr)
 library(kableExtra)
+library(pROC)
 
 # load data
 disease_data <- readRDS("../disease_data/disease-prepared.RDS")
@@ -440,9 +441,95 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(stroke)
 
 -   probability interpretation
 
+-   Receiver operating characteristic (ROC) curve
+
+```{r}
+#| echo: false
+#| label: fig-roc
+#| fig-cap: "Receiver Operating Characteristic (ROC) Curve"
+
+# calculate predicted probabilities
+prob <- predict(final_log_reg, newdata = heart_test, type = "response")
+
+roc <- roc(heart_test$heart_disease, prob)
+df <- data.frame(sensitivity = roc$sensitivities, specificity = roc$specificities)
+
+ggplot(data = df, aes(x = 1 - specificity, y = sensitivity)) +
+  geom_point() +
+  labs(
+    x = "1 - Specificity (False Positive Rate)",
+    y = "Sensitivity (True Positive Rate)") + 
+  geom_abline(slope = 1,
+              intercept = 0, 
+              linetype = "dashed", 
+              color = "steelblue") +
+  theme_classic()
+
+
+# calculate the Area Under the Curve
+auc(roc) # 0.8292
+
+# pick a threshold
+# Method 1: Youden's J statistic (maximum vertical distance between ROC curve & diagonal line)
+  # maximises the diff between true positive rate & false positive rate
+youden <- coords(roc, "best", best.method = "youden")
+  # threshold = 0.09886
+
+# Method 2: threshold closest to (0, 1) (perfect classification)
+topleft <- coords(roc, "best", best.method = "closest.topleft")
+  # threshold = 0.1161
+
+```
+
 -   confusion matrix (sensitivity & specificity)
 
--   Receiver operating characteristic (ROC) curve
+```{r}
+#| echo: false
+#| tbl-cap: "Confusion Matrix for Predicted Heart Disease Outcomes on Test Data"
+
+
+# classify heart disease based on probability
+threshold <- youden$threshold
+pred_class <- ifelse(prob > threshold, 1, 0)
+
+# create confusion matrix
+confusion_matrix <- table(Predicted = pred_class, Actual = heart_test$heart_disease) 
+
+rownames(confusion_matrix) <- c("No Heart Disease (Pred)", "Heart Disease (Pred)")
+colnames(confusion_matrix) <- c("No Heart Disease (Actual)", "Heart Disease (Actual)")
+
+confusion_matrix|> kable()
+```
+
+```{r}
+#| echo: false
+
+# calculate true positive, false positive, false negative, and true negative rates
+TN <- confusion_matrix[1, 1]
+FN <- confusion_matrix[1, 2]
+FP <- confusion_matrix[2, 1]
+TP <- confusion_matrix[2, 2]
+
+# measures of classification error
+FNR <- FN/(TP + FN)
+FPR <- FP/(TN + FP)
+
+# measures of classification ability
+TPR <- TP/(TP + FN) # sensitivity
+TNR <- TN/(TN + FP) # specificity
+
+# make a table
+rates_tbl <- data.frame(
+  metric = c("True Positive Rate", 
+             "False Positive Rate",
+             "False Negative Rate",
+             "True Negative Rate"),
+  value = c(TPR, FPR, FNR, TNR)
+)
+
+rates_tbl |> kable()
+
+```
 
 ```{=html}
 <!-- 

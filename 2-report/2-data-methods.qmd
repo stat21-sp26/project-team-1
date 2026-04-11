@@ -455,6 +455,8 @@ vif(final_mlr)
 
 ```
 
+
+{{< pagebreak >}}
 #### Logistic Regression: Predicting Heart Attack
 
 -   coefficients of interest
@@ -524,8 +526,9 @@ for our multiple linear regression of BMI in the section above.
 All three model selection methods yielded the same predictors that minimized the BIC, i.e. accounted for the largest amount of variance in the log-odds of heart disease while mitigating overfitting and optimizing model parsimony. These variables were the following: `smoking`,`alcohol_drinking`, `stroke`, `mental_health`, `diff_walking`, `sex`, `age_category` (particularly ages 55 years and above), `race` (particularly Asian, Black, and Hispanic with White as a baseline), `diabetic`, `gen_health`, `asthma`, `kidney_disease`, and `skin_cancer`. Notably, all three methods omitted the following predictors: `bmi`, `physical_activity`, `physical_health`, and `sleep_time`.
 
 
-
-**Method 1) All Subset Selection**
+<!-- 
+Method 1: All Subset Selection
+-->
 
 ```{r}
 #| include: false
@@ -551,7 +554,7 @@ selected_vars <- names(selected_model)[selected_model] # keeping only the TRUE p
 
 :::{#plot1}
 ```{r}
-#| echo: false
+#| include: false
 #| label: tbl-all-sub-set-log-reg
 #| tbl-cap: "Exhaustive Model Selection: Selected Predictors Based on BIC"
 
@@ -562,11 +565,11 @@ selected_vars |> kable()
 :::{#plot2}
 
 ```{r}
-#| echo: false
+#| include: false
 #| label: fig-all-subset-log-reg
-#| fig-cap: "Exhaustive Model Selection (BIC)"
-
+#| fig-cap: "Exhaustive Model Selection, B) Forward Model Selection"
 plot(best_log_reg_all_sub, scale = "bic")
+
 ```
 :::
 
@@ -574,7 +577,10 @@ plot(best_log_reg_all_sub, scale = "bic")
 
 
 
-**Method 2) Forward Selection**
+<!-- 
+Method 2: Forward Selection
+-->
+
 
 ```{r}
 #| include: false
@@ -599,7 +605,7 @@ selected_vars |> kable()
 :::: {layout="[0.25, 0.75]"}
 :::{#plot1}
 ```{r}
-#| echo: false
+#| include: false
 #| label: tbl-fwd-log-reg
 #| tbl-cap: "Forward Model Selection: Selected Predictors Based on BIC"
 
@@ -608,7 +614,7 @@ selected_vars |> kable()
 :::
 :::{#plot2}
 ```{r}
-#| echo: false
+#| include: false
 #| label: fig-fwd-log-reg
 #| fig-cap: "Forward Model Selection (BIC)"
 
@@ -617,7 +623,10 @@ plot(best_log_reg_fwd, scale = "bic")
 :::
 ::::
 
-**Method 3) Backward Selection**
+
+<!-- 
+Method 3: Backward Selection
+-->
 
 ```{r}
 #| include: false
@@ -641,7 +650,7 @@ selected_vars |> kable()
 :::: {layout="[0.25, 0.75]"}
 :::{#plot1}
 ```{r}
-#| echo: false
+#| include: false
 #| label: tbl-bwd-log-reg
 #| tbl-cap: "Bakward Model Selection: Selected Predictors Based on BIC"
 
@@ -650,7 +659,7 @@ selected_vars |> kable()
 :::
 :::{#plot2}
 ```{r}
-#| echo: false
+#| include: false
 #| label: fig-bwd-log-reg
 #| fig-cap: "Backward Model Selection (BIC)"
 
@@ -658,6 +667,49 @@ plot(best_log_reg_bwd, scale = "bic")
 ```
 :::
 ::::
+
+
+
+:::: {layout="[0.25, 0.75]"}
+:::{#plot1}
+```{r}
+#| echo: false
+#| label: tbl-selected-vars-log-reg
+#| tbl-cap: "Selected Predictors Based on BIC (for exhaustive, forward, and backward selection technqiues)"
+
+selected_vars |> kable()
+```
+
+:::
+
+:::{#plot2}
+```{r}
+#| echo: false
+#| fig-cap: "A) Exhaustive Model Selection"
+
+# Exhaustive
+plot(best_log_reg_all_sub, scale = "bic")
+
+```
+```{r}
+#| echo: false
+#| fig-cap: "B) Forward Model Selection"
+#| # Forward
+plot(best_log_reg_fwd, scale = "bic")
+
+```
+```{r}
+#| echo: false
+#| fig-cap: "C) Backward Model Selection"
+# Backward
+plot(best_log_reg_bwd, scale = "bic")
+```
+
+:::
+::::
+
+
+
 
 ```{r}
 #| include: false
@@ -675,17 +727,15 @@ summary(full_log_reg)
 
 **Validating Final Model Assumptions**
 
-Given the results of our model selection, we opted to move forward with the following logistic regression: 
+Given the results of our model selection, we fit a linear regression using the selected predictors listed above: 
 
 
 ```{r}
 #| include: false
-# create the FINAL logistic regression 
+# selected logistic model
 logistic_model <- glm(
-  heart_disease ~ bmi + sleep_time + alcohol_drinking + race + diabetic 
-            + age_category + smoking + stroke + physical_activity + kidney_disease +
-            asthma,
-  data = disease_data,
+  heart_disease ~  smoking + alcohol_drinking + stroke + mental_health + diff_walking + sex + age_category + race + diabetic + gen_health + asthma + kidney_disease + skin_cancer,
+  data = heartdisease,
   family = "binomial"
 )
 
@@ -695,18 +745,70 @@ summary(logistic_model)
 
 
 $$
-log(Odds_{HeartAttack}) = \beta_0 + \beta_1Smoking + \beta_2Alcohol + \beta_3Stroke + \\
-\beta_3MentalHealth + \beta_4DiffWalking + \beta_5Sex + \\
-\beta_6Over55 + \beta_7Asian + \beta_8Black + \beta_9Hispanic + \\
-\beta_{10}Diabetic + \beta_{11}HealthFair + \beta_{12}HealthGood + \\
-\beta_{13}HealthExcellent + \beta_{14}Asthma + \beta_{15}KidneyDisease + \\
-\beta_{16}SkinCancer
+log(Odds_{i}) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_i + \\
+\beta_3MentalHealth_i + \beta_4DiffWalking_i + \beta_5Sex_i + \\
+\beta_6Over55_i + \beta_7Asian_i + \beta_8Black_i + \beta_9Hispanic_i + \\
+\beta_{10}Diabetic_i + \beta_{11}HealthFair_i + \beta_{12}HealthGood_i + \\
+\beta_{13}HealthExcellent_i + \beta_{14}Asthma_i + \beta_{15}KidneyDisease_i + \\
+\beta_{16}SkinCancer_i
 $$
 
+Interestingly, the logistic regression yielded a p-value of 0.128 (> 0.05) for $\beta_{MentalHealth}$, indicating that the predictor does not significantly impact the log-odds of an individual having a heart attack. Given this, we removed `mental_health` from the final model. All other p-values indicated that our selected variables were significant (p < 0.05).
+```{r}
+#| include: false
+
+# FINAL logistic model
+final_log_reg <- glm(
+  heart_disease ~  smoking + alcohol_drinking + stroke + diff_walking + sex + age_category + race + diabetic + gen_health + asthma + kidney_disease + skin_cancer,
+  data = heart_train,
+  family = "binomial"
+)
+
+
+summary(final_log_reg)
+```
+
+$$
+log(Odds_{i}) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_i + \\
++ \beta_3DiffWalking_i + \beta_4Sex_i + \\
+\beta_5Over55_i + \beta_6Asian_i + \beta_7Black_i + \beta_8Hispanic_i + \\
+\beta_{9}Diabetic_i + \beta_{10}HealthFair_i + \beta_{11}HealthGood_i + \\
+\beta_{12}HealthExcellent_i + \beta_{13}Asthma_i + \beta_{14}KidneyDisease_i + \\
+\beta_{15}SkinCancer_i
+$$
 Our outcome variable (heart disease, where 0 is absence of heart disease and 1 is presence) is binary and thus can be properly modeled using logistic regression. The data cleaning process ensured that all observations of independent, upholding the independence assumption of the regression.
 
-3) linear relationship between continuous predictor variables & log-odds
-of outcome 4) no multicollinearity 5) large sample size 6) no outliers
+The linearity of the log-odds of heart disease must also be assessed with each of its continuous predictor variables. However, after removing `mental_health` from our regression, the model no longer contains any continuous variables. As such, this assumption is satisfied by default.
+
+
+5) large sample size 6) no outliers
+
+```{r}
+#| echo: false
+
+# Residuals vs Fitted
+plot(final_log_reg, which = 1)
+
+```
+```{r}
+#| echo: false
+
+# Q-Q residuals
+plot(final_log_reg, which = 2)
+```
+```{r}
+#| echo: false
+
+# Scale Location
+plot(final_log_reg, which = 3)
+```
+
+```{r}
+# Cook's distance
+plot(final_log_reg, which = 4)
+```
+
+4) no multicollinearity 
 
 ```{r}
 #| include: false
@@ -715,7 +817,7 @@ of outcome 4) no multicollinearity 5) large sample size 6) no outliers
 
 # determine potential multicollinearity using Generalized Variance Inflation Factors (GVIF)
 
-vif(full_log_reg)
+vif(final_log_reg)
 # all GVIF values are below 2, indicating that there is no collinearity --> we do not need to remove or combine variables to account for correlation
 # VIF indicates "how much variance of estimated regression coefficient is increased due 
 # to collinearity with other predictors"
