@@ -347,36 +347,36 @@ $$
 Interestingly, the multiple linear regression yielded a p-value of 3.10e-05 (< 0.05) for $$ \beta_NativeAmerican $$, indicating that the predictor is significantly associated with variation in log-transformed BMI, holding all other variables constant.
 
 Linearity and homoscedasticity were evaluated using a residuals versus
-fitted values plot (@fig-mlr-resfit). The assumptions appear largely
+fitted values plot (**insert**). The assumptions appear largely
 satisfied, as the residuals are centered around zero with a relatively
 consistent vertical spread across the range of fitted values.
 
 ```{r}
-#| echo: false
-#| label: fig-mlr-resfit
-
-
-plot(final_mlr, which = 1)
+# #| echo: false
+# #| label: fig-mlr-resfit
+# 
+# 
+# plot(final_mlr, which = 1)
 ```
 
 Next, normality of residuals was assessed through a Q-Q plot
-(@fig-mlr-qq).
+(**insert**).
 
 ```{r}
-#| echo: false
-#| label: fig-mlr-qq
-
-plot(final_mlr, which = 2)
+# #| echo: false
+# #| label: fig-mlr-qq
+# 
+# plot(final_mlr, which = 2)
 ```
 
 We also examined potential influential observations using a residuals
-versus leverage plot (@fig-mlr-leverage).
+versus leverage plot (**insert**).
 
 ```{r}
-#| echo: false
-#| label: fig-mlr-leverage
-
-plot(final_mlr, which = 3)
+# #| echo: false
+# #| label: fig-mlr-leverage
+# 
+# plot(final_mlr, which = 3)
 ```
 
 Lastly, we assessed multicollinearity by calculating the General
@@ -384,9 +384,9 @@ Variance Inflation Factors (GVIFs). All GVIF values were below 2.0,
 indicating that multicollinearity is not a concern for our final model.
 
 ```{r}
-#| include: false
-
-vif(final_mlr)
+# #| include: false
+# 
+# vif(final_mlr)
 
 ```
 
