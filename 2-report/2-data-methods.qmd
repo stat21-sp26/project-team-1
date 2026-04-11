@@ -304,9 +304,9 @@ best_mlr_bwd <- regsubsets(bmi ~ .,
 plot(best_mlr_bwd, scale = "bic")
 ```
 
-To satisfy the linear regression assumption of normality (particularly given the right-skewness observed in the raw BMI distribution), the final model was fit using a natural log transformation of BMI (log(`bmi`)). This transformation stabilizes variance and ensures more reliable coefficient estimates. The final model is evaluated through diagnostic plots below.
-
 [Final Model Diagnostics]{.underline}
+
+To satisfy the linear regression assumption of normality (particularly given the right-skewness observed in the raw BMI distribution), the final model was fit using a natural log transformation of BMI (log(`bmi`)). This transformation stabilizes variance and ensures more reliable coefficient estimates.
 
 We assessed the assumptions of the linear regression model using standard diagnostic plots.
 
@@ -319,30 +319,30 @@ final_mlr <- lm(log(bmi) ~ smoking + alcohol_drinking + stroke + diff_walking +
                 data = heart_train)
 ```
 
-Linearity and homoscedasticity were evaluated using a residuals versus fitted values plot (@mlr-resid-fit). The assumptions appear largely satisfied, as the residuals are centered around zero with a relatively consistent vertical spread across the range of fitted values.
+Linearity and homoscedasticity were evaluated using a residuals versus fitted values plot (@fig-mlr-resfit). The assumptions appear largely satisfied, as the residuals are centered around zero with a relatively consistent vertical spread across the range of fitted values.
 
 ```{r}
 #| echo: false
-#| label: mlr-resid-fit
+#| label: fig-mlr-resfit
 
 
 plot(final_mlr, which = 1)
 ```
 
-Next, normality of residuals was assessed through a Q-Q plot (@fig-qq-plot).
+Next, normality of residuals was assessed through a Q-Q plot (@fig-mlr-qq).
 
 ```{r}
 #| echo: false
-#| label: mlr-qq-plot
+#| label: fig-mlr-qq
 
 plot(final_mlr, which = 2)
 ```
 
-We also examined potential influential observations using a residuals versus leverage plot (@mlr-leverage).
+We also examined potential influential observations using a residuals versus leverage plot (@fig-mlr-leverage).
 
 ```{r}
 #| echo: false
-#| label: mlr-leverage
+#| label: fig-mlr-leverage
 
 plot(final_mlr, which = 3)
 ```
