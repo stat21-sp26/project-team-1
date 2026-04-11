@@ -242,21 +242,6 @@ To satisfy the linear regression assumption of normality (particularly given the
 
 All three model selection methods identified the same predictors that minimized BIC, indicating that these variables collectively explained variability in `log(bmi)` effectively while appropriately penalizing model complexity and reducing the risk of overfitting. These variables were the following: `smoking`, `alcohol_drinking`, `stroke`, `physical_health`, `diff_walking`, `sex`, `age_category` (particularly ages 35 to 54 years), `race` (particularly Asian and Black), `diabetic`, `gen_health`, `sleep_time`, `asthma`, and `skin_cancer`.
 
-[Model Selection]{.underline}
-
-The final model was selected by comparing the results of all three
-search strategies using the Bayesian Information Criterion (BIC)
-(@fig-all-subset, @fig-fwd, @fig-bwd). We prioritized BIC over Adjusted
-R-squared to ensure model parsimony and to minimize the risk of
-overfitting. All three algorithms (all-subset, forward, and backward)
-converged on the same subset of 13 predictors, indicating a highly
-stable and robust selection. These predictors include the following:
-`sex`, `race` (specifically Asian and Black), age group (`age_category`,
-specifically 35-54 and 55+), `smoking`, alcohol consumption
-(`alcohol_drinking`), `stroke`, difficulty walking (`diff_walking`),
-`sleep_time`, `diabetic`, `physical_activity`, `general_health`,
-`asthma`, and `skin_cancer`.
-
 
 ```{r}
 #| include: false
@@ -335,20 +320,31 @@ best_mlr_bwd <- regsubsets(log(bmi) ~ .,
 plot(best_mlr_bwd, scale = "bic")
 ```
 
-[Final Model Diagnostics]{.underline}
+**Validating Final Model Assumptions**
 
-
-We assessed the assumptions of the linear regression model using
-standard diagnostic plots.
+Given the results of our model selection, we moved forward with the following multiple linear regression:
 
 ```{r}
 #| include: false
 
-final_mlr <- lm(log(bmi) ~ smoking + alcohol_drinking + stroke + diff_walking +
-                  sex + age_category + race + diabetic + physical_activity +
-                  gen_health + sleep_time + asthma + skin_cancer,
-                data = heart_train)
+chosen_mlr <- lm(log(bmi) ~ smoking + alcohol_drinking + stroke + physical_health +
+                   diff_walking + sex + age_category + race + diabetic + physical_activity +
+                   gen_health + sleep_time + asthma + skin_cancer, 
+                 data = heart_train)
+
+summary(chosen_mlr)
 ```
+
+
+$$
+log(BMI_i) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_i + \\
+\beta_4PhysicalHealth_i + \beta_5DiffWalking_i + \beta_6Sex_i + \beta_7{Age_{35-54}}_i + \beta_8Asian_i + \\
+\beta_9Black_i + \beta_{10}Diabetic_i + \beta_{11}HealthFair_i + \beta_{12}HealthGood_i + \\
+\beta_{13}HealthExcellent_i + \beta_{14}SleepTime_i + \beta_{15}Asthma_i + \\
+\beta_{16}SkinCancer_i
+$$
+
+Interestingly, the multiple linear regression yielded a p-value of 3.10e-05 (< 0.05) for $$ \beta_NativeAmerican $$, indicating that the predictor is significantly associated with variation in log-transformed BMI, holding all other variables constant.
 
 Linearity and homoscedasticity were evaluated using a residuals versus
 fitted values plot (@fig-mlr-resfit). The assumptions appear largely
