@@ -443,6 +443,96 @@ heart_train$gen_health <- relevel(factor(heart_train$gen_health), ref = "Poor")
 
 
 
+::::: {layout="[0.45, 0.45]"}
+::: column
+```{r}
+#| echo: false
+## BODY MASS INDEX (BMI)
+
+ggplot(data = disease_data, aes(x = bmi, fill = factor(heart_disease))) +
+  geom_density(alpha = 0.5, color = "black") + 
+  labs(x = "BMI",
+       y = "Count",
+       fill = "Heart Disease") +
+  scale_fill_manual(
+    values = c("0" = "skyblue", "1" = "tomato"),
+    labels = c("No", "Yes")
+  ) +
+  theme_classic() +
+  theme(legend.position = "bottom")
+
+# BMI
+ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease), 
+                            fill = factor(heart_disease))) +
+  geom_boxplot() + 
+  labs(x = "Heart Disease", y = "BMI") + 
+  scale_x_discrete(labels = c("0" = "No Heart Disease",
+                              "1" = "Heart Disease")) +
+  scale_fill_manual(
+    values = c("0" = "skyblue", "1" = "tomato"),
+    labels = c("No", "Yes")
+  ) +
+  theme_classic() +
+  theme(legend.position = "none")
+```
+:::
+
+::: column
+```{r}
+#| echo: false
+
+# BMI
+ggplot(data = disease2, aes(x = factor(heart_disease), fill = bmi)) +
+  geom_bar(color = "black", position = "fill") + 
+  labs(x = "Heart Disease",
+       y = "Count",
+       fill = "BMI") +
+  scale_x_discrete(labels = c("0" = "No Heart Disease",
+                              "1" = "Heart Disease")) +
+  theme_classic() + 
+  theme(legend.position = "bottom")
+```
+:::
+:::::
+
+```{r}
+#| include: false
+
+# BMI
+ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease), 
+                            fill = factor(heart_disease))) +
+  geom_boxplot() + 
+  labs(x = "Heart Disease", y = "BMI") + 
+  scale_x_discrete(labels = c("0" = "No Heart Disease",
+                              "1" = "Heart Disease")) +
+  scale_fill_manual(
+    values = c("0" = "skyblue", "1" = "tomato"),
+    labels = c("No", "Yes")
+  ) +
+  theme_classic() +
+  theme(legend.position = "none")
+
+```
+
+:::::: {layout="[0.3, 0.3, 0.3]"}
+<div>
+
+
+```{r}
+#| echo: false
+## BEHAVIOR
+
+# SLEEP
+ggplot(data = disease2, aes(x = factor(heart_disease), fill = sleep_time)) +
+  geom_bar(color = "black", position = "fill") + 
+  labs(x = "Heart Disease",
+       y = "Count",
+       fill = "Sleep") +
+  scale_x_discrete(labels = c("0" = "No Heart Disease",
+                              "1" = "Heart Disease")) +
+  theme_classic() + 
+  theme(legend.position = "bottom")
+```
 
 
 
