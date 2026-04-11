@@ -615,7 +615,7 @@ ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease),
 #| echo: false
 
 # BMI
-ggplot(data = disease2, aes(x = factor(heart_disease), fill = bmi)) +
+ggplot(data = disease_data, aes(x = factor(heart_disease), fill = bmi)) +
   geom_bar(color = "black", position = "fill") + 
   labs(x = "Heart Disease",
        y = "Count",
@@ -656,7 +656,7 @@ ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease),
 ## BEHAVIOR
 
 # SLEEP
-ggplot(data = disease2, aes(x = factor(heart_disease), fill = sleep_time)) +
+ggplot(data = disease_data, aes(x = factor(heart_disease), fill = sleep_time)) +
   geom_bar(color = "black", position = "fill") + 
   labs(x = "Heart Disease",
        y = "Count",
