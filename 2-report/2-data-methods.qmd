@@ -496,23 +496,9 @@ heart_train$race <- relevel(factor(heart_train$race), ref = "White")
 heart_train$gen_health <- relevel(factor(heart_train$gen_health), ref = "Poor")
 
 
-# create the logistic regression 
-logistic_model <- glm(
-  heart_disease ~ bmi + sleep_time + alcohol_drinking + race + diabetic 
-            + age_category + smoking + stroke + physical_activity + kidney_disease +
-            asthma,
-  data = disease_data,
-  family = "binomial"
-)
 
-
-summary(logistic_model)
 ```
 
-$$
-log(Odds_{HeartAttack}) = \beta_0 + \beta_1raceAsian + \beta_2raceBlack + \\ \beta_3raceHispanic + \beta_4raceOther +
-\beta_5Diabetes + \\ \beta_6KidneyDisease + \beta_7PhysicalActivity + \\ \beta_8Sleep + \beta_9Alchohol + \beta_{10}BMI
-$$
 
 ```{r}
 #| include: false
@@ -530,12 +516,16 @@ cor(disease_data$mental_health, disease_data$heart_disease, use = "complete.obs"
 
 Given that the our cleaned heart disease data set only contains 17
 possible predictors, we opted to employ both a all-subset, stepwise
-forward, and a backward elimination model selection process, since all
+forward, and a backward elimination model selection process, as all
 three methods are not too computationally expensive in our case. For all
 models, we used the same 80%-20% split of train vs test data selected
 for our multiple linear regression of BMI in the section above.
 
-**All Subset Selection**
+All three model selection methods yielded the same predictors that minimized the BIC, i.e. accounted for the largest amount of variance in the log-odds of heart disease while mitigating overfitting and optimizing model parsimony. These variables were the following: `smoking`,`alcohol_drinking`, `stroke`, `mental_health`, `diff_walking`, `sex`, `age_category` (particularly ages 55 years and above), `race` (particularly Asian, Black, and Hispanic with White as a baseline), `diabetic`, `gen_health`, `asthma`, `kidney_disease`, and `skin_cancer`. Notably, all three methods omitted the following predictors: `bmi`, `physical_activity`, `physical_health`, and `sleep_time`.
+
+
+
+**Method 1) All Subset Selection**
 
 ```{r}
 #| include: false
@@ -553,8 +543,23 @@ selected_model <- model_summary$which[best_idx, ] # select the row best_idx in t
 selected_model |> kable() 
 
 selected_vars <- names(selected_model)[selected_model] # keeping only the TRUE predictors
+
+```
+
+
+:::: {layout="[0.25, 0.75]"}
+
+:::{#plot1}
+```{r}
+#| echo: false
+#| label: tbl-all-sub-set-log-reg
+#| tbl-cap: "Exhaustive Model Selection: Selected Predictors Based on BIC"
+
 selected_vars |> kable()
 ```
+:::
+
+:::{#plot2}
 
 ```{r}
 #| echo: false
@@ -563,8 +568,13 @@ selected_vars |> kable()
 
 plot(best_log_reg_all_sub, scale = "bic")
 ```
+:::
 
-**Forward Selection**
+::::
+
+
+
+**Method 2) Forward Selection**
 
 ```{r}
 #| include: false
@@ -586,6 +596,17 @@ selected_vars <- names(selected_model)[selected_model] # keeping only the TRUE p
 selected_vars |> kable()
 ```
 
+:::: {layout="[0.25, 0.75]"}
+:::{#plot1}
+```{r}
+#| echo: false
+#| label: tbl-fwd-log-reg
+#| tbl-cap: "Forward Model Selection: Selected Predictors Based on BIC"
+
+selected_vars |> kable()
+```
+:::
+:::{#plot2}
 ```{r}
 #| echo: false
 #| label: fig-fwd-log-reg
@@ -593,8 +614,10 @@ selected_vars |> kable()
 
 plot(best_log_reg_fwd, scale = "bic")
 ```
+:::
+::::
 
-**Backward Selection**
+**Method 3) Backward Selection**
 
 ```{r}
 #| include: false
@@ -615,6 +638,17 @@ selected_vars <- names(selected_model)[selected_model] # keeping only the TRUE p
 selected_vars |> kable()
 ```
 
+:::: {layout="[0.25, 0.75]"}
+:::{#plot1}
+```{r}
+#| echo: false
+#| label: tbl-bwd-log-reg
+#| tbl-cap: "Bakward Model Selection: Selected Predictors Based on BIC"
+
+selected_vars |> kable()
+```
+:::
+:::{#plot2}
 ```{r}
 #| echo: false
 #| label: fig-bwd-log-reg
@@ -622,6 +656,8 @@ selected_vars |> kable()
 
 plot(best_log_reg_bwd, scale = "bic")
 ```
+:::
+::::
 
 ```{r}
 #| include: false
@@ -639,7 +675,36 @@ summary(full_log_reg)
 
 **Validating Final Model Assumptions**
 
-**Assumptions** 1) binary dependent variable 2) independent observations
+Given the results of our model selection, we opted to move forward with the following logistic regression: 
+
+
+```{r}
+#| include: false
+# create the FINAL logistic regression 
+logistic_model <- glm(
+  heart_disease ~ bmi + sleep_time + alcohol_drinking + race + diabetic 
+            + age_category + smoking + stroke + physical_activity + kidney_disease +
+            asthma,
+  data = disease_data,
+  family = "binomial"
+)
+
+
+summary(logistic_model)
+```
+
+
+$$
+log(Odds_{HeartAttack}) = \beta_0 + \beta_1Smoking + \beta_2Alcohol + \beta_3Stroke + \\
+\beta_3MentalHealth + \beta_4DiffWalking + \beta_5Sex + \\
+\beta_6Over55 + \beta_7Asian + \beta_8Black + \beta_9Hispanic + \\
+\beta_{10}Diabetic + \beta_{11}HealthFair + \beta_{12}HealthGood + \\
+\beta_{13}HealthExcellent + \beta_{14}Asthma + \beta_{15}KidneyDisease + \\
+\beta_{16}SkinCancer
+$$
+
+Our outcome variable (heart disease, where 0 is absence of heart disease and 1 is presence) is binary and thus can be properly modeled using logistic regression. The data cleaning process ensured that all observations of independent, upholding the independence assumption of the regression.
+
 3) linear relationship between continuous predictor variables & log-odds
 of outcome 4) no multicollinearity 5) large sample size 6) no outliers
 
