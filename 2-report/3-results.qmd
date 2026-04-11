@@ -10,9 +10,7 @@ library(kableExtra)
 disease_data <- readRDS("../disease_data/disease-prepared.RDS")
 ```
 
-
 ## Results
-
 
 ### Factors Associated with BMI ....
 
@@ -20,10 +18,10 @@ disease_data <- readRDS("../disease_data/disease-prepared.RDS")
 
 #### Regression Analysis
 
-
 ### Predicting Heart Attack Risk ....
 
 #### Descriptive Statistics
+
 ```{r}
 #| include: false
 
@@ -56,7 +54,6 @@ disease2 <- disease_data |>
     )
 ```
 
-
 ```{r}
 #| include: false
 
@@ -67,11 +64,8 @@ cor(disease_data$diabetic, disease_data$heart_disease) #0.1747823
 
 ```
 
-
-:::: {layout="[0.3, 0.3, 0.3]"}
-
-
-:::{#plot1}
+:::::: {layout="[0.3, 0.3, 0.3]"}
+::: {#plot1}
 ```{r}
 #| echo: false
 ## DEMOGRAPHICS
@@ -90,7 +84,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = race)) +
 ```
 :::
 
-:::{#plot2}
+::: {#plot2}
 ```{r}
 #| echo: false
 # SEX
@@ -107,7 +101,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(sex))) 
 ```
 :::
 
-:::{#plot3}
+::: {#plot3}
 ```{r}
 #| echo: false
 
@@ -142,29 +136,24 @@ ggplot(data = disease_data, aes(x = age_category, fill = factor(heart_disease)))
 
 ```
 :::
+::::::
 
-::::
+:::::: {layout="[0.3, 0.3, 0.3]"}
+<div>
 
+</div>
 
+<div>
 
-:::: {layout="[0.3, 0.3, 0.3]"}
+</div>
 
-:::{#plot1}
-:::
+<div>
 
-:::{#plot2}
-:::
+</div>
+::::::
 
-:::{#plot3}
-:::
-
-::::
-
-
-
-:::: {layout="[0.45, 0.45]"}
-
-:::{#plot1 .column}
+::::: {layout="[0.45, 0.45]"}
+::: column
 ```{r}
 #| echo: false
 ## BODY MASS INDEX (BMI)
@@ -197,7 +186,7 @@ ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease),
 ```
 :::
 
-:::{#plot2 .column}
+::: column
 ```{r}
 #| echo: false
 
@@ -213,9 +202,7 @@ ggplot(data = disease2, aes(x = factor(heart_disease), fill = bmi)) +
   theme(legend.position = "bottom")
 ```
 :::
-
-::::
-
+:::::
 
 ```{r}
 #| include: false
@@ -236,9 +223,9 @@ ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease),
 
 ```
 
-:::: {layout="[0.3, 0.3, 0.3]"}
+:::::: {layout="[0.3, 0.3, 0.3]"}
+<div>
 
-:::{#plot1}
 ```{r}
 #| echo: false
 ## BEHAVIOR
@@ -254,9 +241,11 @@ ggplot(data = disease2, aes(x = factor(heart_disease), fill = sleep_time)) +
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
-:::
 
-:::{#plot2}
+</div>
+
+<div>
+
 ```{r}
 #| echo: false
 
@@ -275,9 +264,11 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(alcohol
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
-:::
 
-:::{#plot3}
+</div>
+
+<div>
+
 ```{r}
 #| echo: false
 
@@ -312,13 +303,13 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(physica
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
-:::
-::::
 
+</div>
+::::::
 
-:::: {layout="[0.3, 0.3, 0.3]"}
+:::::: {layout="[0.3, 0.3, 0.3]"}
+<div>
 
-:::{#plot1}
 ```{r}
 #| echo: false
 
@@ -339,9 +330,11 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(diabeti
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
-:::
 
-:::{#plot2}
+</div>
+
+<div>
+
 ```{r}
 #| echo: false
 
@@ -360,9 +353,11 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(kidney_
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
-:::
 
-:::{#plot3}
+</div>
+
+<div>
+
 ```{r}
 #| echo: false
 # ASTHMA
@@ -381,12 +376,12 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(asthma)
   theme(legend.position = "bottom")
 ```
 
-:::
-::::
+</div>
+::::::
 
-:::: {layout="[0.3, 0.3, 0.3]"}
+:::::: {layout="[0.3, 0.3, 0.3]"}
+<div>
 
-:::{#plot1}
 ```{r}
 #| echo: false
 # SKIN CANCER
@@ -405,9 +400,11 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(skin_ca
   theme(legend.position = "bottom")
 
 ```
-:::
 
-:::{#plot2}
+</div>
+
+<div>
+
 ```{r}
 #| echo: false
 # STROKE
@@ -425,20 +422,32 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(stroke)
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
-:::
 
-:::{#plot3}
-:::
+</div>
 
-::::
+<div>
+
+</div>
+::::::
 
 #### Regression Analysis
 
+-   final regression equation
 
+-   interpretation of coefficients
+
+-   odds interpretation (odds ratio, confidence interval)
+
+-   probability interpretation
+
+-   confusion matrix (sensitivity & specificity)
+
+-   Receiver operating characteristic (ROC) curve
+
+```{=html}
 <!-- 
 If you have more than 2 research questions, try to group them into no 
 more than 2 groups. Rename the subsections to give a short description of the
 group of questions (e.g. "Landscape of US colleges" and "Factors associated with dropout")
 -->
-
-
+```
