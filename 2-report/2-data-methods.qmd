@@ -181,7 +181,7 @@ aggregate(bmi ~ sleep_time, data = heartdisease, FUN = mean)
 - forward vs. backward selection
 - AIC & BIC
 
-**Initial Model Technique and Selection**
+[Initial Model Technique and Selection]{.underline}
 
 To investigate the factors influencing BMI, we used a **multiple linear regression**. We began with a "full model" approach to capture the complex interplay between demographics (race, sex, age), behavioral habits (smoking, physical activity, alcohol consumption, sleep), and existing health conditions (e.g., diabetes, heart disease, asthma).
 
@@ -208,7 +208,8 @@ vif(first_mlr)
 
 ```
 
-**Model Selection**
+
+[Model Selection]{.underline}
 
 Before performing model selection, the dataset was split into a training set (80%) and a testing set (20%) to ensure the generalizability of the final model. A random seed (1234) was set to ensure reproducibility of the split. The training set (n = 255836) was used for model development and variable selection, while the testing set was reserved for final model validation to assess its predictive performance on unseen data.
 
