@@ -26,6 +26,8 @@ heartdisease$age_category <- relevel(factor(heartdisease$age_category), ref = "1
 
 heartdisease$gen_health <- relevel(factor(heartdisease$gen_health), ref = "Poor")
 
+heartdisease$age_category <- relevel(factor(heartdisease$age_category), ref = "1")
+
 ```
 
 The current dataset on crucial indicators for heart disease from patients in the United States (2022) is sourced from the following website hosted by Kaggle: <https://www.kaggle.com/datasets/kamilpytlak/personal-key-indicators-of-heart-disease>. The dataset originally comes from the Centers for Disease Control and Prevention (CDC) and is a part of the Behavioral Risk Factor Surveillance System (BRFSS). It was originally collected by the CDC and BRFSS to gather data on the health status of U.S. residents across all 50 states, the District of Columbia, and 3 U.S. territories. To download the dataset, scroll to the end of the "About Dataset" section and click the download icon (an arrow pointing down). The dataset was downloaded on February 22, 2026.
@@ -179,11 +181,10 @@ aggregate(bmi ~ sleep_time, data = heartdisease, FUN = mean)
 - forward vs. backward selection
 - AIC & BIC
 
-We are interested in exploring how demographics, various behaviors, and health conditions affect an individual's BMI. Given that `bmi` is a continuous outcome variable, we used a multiple linear regression to examine its association with demographic, behavioral, and health-related factors.
+To investigate the factors influencing BMI, we used a **multiple linear regression**. We began with a "full model" approach to capture the complex interplay between demographics (race, sex, age), behavioral habits (smoking, physical activity, alcohol consumption, sleep), and existing health conditions (e.g., diabetes, heart disease, asthma).
 
-We began with a full model that included demographics (race, sex, age), behavioral variables (smoking, physical activity, alcohol consumption, sleep), and health conditions (general health, mental health, stroke, difficulty walking, diabetes, heart disease, asthma, skin cancer) as predictors. The categorical variables `race` and `diff_walking` were included with *White* and *Poor* respectively as the reference categories.
+For the categorical predictors, we utilized dummy coding to allow for comparison against established baseline groups. The reference categories were set to 'White' for `race`, 'No' for difficulty walking (`diff_walking`), '18-34' for `age_category`, and 'Poor' for general health (`gen_health`). This allows the regression coefficients to be interpreted as the estimated change in BMI for a specific group relative to these baseline demographics.
 
-The following model served as the starting point for evaluating model assumptions and conducting model selection:
 
 ```{r}
 #| include: false
