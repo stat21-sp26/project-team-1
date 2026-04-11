@@ -144,7 +144,9 @@ heartdisease %>%
 
 
 ```{r}
-# correlations
+#| include: false
+
+# correlations for numeric predictors
 
 cor(heartdisease$sleep_time, heartdisease$bmi, use = "complete.obs") # -0.05622031
 
@@ -154,9 +156,13 @@ cor(heartdisease$mental_health, heartdisease$bmi, use = "complete.obs") #0.06191
 ```
 
 ```{r}
+#| include: false
+
 # interactions?
 
 aggregate(bmi ~ sleep_time, data = heartdisease, FUN = mean)
+
+# none, consistent
 
 ```
 
