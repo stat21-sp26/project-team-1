@@ -460,21 +460,14 @@ vif(final_mlr)
 
 #### Logistic Regression: Predicting Heart Attack
 
--   coefficients of interest
--   reasoning for fitting the model:
-    -   other models we considered
-    -   assessing the validity of conditions
-    -   variable transformations
 
-We are also interested in assessing an individual's risk for heart
+We were also interested in assessing an individual's risk for heart
 attack based on demographics, particularly race, behavior (smoking,
 drinking alcohol, sleep, physical activity), and other health conditions
-(diabetes, stroke, kidney disease, asthma). In addition, we will be
-investigating BMI as a potential predictor for heart attack, as BMI is a
+(diabetes, stroke, kidney disease, asthma). In addition, we investigated BMI as a potential predictor for heart attack, as BMI is a
 simple and readily accessible health measurement. Given that
-`heart_disease` is a binary outcome variable, we performed the following
-logistic regression to model the odds of an individual being diagnosed
-with heart disease:
+`heart_disease` is a binary outcome variable, we opted to perform a **logistic regression**.
+
 
 ```{r}
 #| include: false
@@ -501,6 +494,15 @@ heart_train$gen_health <- relevel(factor(heart_train$gen_health), ref = "Poor")
 
 
 ```
+
+
+
+
+
+
+
+
+
 
 
 ```{r}
