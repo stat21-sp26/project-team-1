@@ -239,6 +239,7 @@ heart_test <- heartdisease %>%
   select(-row_id, -set)
 ```
 
+
 ```{r}
 
 # heart_train <- heart_train %>% 
@@ -248,44 +249,47 @@ heart_test <- heartdisease %>%
 
 ```
 
-```{r}
-# All subset selection
+To determine the most effective predictors for BMI while maintaining model parsimony, we performed automated model selection using three distinct algorithmic approaches: (1) all-subset selection, (2) forward stepwise selection, and (3) backward elimination. Each method evaluated models with up to 17 predictors. By comparing these three approaches, we aimed to identify a consistent set of variables that optimize the balance between model complexity and predictive performance.
 
+
+
+```{r}
+#| include: false
+# all-subset selection
 
 best_mlr_all_sub <- regsubsets(bmi ~ .,
                          nvmax = 17,
                          data = heart_train)
-
 ```
 
 ```{r}
-plot(best_mlr_all_sub, scale = "adjr2")
+#| echo: false
+#| label: fig-all-subset
 
+plot(best_mlr_all_sub, scale = "bic")
 ```
 
 
 ```{r}
+#| include: false
 # forward selection
-# best_mlr_fwd <- bestglm(heart_train, family = gaussian,
-#                         IC = "BIC", method = "forward")
 
 best_mlr_fwd <- regsubsets(bmi ~ .,
                          method = "forward",
                          nvmax = 17,
                          data = heart_train)
-
-
-
 ```
 
 ```{r}
-plot(best_mlr_fwd, scale = "adjr2")
+#| echo: false
+#| label: fig-fwd
+
+plot(best_mlr_fwd, scale = "bic")
 ```
 
 ```{r}
+#| include: false
 # backward selection
-# best_mlr_bwd <- bestglm(heart_train, family = gaussian,
-#                         IC = "BIC", method = "backward")
 
 best_mlr_bwd <- regsubsets(bmi ~ .,
                          method = "backward",
@@ -294,8 +298,15 @@ best_mlr_bwd <- regsubsets(bmi ~ .,
 ```
 
 ```{r}
-plot(best_mlr_bwd, scale = "adjr2")
+#| echo: false
+#| label: fig-bwd
+
+plot(best_mlr_bwd, scale = "bic")
 ```
+
+The final model was selected by comparing the results of all three search strategies using the Bayesian Information Criterion (BIC) (@fig-all-subset, @fig-fwd, @fig-bwd). We prioritized BIC over Adjusted R-squared to ensure model parsimony and to minimize the risk of overfitting. All three algorithms (all-subset, forward, and backward) converged on the same subset of 13 predictors, indicating a highly stable and robust selection. These predictors include the following: `sex`, `race` (specifically Asian and Black), age group (`age_category`, specifically 35-54 and 55+), `smoking`, alcohol consumption (`alcohol_drinking`), `stroke`, difficulty walking (`diff_walking`), `sleep_time`, `diabetic`, `physical_activity`, `general_health`, `asthma`, and `skin_cancer`.
+
+
 
 **Initial Model Diagnostics and Assumptions** MAKE IT FOR FINAL MODEL INSTEAD!
 
