@@ -452,7 +452,6 @@ plot(best_mlr_bwd, scale = "bic")
 :::
 ::::
 
-
 **Validating Final Model Assumptions**
 
 Given the results of our model selection, we moved forward with the following multiple linear regression:
