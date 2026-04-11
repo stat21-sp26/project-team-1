@@ -181,34 +181,31 @@ aggregate(bmi ~ sleep_time, data = heartdisease, FUN = mean)
 - forward vs. backward selection
 - AIC & BIC
 
+**Initial Model Technique and Selection**
+
 To investigate the factors influencing BMI, we used a **multiple linear regression**. We began with a "full model" approach to capture the complex interplay between demographics (race, sex, age), behavioral habits (smoking, physical activity, alcohol consumption, sleep), and existing health conditions (e.g., diabetes, heart disease, asthma).
 
 For the categorical predictors, we utilized dummy coding to allow for comparison against established baseline groups. The reference categories were set to 'White' for `race`, 'No' for difficulty walking (`diff_walking`), '18-34' for `age_category`, and 'Poor' for general health (`gen_health`). This allows the regression coefficients to be interpreted as the estimated change in BMI for a specific group relative to these baseline demographics.
+
+```{r}
+#| include: false
+
+# create MLR: first "full" model
+first_mlr <- lm(
+  bmi ~ .,
+  data = heartdisease
+)
+
+```
+
+To ensure that the predictors in the full model were not highly correlated with one another—a condition known as multicollinearity—we calculated the Generalized Variance Inflation Factors (GVIF) for all variables. All GVIF values were below 2.0, which is well under the common threshold of 5 or 10. This indicates that multicollinearity is not a concern for this model, and the estimated coefficients for these variables can be interpreted reliably.
 
 
 ```{r}
 #| include: false
 
-# create MLR: first model
-first_mlr <- lm(
-  bmi ~ .,
-  data = heartdisease
-)
-```
-
-```{r}
-#| echo: false
-
-# create MLR: first model
-first_mlr <- lm(
-  bmi ~ .,
-  data = heartdisease
-)
-# vif -> package & how to make table? needed?
-  # can just report in a sentence!
-
-library(car)
 vif(first_mlr)
+
 ```
 
 **Model Selecion**
