@@ -234,56 +234,13 @@ aggregate(bmi ~ sleep_time, data = heartdisease, FUN = mean)
 -   forward vs. backward selection
 -   AIC & BIC
 
-[Initial Model Technique and Selection]{.underline}
+**Selecting a Multiple Linear Regression Model**
 
-To investigate the factors influencing BMI, we used a **multiple linear
-regression**. We began with a "full model" approach to capture the
-complex interplay between demographics (race, sex, age), behavioral
-habits (smoking, physical activity, alcohol consumption, sleep), and
-existing health conditions (e.g., diabetes, heart disease, asthma).
+Given that our cleaned data set only contains 17 potential predictors, we opted to employ all-subset, forward stepwise, and backward stepwise model selection processes, as all three methods are not too computationally expensive in our case. Before performing model selection, the dataset was split into a training set (80%) and a testing set (20%) to ensure the generalizability of the final model. A random seed (1234) was set to ensure reproducibility of the split. The training set (n = 255836) was used for model development and variable selection, while the testing set was reserved for final model validation to assess its predictive performance on unseen data.
 
-For the categorical predictors, we utilized dummy coding to allow for
-comparison against established baseline groups. The reference categories
-were set to 'White' for `race`, 'No' for difficulty walking
-(`diff_walking`), '18-34' for `age_category`, and 'Poor' for general
-health (`gen_health`). This allows the regression coefficients to be
-interpreted as the estimated change in BMI for a specific group relative
-to these baseline demographics.
+To satisfy the linear regression assumption of normality (particularly given the skewness observed in the raw BMI distribution earlier), a natural log transformation of BMI (`log(bmi)`) was applied during model selection, which stabilizes variance and ensures more reliable coefficient estimates.
 
-```{r}
-#| include: false
-
-# create MLR: first "full" model
-first_mlr <- lm(
-  bmi ~ .,
-  data = heartdisease
-)
-
-```
-
-To ensure that the predictors in the full model were not highly
-correlated with one another—a condition known as multicollinearity—we
-calculated the Generalized Variance Inflation Factors (GVIF) for all
-variables. All GVIF values were below 2.0, which is well under the
-common threshold of 5 or 10. This indicates that multicollinearity is
-not a concern for this model, and the estimated coefficients for these
-variables can be interpreted reliably.
-
-```{r}
-#| include: false
-
-vif(first_mlr)
-
-```
-
-[Model Selection]{.underline}
-
-Before performing model selection, the dataset was split into a training
-set (80%) and a testing set (20%) to ensure the generalizability of the
-final model. A random seed (1234) was set to ensure reproducibility of
-the split. The training set (n = 255836) was used for model development
-and variable selection, while the testing set was reserved for final
-model validation to assess its predictive performance on unseen data.
+All three model selection methods identified the same predictors that minimized BIC, indicating that these variables collectively explained variability in `log(bmi)` effectively while appropriately penalizing model complexity and reducing the risk of overfitting.
 
 ```{r}
 #| include: false
@@ -311,14 +268,9 @@ heart_test <- heartdisease %>%
   select(-row_id, -set)
 ```
 
-```{r}
+[Model Selection]{.underline}
 
-# heart_train <- heart_train %>% 
-#   relocate(bmi, .after = last_col()) %>% 
-#   drop_na() %>% 
-#   as.data.frame() 
 
-```
 
 To determine the most effective predictors for BMI while maintaining
 model parsimony, we performed automated model selection using three
@@ -393,11 +345,6 @@ plot(best_mlr_bwd, scale = "bic")
 
 [Final Model Diagnostics]{.underline}
 
-To satisfy the linear regression assumption of normality (particularly
-given the right-skewness observed in the raw BMI distribution), the
-final model was fit using a natural log transformation of BMI
-(log(`bmi`)). This transformation stabilizes variance and ensures more
-reliable coefficient estimates.
 
 We assessed the assumptions of the linear regression model using
 standard diagnostic plots.
