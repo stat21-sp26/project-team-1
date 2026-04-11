@@ -270,6 +270,10 @@ heart_test <- heartdisease %>%
 ```
 
 
+<!-- 
+Method 1: MLR All Subset Selection
+-->
+
 ```{r}
 #| include: false
 # all-subset selection
@@ -277,14 +281,49 @@ heart_test <- heartdisease %>%
 best_mlr_all_sub <- regsubsets(log(bmi) ~ .,
                          nvmax = 17,
                          data = heart_train)
+
+mlr_model_sum <- summary(best_mlr_all_sub)
+mlr_best_idx <- which.min(mlr_model_sum$bic) # find the index in that corresponds to the model with
+                                          # the lowest BIC
+selected_mlr <- mlr_model_sum$which[mlr_best_idx, ] # select the row best_idx in the logical matrix --> selected_model is a logical vector
+selected_mlr |> kable() 
+
+selected_mlr_vars <- names(selected_mlr)[selected_mlr] # keeping only the TRUE predictors
+
 ```
+
+
+:::: {layout="[0.25, 0.75]"}
+
+:::{#plot1}
+```{r}
+#| include: false
+#| label: tbl-all-sub-set-mlr
+#| tbl-cap: "Exhaustive MLR Model Selection: Selected Predictors Based on BIC"
+
+selected_mlr_vars |> kable()
+```
+:::
+
+:::{#plot2}
 
 ```{r}
-#| echo: false
-#| label: fig-all-subset
-
+#| include: false
+#| label: fig-all-subset-mlr
+#| fig-cap: "Exhaustive Model Selection, B) Forward Model Selection"
 plot(best_mlr_all_sub, scale = "bic")
+
 ```
+:::
+
+::::
+
+
+
+<!-- 
+Method 2: Forward Selection
+-->
+
 
 ```{r}
 #| include: false
@@ -294,14 +333,43 @@ best_mlr_fwd <- regsubsets(log(bmi) ~ .,
                          method = "forward",
                          nvmax = 17,
                          data = heart_train)
+
+mlr_model_sum <- summary(best_mlr_fwd)
+mlr_best_idx <- which.min(mlr_model_sum$bic) # find the index in that corresponds to the model with
+                                          # the lowest BIC
+selected_mlr <- mlr_model_sum$which[mlr_best_idx, ] # select the row best_idx in the logical matrix --> selected_model is a logical vector
+selected_mlr |> kable() 
+
+selected_mlr_vars <- names(selected_mlr)[selected_mlr] # keeping only the TRUE predictors
+selected_mlr_vars |> kable()
+
 ```
 
+:::: {layout="[0.25, 0.75]"}
+:::{#plot1}
 ```{r}
-#| echo: false
-#| label: fig-fwd
+#| include: false
+#| label: tbl-fwd-mlr
+#| tbl-cap: "Forward Model Selection: Selected Predictors Based on BIC"
+
+selected_mlr_vars |> kable()
+```
+:::
+:::{#plot2}
+```{r}
+#| include: false
+#| label: fig-fwd-mlr
+#| fig-cap: "Forward Model Selection (BIC)"
 
 plot(best_mlr_fwd, scale = "bic")
 ```
+:::
+::::
+
+
+<!-- 
+Method 3: Backward Selection
+-->
 
 ```{r}
 #| include: false
@@ -311,14 +379,79 @@ best_mlr_bwd <- regsubsets(log(bmi) ~ .,
                          method = "backward",
                          nvmax = 17,
                          data = heart_train)
+
+mlr_model_sum <- summary(best_mlr_bwd)
+mlr_best_idx <- which.min(mlr_model_sum$bic) # find the index in that corresponds to the model with
+                                          # the lowest BIC
+selected_mlr <- mlr_model_sum$which[mlr_best_idx, ] # select the row best_idx in the logical matrix --> selected_model is a logical vector
+selected_mlr |> kable() 
+
+selected_mlr_vars <- names(selected_mlr)[selected_mlr] # keeping only the TRUE predictors
+selected_mlr_vars |> kable()
+
 ```
 
+:::: {layout="[0.25, 0.75]"}
+:::{#plot1}
 ```{r}
-#| echo: false
-#| label: fig-bwd
+#| include: false
+#| label: tbl-bwd-mlr
+#| tbl-cap: "Bakward Model Selection: Selected Predictors Based on BIC"
+
+selected_mlr_vars |> kable()
+```
+:::
+:::{#plot2}
+```{r}
+#| include: false
+#| label: fig-bwd-mlr
+#| fig-cap: "Backward Model Selection (BIC)"
 
 plot(best_mlr_bwd, scale = "bic")
 ```
+:::
+::::
+
+
+
+:::: {layout="[0.25, 0.75]"}
+:::{#plot1}
+```{r}
+#| echo: false
+#| label: tbl-selected-vars-mlr
+#| tbl-cap: "Selected Predictors Based on BIC (for exhaustive, forward, and backward selection technqiues)"
+
+selected_mlr_vars |> kable()
+```
+
+:::
+
+:::{#plot2}
+```{r}
+#| echo: false
+#| fig-cap: "A) Exhaustive Model Selection"
+
+# Exhaustive
+plot(best_mlr_all_sub, scale = "bic")
+
+```
+```{r}
+#| echo: false
+#| fig-cap: "B) Forward Model Selection"
+#| # Forward
+plot(best_mlr_fwd, scale = "bic")
+
+```
+```{r}
+#| echo: false
+#| fig-cap: "C) Backward Model Selection"
+# Backward
+plot(best_mlr_bwd, scale = "bic")
+```
+
+:::
+::::
+
 
 **Validating Final Model Assumptions**
 
