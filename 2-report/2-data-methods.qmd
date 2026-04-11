@@ -251,8 +251,6 @@ heart_test <- heartdisease %>%
 
 To determine the most effective predictors for BMI while maintaining model parsimony, we performed automated model selection using three distinct algorithmic approaches: (1) all-subset selection, (2) forward stepwise selection, and (3) backward elimination. Each method evaluated models with up to 17 predictors. By comparing these three approaches, we aimed to identify a consistent set of variables that optimize the balance between model complexity and predictive performance.
 
-
-
 ```{r}
 #| include: false
 # all-subset selection
@@ -306,17 +304,58 @@ plot(best_mlr_bwd, scale = "bic")
 
 The final model was selected by comparing the results of all three search strategies using the Bayesian Information Criterion (BIC) (@fig-all-subset, @fig-fwd, @fig-bwd). We prioritized BIC over Adjusted R-squared to ensure model parsimony and to minimize the risk of overfitting. All three algorithms (all-subset, forward, and backward) converged on the same subset of 13 predictors, indicating a highly stable and robust selection. These predictors include the following: `sex`, `race` (specifically Asian and Black), age group (`age_category`, specifically 35-54 and 55+), `smoking`, alcohol consumption (`alcohol_drinking`), `stroke`, difficulty walking (`diff_walking`), `sleep_time`, `diabetic`, `physical_activity`, `general_health`, `asthma`, and `skin_cancer`.
 
+To satisfy the linear regression assumption of normality (particularly given the right-skewness observed in the raw BMI distribution), the final model was fit using a natural log transformation of BMI (log(`bmi`)). This transformation stabilizes variance and ensures more reliable coefficient estimates. The final model is evaluated through diagnostic plots below.
+
+[Final Model Diagnostics]{.underline}
+
+We assessed the assumptions of the linear regression model using standard diagnostic plots.
+
+```{r}
+#| include: false
+
+final_mlr <- lm(log(bmi) ~ smoking + alcohol_drinking + stroke + diff_walking +
+                  sex + age_category + race + diabetic + physical_activity +
+                  gen_health + sleep_time + asthma + skin_cancer,
+                data = heart_train)
+```
+
+Linearity and homoscedasticity were evaluated using a residuals versus fitted values plot (@mlr-resid-fit). The assumptions appear largely satisfied, as the residuals are centered around zero with a relatively consistent vertical spread across the range of fitted values.
+
+```{r}
+#| echo: false
+#| label: mlr-resid-fit
 
 
-**Initial Model Diagnostics and Assumptions** MAKE IT FOR FINAL MODEL INSTEAD!
+plot(final_mlr, which = 1)
+```
 
-We assessed the assumptions of linear regression using standard diagnostic plots. Linearity and homoscedasticity were evaluated using a residuals versus fitted values plot. The homoscedasticity assumption is violated, as prediction error increases significantly at higher BMI values.
+Next, normality of residuals was assessed through a Q-Q plot (@fig-qq-plot).
 
-Next, normality of residuals was assessed through a Q-Q plot.
+```{r}
+#| echo: false
+#| label: mlr-qq-plot
 
-We also examined potential influential observations using a residuals versus leverage plot.
+plot(final_mlr, which = 2)
+```
 
-Lastly, we assessed multicollinearity by calculating variance inflation factors (VIFs) [**insert figure**].
+We also examined potential influential observations using a residuals versus leverage plot (@mlr-leverage).
+
+```{r}
+#| echo: false
+#| label: mlr-leverage
+
+plot(final_mlr, which = 3)
+```
+
+Lastly, we assessed multicollinearity by calculating the General Variance Inflation Factors (GVIFs). All GVIF values were below 2.0, indicating that multicollinearity is not a concern for our final model.
+
+```{r}
+#| include: false
+
+vif(final_mlr)
+
+```
+
 
 #### Logistic Regression: Predicting Heart Attack
 - coefficients of interest
