@@ -8,7 +8,8 @@ library(kableExtra)
 library(pROC)
 
 # load data
-disease_data <- readRDS("../disease_data/disease-prepared.RDS")
+disease_data <- heartdisease
+
 ```
 
 ## Results
@@ -46,11 +47,11 @@ disease2 <- disease_data |>
     bmi >= 30 ~ "Obese",
     TRUE ~ NA_character_),
     
-    age_category = case_when(
-    age_category %in% young ~ "Young (18-39)",
-    age_category %in% middle_age ~ "Middle Aged (40-59)",
-    age_category %in% old ~ "Elderly (60-80+)",
-    TRUE ~ NA_character_)
+   # age_category = case_when(
+ #   age_category %in% young ~ "Young (18-39)",
+  #  age_category %in% middle_age ~ "Middle Aged (40-59)",
+  #  age_category %in% old ~ "Elderly (60-80+)",
+  #  TRUE ~ NA_character_)
     
     )
 ```
@@ -60,15 +61,24 @@ disease2 <- disease_data |>
 
 # testing for correlation
 
-cor(disease_data$smoking, disease_data$asthma) #0.02414853
-cor(disease_data$diabetic, disease_data$heart_disease) #0.1747823
+#cor(disease_data$smoking, disease_data$asthma) #0.02414853
+#cor(disease_data$diabetic, disease_data$heart_disease) #0.1747823
 
 ```
+
+[Demographics]{.underline}
+
+Compared to White peers, and holding all other variables constant, our model predicts with that Hispanic, Black, and Asian individuals have 0.75 (95% CI: \[0.70, 0.81\]), 0.70 (95% CI: \[0.66, 0.76\]), and 0.60 (95% CI: \[0.51, 0.71\]) times the odds of having heart disease, respectively (@fig-heartdisease-race; @tbl-log-reg-coeffs) . In short, White individuals are predicted to have the highest likelihood of heart attack.
+
+As one may expect, the predicted risk for heart disease increases with age. Compared to 18-34 year olds of the same sex, race, and health conditions, 35-54 year olds are expected to have 2.97 the odds of heart disease (95% CI: [2.61, 3.37]). This risk increases even more dramatically for ages 55 years and older, whose odds of heart diseae are predicted to be 8.9 times (95% CI: [7.89, 10.06]) that of 18-34 year olds (@fig-heartdisease-age; @tbl-log-reg-coeffs).
+
+Sex also has a significant impact on the odds of having heart disease. **SEX 1** has 0.55 times (95% CI: [0.53, 0.57]) the odds of have heart disease compared to **SEX 0**, holding all other predictors constant (@fig-heartdisease-sex; @tbl-log-reg-coeffs).
 
 :::::: {layout="[0.3, 0.3, 0.3]"}
 ::: {#plot1}
 ```{r}
 #| echo: false
+#| label: fig-heartdisease-race
 ## DEMOGRAPHICS
 
 # RACE
@@ -76,7 +86,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = race)) +
   geom_bar(color = "black", position = "fill") + 
   labs(x = "Heart Disease Status",
        y = "Count",
-       fill = "Sex") +
+       fill = "Race") +
   scale_x_discrete(labels = c("0" = "No Heart Disease",
                               "1" = "Heart Disease")) +
   #scale_fill_manual(values = c(1 = "tomato", 0 = "skyblue")) +
@@ -88,6 +98,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = race)) +
 ::: {#plot2}
 ```{r}
 #| echo: false
+#| label: fig-heartdisease-sex
 # SEX
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(sex))) +
   geom_bar(color = "black", position = "fill") + 
@@ -105,6 +116,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(sex))) 
 ::: {#plot3}
 ```{r}
 #| echo: false
+#| label: fig-heartdisease-age
 
 # AGE
 ggplot(data = disease2, aes(x = factor(heart_disease), fill = age_category)) +
@@ -114,12 +126,21 @@ ggplot(data = disease2, aes(x = factor(heart_disease), fill = age_category)) +
        fill = "Age Group") +
   scale_x_discrete(labels = c("0" = "No Heart Disease",
                               "1" = "Heart Disease")) +
-  #scale_fill_manual(values = c(1 = "tomato", 0 = "skyblue")) +
+  scale_fill_manual(
+    values = c("1" = "orange", "2" = "tomato", "3" = "skyblue"),
+    labels = c("18-34", "35-54", "55 and older")) +
   theme_classic() + 
   theme(legend.position = "bottom")
 
 
 
+
+```
+:::
+::::::
+```{r}
+#| include: false
+# AGE
 ggplot(data = disease_data, aes(x = age_category, fill = factor(heart_disease))) +
   geom_bar(color = "black", position = "fill") + 
   labs(x = "Age",
@@ -129,15 +150,12 @@ ggplot(data = disease_data, aes(x = age_category, fill = factor(heart_disease)))
     values = c("0" = "skyblue", "1" = "tomato"),
     labels = c("No", "Yes")
   ) +
-  scale_x_discrete(labels = c("0" = "No Heart Disease",
-                              "1" = "Heart Disease")) +
+  scale_x_discrete(labels = c("1" = "18-34",
+                              "2" = "35-54",
+                              "3" = "55 and older")) +
   theme_classic() + 
   theme(legend.position = "bottom")
-
-
 ```
-:::
-::::::
 
 :::::: {layout="[0.3, 0.3, 0.3]"}
 <div>
@@ -153,100 +171,13 @@ ggplot(data = disease_data, aes(x = age_category, fill = factor(heart_disease)))
 </div>
 ::::::
 
-::::: {layout="[0.45, 0.45]"}
-::: column
-```{r}
-#| echo: false
-## BODY MASS INDEX (BMI)
-
-ggplot(data = disease_data, aes(x = bmi, fill = factor(heart_disease))) +
-  geom_density(alpha = 0.5, color = "black") + 
-  labs(x = "BMI",
-       y = "Count",
-       fill = "Heart Disease") +
-  scale_fill_manual(
-    values = c("0" = "skyblue", "1" = "tomato"),
-    labels = c("No", "Yes")
-  ) +
-  theme_classic() +
-  theme(legend.position = "bottom")
-
-# BMI
-ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease), 
-                            fill = factor(heart_disease))) +
-  geom_boxplot() + 
-  labs(x = "Heart Disease", y = "BMI") + 
-  scale_x_discrete(labels = c("0" = "No Heart Disease",
-                              "1" = "Heart Disease")) +
-  scale_fill_manual(
-    values = c("0" = "skyblue", "1" = "tomato"),
-    labels = c("No", "Yes")
-  ) +
-  theme_classic() +
-  theme(legend.position = "none")
-```
-:::
-
-::: column
-```{r}
-#| echo: false
-
-# BMI
-ggplot(data = disease2, aes(x = factor(heart_disease), fill = bmi)) +
-  geom_bar(color = "black", position = "fill") + 
-  labs(x = "Heart Disease",
-       y = "Count",
-       fill = "BMI") +
-  scale_x_discrete(labels = c("0" = "No Heart Disease",
-                              "1" = "Heart Disease")) +
-  theme_classic() + 
-  theme(legend.position = "bottom")
-```
-:::
-:::::
-
-```{r}
-#| include: false
-
-# BMI
-ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease), 
-                            fill = factor(heart_disease))) +
-  geom_boxplot() + 
-  labs(x = "Heart Disease", y = "BMI") + 
-  scale_x_discrete(labels = c("0" = "No Heart Disease",
-                              "1" = "Heart Disease")) +
-  scale_fill_manual(
-    values = c("0" = "skyblue", "1" = "tomato"),
-    labels = c("No", "Yes")
-  ) +
-  theme_classic() +
-  theme(legend.position = "none")
-
-```
-
-:::::: {layout="[0.3, 0.3, 0.3]"}
-<div>
-
-```{r}
-#| echo: false
-## BEHAVIOR
-
-# SLEEP
-ggplot(data = disease2, aes(x = factor(heart_disease), fill = sleep_time)) +
-  geom_bar(color = "black", position = "fill") + 
-  labs(x = "Heart Disease",
-       y = "Count",
-       fill = "Sleep") +
-  scale_x_discrete(labels = c("0" = "No Heart Disease",
-                              "1" = "Heart Disease")) +
-  theme_classic() + 
-  theme(legend.position = "bottom")
-```
 
 </div>
 
 <div>
 
+
+[Behavior]{.underline}
 ```{r}
 #| echo: false
 
@@ -434,19 +365,33 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(stroke)
 #### Regression Analysis
 
 -   final regression equation
+
 ```{r}
 #| echo: false
+#| label: tbl-log-reg-coeffs
 #| tbl-cap: "Logistic Regression Coefficients"
 reg_sum <- summary(final_log_reg)
 
 coefficients <- as.data.frame(reg_sum$coefficients)
 coeff_sorted <- coefficients[order(coefficients$Estimate, decreasing = TRUE), ]
 
+
+# calculate the odds & probability
+coeff_sorted <- coeff_sorted |>
+  mutate(
+    odds_coeff = exp(coeff_sorted$Estimate),
+    prob = odds_coeff / (1 + odds_coeff),
+    ci_low = exp(Estimate - 2*`Std. Error`),
+    ci_high = exp(Estimate + 2*`Std. Error`)
+  )
+
+colnames(coeff_sorted) <- c("Estimate (log-odds)", "Std. Error", "Z value", "P-value", "Estimate (odds)", "Probability", "CI low (odds)", "CI high (odds)")
+
 coeff_sorted |> kable() |>
   kable_styling() |>
-  row_spec(which(coeff_sorted$Estimate >= 0),  background = "#e6ffe6") |>
-  row_spec(which(coeff_sorted$Estimate < 0), background = "#ffe6e6") |>
-  row_spec(which(coeff_sorted$`Pr(>|z|)` > 0.05), background = "gray")
+  row_spec(which(coeff_sorted$`Estimate (log-odds)` >= 0),  background = "#ffe6e6") |>
+  row_spec(which(coeff_sorted$`Estimate (log-odds)` < 0), background = "#e6ffe6") |>
+  row_spec(which(coeff_sorted$`P-value` > 0.05), background = "#c7d1d9")
 ```
 
 -   interpretation of coefficients
@@ -454,6 +399,7 @@ coeff_sorted |> kable() |>
 -   odds interpretation (odds ratio, confidence interval)
 
 -   probability interpretation
+
 ```{r}
 #| include: false
 
@@ -467,9 +413,6 @@ heart_test <- heart_test |>
   )
 
 ```
-
-
-
 
 ```{r}
 #| echo: false
@@ -509,10 +452,8 @@ topleft <- coords(roc, "best", best.method = "closest.topleft")
 
 ```
 
-
-
-:::: {layout="[0.5, 0.4]"}
-:::{#plot1}
+::::: {layout="[0.5, 0.4]"}
+<div>
 
 ```{r}
 #| echo: false
@@ -531,8 +472,11 @@ colnames(confusion_matrix) <- c("No Heart Disease (Actual)", "Heart Disease (Act
 
 confusion_matrix|> kable()
 ```
-:::
-:::{#plot2}
+
+</div>
+
+<div>
+
 ```{r}
 #| echo: false
 
@@ -562,8 +506,9 @@ rates_tbl <- data.frame(
 rates_tbl |> kable()
 
 ```
-:::
-::::
+
+</div>
+:::::
 
 ```{=html}
 <!-- 
