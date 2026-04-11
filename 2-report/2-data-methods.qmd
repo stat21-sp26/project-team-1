@@ -1,6 +1,13 @@
+---
+editor: 
+  markdown: 
+    wrap: 72
+---
+
 ## Methodology
 
 <!-- If you use a single dataset, use this structure -->
+
 ### Data
 
 ```{r}
@@ -16,6 +23,7 @@ library(car)
 ```
 
 ```{r}
+#| include: false
 # loading data
 heartdisease <- readRDS("../disease_data/heart-prepared.RDS")
 
@@ -30,22 +38,58 @@ heartdisease$age_category <- relevel(factor(heartdisease$age_category), ref = "1
 
 ```
 
-The current dataset on crucial indicators for heart disease from patients in the United States (2022) is sourced from the following website hosted by Kaggle: <https://www.kaggle.com/datasets/kamilpytlak/personal-key-indicators-of-heart-disease>. The dataset originally comes from the Centers for Disease Control and Prevention (CDC) and is a part of the Behavioral Risk Factor Surveillance System (BRFSS). It was originally collected by the CDC and BRFSS to gather data on the health status of U.S. residents across all 50 states, the District of Columbia, and 3 U.S. territories. To download the dataset, scroll to the end of the "About Dataset" section and click the download icon (an arrow pointing down). The dataset was downloaded on February 22, 2026.
+The current dataset on crucial indicators for heart disease from
+patients in the United States (2022) is sourced from the following
+website hosted by Kaggle:
+<https://www.kaggle.com/datasets/kamilpytlak/personal-key-indicators-of-heart-disease>.
+The dataset originally comes from the Centers for Disease Control and
+Prevention (CDC) and is a part of the Behavioral Risk Factor
+Surveillance System (BRFSS). It was originally collected by the CDC and
+BRFSS to gather data on the health status of U.S. residents across all
+50 states, the District of Columbia, and 3 U.S. territories. To download
+the dataset, scroll to the end of the "About Dataset" section and click
+the download icon (an arrow pointing down). The dataset was downloaded
+on February 22, 2026.
 
-The raw dataset contains 319795 observations, each representing an individual surveyed through the BRFSS in 2022. Each individual answered a series of questions regarding their health. Eighteen variables were recorded for each individual, including identity characteristics (e.g., sex and race) and indicators of overall cardiovascular health, such as BMI, smoking status, mental health, and diabetes status.
+The raw dataset contains 319795 observations, each representing an
+individual surveyed through the BRFSS in 2022. Each individual answered
+a series of questions regarding their health. Eighteen variables were
+recorded for each individual, including identity characteristics (e.g.,
+sex and race) and indicators of overall cardiovascular health, such as
+BMI, smoking status, mental health, and diabetes status.
 
-The original purpose of the dataset was to monitor the population health and identify crucial risk factors for diseases such as heart disease to inform public health policy and prevention efforts. This research builds on that goal by providing further insight into how these risk factors contribute to the prediction of heart disease and overall cardiovascular health outcomes.
+The original purpose of the dataset was to monitor the population health
+and identify crucial risk factors for diseases such as heart disease to
+inform public health policy and prevention efforts. This research builds
+on that goal by providing further insight into how these risk factors
+contribute to the prediction of heart disease and overall cardiovascular
+health outcomes.
 
-The dataset was cleaned by addressing implausible values in numeric variables, specifically `bmi` and `sleep_time`. In the `bmi` variable, extremely low values were observed (minimum = 12.02) that are considered physiologically implausible; these values were treated as NA. Similarly, the `sleep_time` variable included extreme values (minimum = 1 hour and maximum = 24 hours). While achieving such durations is technically possible, they are highly unusual and could disproportionately influence subsequent analyses, so they were also recorded as NA to improve data quality and reliability. In addition, the `diabetic` variable was altered to have only two levels ("Yes" and "No") instead of its original four levels ("Yes", "No", "Yes (during pregnancy)", and "No, borderline diabetes"). This simplifies future analyses, where we will only be concerned whether diabetes was present, regardless of when or in what context.
+The dataset was cleaned by addressing implausible values in numeric
+variables, specifically `bmi` and `sleep_time`. In the `bmi` variable,
+extremely low values were observed (minimum = 12.02) that are considered
+physiologically implausible; these values were treated as NA. Similarly,
+the `sleep_time` variable included extreme values (minimum = 1 hour and
+maximum = 24 hours). While achieving such durations is technically
+possible, they are highly unusual and could disproportionately influence
+subsequent analyses, so they were also recorded as NA to improve data
+quality and reliability. In addition, the `diabetic` variable was
+altered to have only two levels ("Yes" and "No") instead of its original
+four levels ("Yes", "No", "Yes (during pregnancy)", and "No, borderline
+diabetes"). This simplifies future analyses, where we will only be
+concerned whether diabetes was present, regardless of when or in what
+context.
 
-TO DO:
-- [] add EDA visualizations
+TO DO: - \[\] add EDA visualizations
 
 ### Exploratory Data Analyses
 
 #### BMI and Predictors
 
-The distribution of BMI (@fig-bmi-hist) shows a strong right-skew. Most observations are clustered between 25 and 30, but a few outliers extend to 60. This non-normality suggests that a standard linear model might be biased by extreme values.
+The distribution of BMI (@fig-bmi-hist) shows a strong right-skew. Most
+observations are clustered between 25 and 30, but a few outliers extend
+to 60. This non-normality suggests that a standard linear model might be
+biased by extreme values.
 
 ```{r}
 #| echo: false
@@ -68,7 +112,6 @@ heartdisease %>%
 # log(bmi) is less skewed
 ```
 
-
 ```{r}
 #| include: false
 
@@ -79,7 +122,13 @@ summary(heartdisease$bmi)
 # max = 59.97
 ```
 
-The boxplot of BMI across age groups (@fig-bmi-age) reveals that the median BMI is highest in the middle-age group (35-54) and slightly lower in the youngest (18-34) and oldest (55+) cohorts. While the interquartile ranges are similar across groups, all three groups exhibit a massive density of high-value outliers, with BMI values extending up to 60. This suggests that extreme BMI values are prevalent regardless of age.
+The boxplot of BMI across age groups (@fig-bmi-age) reveals that the
+median BMI is highest in the middle-age group (35-54) and slightly lower
+in the youngest (18-34) and oldest (55+) cohorts. While the
+interquartile ranges are similar across groups, all three groups exhibit
+a massive density of high-value outliers, with BMI values extending up
+to 60. This suggests that extreme BMI values are prevalent regardless of
+age.
 
 ```{r}
 #| echo: false
@@ -112,7 +161,13 @@ heartdisease %>%
 ))
 ```
 
-Comparing BMI across racial groups (@fig-bmi-race) shows noticeable variation in central tendency; Asian individuals display the lowest median BMI and a narrower overall distribution, while Black and Native American individuals show higher median values. Similar to the age categories, every racial group contains a significant number of extreme outliers, indicating a consistent right-skew in the BMI data across all individuals.
+Comparing BMI across racial groups (@fig-bmi-race) shows noticeable
+variation in central tendency; Asian individuals display the lowest
+median BMI and a narrower overall distribution, while Black and Native
+American individuals show higher median values. Similar to the age
+categories, every racial group contains a significant number of extreme
+outliers, indicating a consistent right-skew in the BMI data across all
+individuals.
 
 ```{r}
 #| echo: false
@@ -144,7 +199,6 @@ heartdisease %>%
   "American Indian/Alaskan Native" = "Native American"))
 ```
 
-
 ```{r}
 #| include: false
 
@@ -168,24 +222,33 @@ aggregate(bmi ~ sleep_time, data = heartdisease, FUN = mean)
 
 ```
 
-
 ### Statistical Methods
 
 #### Multiple Linear Regression: Factors that Determine BMI
 
-- coefficients of interest: 
-- reasoning for fitting the model:
-     - other models we considered
-     - assessing the validity of conditions
-     - variable transformations
-- forward vs. backward selection
-- AIC & BIC
+-   coefficients of interest:
+-   reasoning for fitting the model:
+    -   other models we considered
+    -   assessing the validity of conditions
+    -   variable transformations
+-   forward vs. backward selection
+-   AIC & BIC
 
 [Initial Model Technique and Selection]{.underline}
 
-To investigate the factors influencing BMI, we used a **multiple linear regression**. We began with a "full model" approach to capture the complex interplay between demographics (race, sex, age), behavioral habits (smoking, physical activity, alcohol consumption, sleep), and existing health conditions (e.g., diabetes, heart disease, asthma).
+To investigate the factors influencing BMI, we used a **multiple linear
+regression**. We began with a "full model" approach to capture the
+complex interplay between demographics (race, sex, age), behavioral
+habits (smoking, physical activity, alcohol consumption, sleep), and
+existing health conditions (e.g., diabetes, heart disease, asthma).
 
-For the categorical predictors, we utilized dummy coding to allow for comparison against established baseline groups. The reference categories were set to 'White' for `race`, 'No' for difficulty walking (`diff_walking`), '18-34' for `age_category`, and 'Poor' for general health (`gen_health`). This allows the regression coefficients to be interpreted as the estimated change in BMI for a specific group relative to these baseline demographics.
+For the categorical predictors, we utilized dummy coding to allow for
+comparison against established baseline groups. The reference categories
+were set to 'White' for `race`, 'No' for difficulty walking
+(`diff_walking`), '18-34' for `age_category`, and 'Poor' for general
+health (`gen_health`). This allows the regression coefficients to be
+interpreted as the estimated change in BMI for a specific group relative
+to these baseline demographics.
 
 ```{r}
 #| include: false
@@ -198,8 +261,13 @@ first_mlr <- lm(
 
 ```
 
-To ensure that the predictors in the full model were not highly correlated with one another—a condition known as multicollinearity—we calculated the Generalized Variance Inflation Factors (GVIF) for all variables. All GVIF values were below 2.0, which is well under the common threshold of 5 or 10. This indicates that multicollinearity is not a concern for this model, and the estimated coefficients for these variables can be interpreted reliably.
-
+To ensure that the predictors in the full model were not highly
+correlated with one another—a condition known as multicollinearity—we
+calculated the Generalized Variance Inflation Factors (GVIF) for all
+variables. All GVIF values were below 2.0, which is well under the
+common threshold of 5 or 10. This indicates that multicollinearity is
+not a concern for this model, and the estimated coefficients for these
+variables can be interpreted reliably.
 
 ```{r}
 #| include: false
@@ -208,10 +276,14 @@ vif(first_mlr)
 
 ```
 
-
 [Model Selection]{.underline}
 
-Before performing model selection, the dataset was split into a training set (80%) and a testing set (20%) to ensure the generalizability of the final model. A random seed (1234) was set to ensure reproducibility of the split. The training set (n = 255836) was used for model development and variable selection, while the testing set was reserved for final model validation to assess its predictive performance on unseen data.
+Before performing model selection, the dataset was split into a training
+set (80%) and a testing set (20%) to ensure the generalizability of the
+final model. A random seed (1234) was set to ensure reproducibility of
+the split. The training set (n = 255836) was used for model development
+and variable selection, while the testing set was reserved for final
+model validation to assess its predictive performance on unseen data.
 
 ```{r}
 #| include: false
@@ -239,7 +311,6 @@ heart_test <- heartdisease %>%
   select(-row_id, -set)
 ```
 
-
 ```{r}
 
 # heart_train <- heart_train %>% 
@@ -249,9 +320,26 @@ heart_test <- heartdisease %>%
 
 ```
 
-To determine the most effective predictors for BMI while maintaining model parsimony, we performed automated model selection using three distinct algorithmic approaches: (1) all-subset selection, (2) forward stepwise selection, and (3) backward elimination. Each method evaluated models with up to 17 predictors. By comparing these three approaches, we aimed to identify a consistent set of variables that optimize the balance between model complexity and predictive performance.
+To determine the most effective predictors for BMI while maintaining
+model parsimony, we performed automated model selection using three
+distinct algorithmic approaches: (1) all-subset selection, (2) forward
+stepwise selection, and (3) backward elimination. Each method evaluated
+models with up to 17 predictors. By comparing these three approaches, we
+aimed to identify a consistent set of variables that optimize the
+balance between model complexity and predictive performance.
 
-The final model was selected by comparing the results of all three search strategies using the Bayesian Information Criterion (BIC) (@fig-all-subset, @fig-fwd, @fig-bwd). We prioritized BIC over Adjusted R-squared to ensure model parsimony and to minimize the risk of overfitting. All three algorithms (all-subset, forward, and backward) converged on the same subset of 13 predictors, indicating a highly stable and robust selection. These predictors include the following: `sex`, `race` (specifically Asian and Black), age group (`age_category`, specifically 35-54 and 55+), `smoking`, alcohol consumption (`alcohol_drinking`), `stroke`, difficulty walking (`diff_walking`), `sleep_time`, `diabetic`, `physical_activity`, `general_health`, `asthma`, and `skin_cancer`.
+The final model was selected by comparing the results of all three
+search strategies using the Bayesian Information Criterion (BIC)
+(@fig-all-subset, @fig-fwd, @fig-bwd). We prioritized BIC over Adjusted
+R-squared to ensure model parsimony and to minimize the risk of
+overfitting. All three algorithms (all-subset, forward, and backward)
+converged on the same subset of 13 predictors, indicating a highly
+stable and robust selection. These predictors include the following:
+`sex`, `race` (specifically Asian and Black), age group (`age_category`,
+specifically 35-54 and 55+), `smoking`, alcohol consumption
+(`alcohol_drinking`), `stroke`, difficulty walking (`diff_walking`),
+`sleep_time`, `diabetic`, `physical_activity`, `general_health`,
+`asthma`, and `skin_cancer`.
 
 ```{r}
 #| include: false
@@ -268,7 +356,6 @@ best_mlr_all_sub <- regsubsets(bmi ~ .,
 
 plot(best_mlr_all_sub, scale = "bic")
 ```
-
 
 ```{r}
 #| include: false
@@ -306,9 +393,14 @@ plot(best_mlr_bwd, scale = "bic")
 
 [Final Model Diagnostics]{.underline}
 
-To satisfy the linear regression assumption of normality (particularly given the right-skewness observed in the raw BMI distribution), the final model was fit using a natural log transformation of BMI (log(`bmi`)). This transformation stabilizes variance and ensures more reliable coefficient estimates.
+To satisfy the linear regression assumption of normality (particularly
+given the right-skewness observed in the raw BMI distribution), the
+final model was fit using a natural log transformation of BMI
+(log(`bmi`)). This transformation stabilizes variance and ensures more
+reliable coefficient estimates.
 
-We assessed the assumptions of the linear regression model using standard diagnostic plots.
+We assessed the assumptions of the linear regression model using
+standard diagnostic plots.
 
 ```{r}
 #| include: false
@@ -319,7 +411,10 @@ final_mlr <- lm(log(bmi) ~ smoking + alcohol_drinking + stroke + diff_walking +
                 data = heart_train)
 ```
 
-Linearity and homoscedasticity were evaluated using a residuals versus fitted values plot (@fig-mlr-resfit). The assumptions appear largely satisfied, as the residuals are centered around zero with a relatively consistent vertical spread across the range of fitted values.
+Linearity and homoscedasticity were evaluated using a residuals versus
+fitted values plot (@fig-mlr-resfit). The assumptions appear largely
+satisfied, as the residuals are centered around zero with a relatively
+consistent vertical spread across the range of fitted values.
 
 ```{r}
 #| echo: false
@@ -329,7 +424,8 @@ Linearity and homoscedasticity were evaluated using a residuals versus fitted va
 plot(final_mlr, which = 1)
 ```
 
-Next, normality of residuals was assessed through a Q-Q plot (@fig-mlr-qq).
+Next, normality of residuals was assessed through a Q-Q plot
+(@fig-mlr-qq).
 
 ```{r}
 #| echo: false
@@ -338,7 +434,8 @@ Next, normality of residuals was assessed through a Q-Q plot (@fig-mlr-qq).
 plot(final_mlr, which = 2)
 ```
 
-We also examined potential influential observations using a residuals versus leverage plot (@fig-mlr-leverage).
+We also examined potential influential observations using a residuals
+versus leverage plot (@fig-mlr-leverage).
 
 ```{r}
 #| echo: false
@@ -347,7 +444,9 @@ We also examined potential influential observations using a residuals versus lev
 plot(final_mlr, which = 3)
 ```
 
-Lastly, we assessed multicollinearity by calculating the General Variance Inflation Factors (GVIFs). All GVIF values were below 2.0, indicating that multicollinearity is not a concern for our final model.
+Lastly, we assessed multicollinearity by calculating the General
+Variance Inflation Factors (GVIFs). All GVIF values were below 2.0,
+indicating that multicollinearity is not a concern for our final model.
 
 ```{r}
 #| include: false
@@ -356,16 +455,23 @@ vif(final_mlr)
 
 ```
 
-
 #### Logistic Regression: Predicting Heart Attack
-- coefficients of interest
-- reasoning for fitting the model:
-     - other models we considered
-     - assessing the validity of conditions
-     - variable transformations
 
+-   coefficients of interest
+-   reasoning for fitting the model:
+    -   other models we considered
+    -   assessing the validity of conditions
+    -   variable transformations
 
-We are also interested in assessing an individual's risk for heart attack based on demographics, particularly race, behavior (smoking, drinking alcohol, sleep, physical activity), and other health conditions (diabetes, stroke, kidney disease, asthma). In addition, we will be investigating BMI as a potential predictor for heart attack, as BMI is a simple and readily accessible health measurement. Given that `heart_disease` is a binary outcome variable, we performed the following logistic regression to model the odds of an individual being diagnosed with heart disease:
+We are also interested in assessing an individual's risk for heart
+attack based on demographics, particularly race, behavior (smoking,
+drinking alcohol, sleep, physical activity), and other health conditions
+(diabetes, stroke, kidney disease, asthma). In addition, we will be
+investigating BMI as a potential predictor for heart attack, as BMI is a
+simple and readily accessible health measurement. Given that
+`heart_disease` is a binary outcome variable, we performed the following
+logistic regression to model the odds of an individual being diagnosed
+with heart disease:
 
 ```{r}
 #| include: false
@@ -380,9 +486,15 @@ library(kableExtra)
 
 # load data
 disease_data <- readRDS("../disease_data/disease-prepared.RDS")
+summary(disease_data) # only 1 numeric variable
 
 # relevel the data to make sure that raceWhite is used as the baseline
 disease_data$race <- relevel(factor(disease_data$race), ref = "White")
+disease_data$gen_health <- relevel(factor(disease_data$gen_health), ref = "Poor")
+
+heart_train$race <- relevel(factor(heart_train$race), ref = "White")
+heart_train$gen_health <- relevel(factor(heart_train$gen_health), ref = "Poor")
+
 
 # create the logistic regression 
 logistic_model <- glm(
@@ -397,20 +509,163 @@ logistic_model <- glm(
 summary(logistic_model)
 ```
 
-
 $$
 log(Odds_{HeartAttack}) = \beta_0 + \beta_1raceAsian + \beta_2raceBlack + \\ \beta_3raceHispanic + \beta_4raceOther +
 \beta_5Diabetes + \\ \beta_6KidneyDisease + \beta_7PhysicalActivity + \\ \beta_8Sleep + \beta_9Alchohol + \beta_{10}BMI
 $$
 
-**Assumptions**
-1) binary dependent variable
-2) independent observations
-3) linear relationship between continuous predictor variables & log-odds of outcome
-4) no multicollinearity
-5) large sample size
-6) no outliers
+```{r}
+#| include: false
 
-Normality and homoscedasticity of the residuals are not required assumptions to perform this analysis.
+# correlations for numeric predictors
+
+cor(disease_data$sleep_time, disease_data$heart_disease, use = "complete.obs") # 0.009097552
+
+cor(disease_data$physical_health, disease_data$heart_disease, use = "complete.obs") # 0.170721
+
+cor(disease_data$mental_health, disease_data$heart_disease, use = "complete.obs") # 0.02859071
+```
+
+**Selecting a Logistic Regression Model**
+
+Given that the our cleaned heart disease data set only contains 17
+possible predictors, we opted to employ both a all-subset, stepwise
+forward, and a backward elimination model selection process, since all
+three methods are not too computationally expensive in our case. For all
+models, we used the same 80%-20% split of train vs test data selected
+for our multiple linear regression of BMI in the section above.
+
+**All Subset Selection**
+
+```{r}
+#| include: false
+# all-subset selection
+
+best_log_reg_all_sub <- regsubsets(heart_disease ~ .,
+                         method = "exhaustive",
+                         nvmax = 17,
+                         data = heart_train)
+
+model_summary <- summary(best_log_reg_all_sub)
+best_idx <- which.min(model_summary$bic) # find the index in that corresponds to the model with
+                                          # the lowest BIC
+selected_model <- model_summary$which[best_idx, ] # select the row best_idx in the logical matrix --> selected_model is a logical vector
+selected_model |> kable() 
+
+selected_vars <- names(selected_model)[selected_model] # keeping only the TRUE predictors
+selected_vars |> kable()
+```
+
+```{r}
+#| echo: false
+#| label: fig-all-subset-log-reg
+#| fig-cap: "Exhaustive Model Selection (BIC)"
+
+plot(best_log_reg_all_sub, scale = "bic")
+```
+
+**Forward Selection**
+
+```{r}
+#| include: false
+# forward selection
+
+best_log_reg_fwd <- regsubsets(heart_disease ~ .,
+                         method = "forward",
+                         nvmax = 17,
+                         data = heart_train)
 
 
+model_summary <- summary(best_log_reg_fwd)
+best_idx <- which.min(model_summary$bic) # find the index in that corresponds to the model with
+                                          # the lowest BIC
+selected_model <- model_summary$which[best_idx, ] # select the row best_idx in the logical matrix --> selected_model is a logical vector
+selected_model |> kable() 
+
+selected_vars <- names(selected_model)[selected_model] # keeping only the TRUE predictors
+selected_vars |> kable()
+```
+
+```{r}
+#| echo: false
+#| label: fig-fwd-log-reg
+#| fig-cap: "Forward Model Selection (BIC)"
+
+plot(best_log_reg_fwd, scale = "bic")
+```
+
+**Backward Selection**
+
+```{r}
+#| include: false
+# backward selection
+
+best_log_reg_bwd <- regsubsets(heart_disease ~ .,
+                         method = "backward",
+                         nvmax = 17,
+                         data = heart_train)
+
+model_summary <- summary(best_log_reg_bwd)
+best_idx <- which.min(model_summary$bic) # find the index in that corresponds to the model with
+                                          # the lowest BIC
+selected_model <- model_summary$which[best_idx, ] # select the row best_idx in the logical matrix --> selected_model is a logical vector
+selected_model |> kable() 
+
+selected_vars <- names(selected_model)[selected_model] # keeping only the TRUE predictors
+selected_vars |> kable()
+```
+
+```{r}
+#| echo: false
+#| label: fig-bwd-log-reg
+#| fig-cap: "Backward Model Selection (BIC)"
+
+plot(best_log_reg_bwd, scale = "bic")
+```
+
+```{r}
+#| include: false
+
+# create logistic regression using all predictors
+full_log_reg <- glm(
+  heart_disease ~ .,
+  data = disease_data,
+  family = "binomial"
+)
+
+summary(full_log_reg)
+
+```
+
+**Validating Final Model Assumptions**
+
+**Assumptions** 1) binary dependent variable 2) independent observations
+3) linear relationship between continuous predictor variables & log-odds
+of outcome 4) no multicollinearity 5) large sample size 6) no outliers
+
+```{r}
+#| include: false
+
+# ASSUMPTION 4: No Multicollinearity
+
+# determine potential multicollinearity using Generalized Variance Inflation Factors (GVIF)
+
+vif(full_log_reg)
+# all GVIF values are below 2, indicating that there is no collinearity --> we do not need to remove or combine variables to account for correlation
+# VIF indicates "how much variance of estimated regression coefficient is increased due 
+# to collinearity with other predictors"
+# VIF values of 1 indicate no correlation
+# VIF >5-10 indicate high multicollinearity
+
+```
+
+```{r}
+#| include: false
+
+# ASSUMPTION 3: linear relationship between continuous predictor & log-odds outcome
+
+
+```
+
+Normality and homoscedasticity of the residuals are not required
+assumptions to perform this analysis.
