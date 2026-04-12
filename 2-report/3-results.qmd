@@ -109,6 +109,28 @@ heart_train %>%
 
 **general health**
 
+
+```{r}
+#| echo: false
+#| label: fig-logbmi-genhealth
+
+heart_train %>% 
+  filter(!is.na(gen_health), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = gen_health, y = log(bmi), fill = gen_health) +
+  geom_boxplot() +
+  labs(x = "General Health", y = "log(BMI)", fill = "General Health") +
+  theme_classic() +
+  scale_fill_manual(values = c(
+    "Poor" = "tomato",
+    "Fair" = "orange",
+    "Good" = "gold",
+    "Excellent" = "#228B22"))
+
+```
+
+
+
 #### Regression Analysis
 
 The results of our multiple linear regression are presented in @tbl-mlr-reg.
