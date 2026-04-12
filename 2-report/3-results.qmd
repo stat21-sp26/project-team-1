@@ -84,7 +84,7 @@ Compared to White peers, and holding all other variables constant, our model pre
 
 As one may expect, the predicted risk for heart disease increases with age. Compared to 18-34 year olds of the same sex, race, and health conditions, 35-54 year olds are expected to have 2.97 the odds of heart disease (95% CI: [2.61, 3.37]). This risk increases even more dramatically for ages 55 years and older, whose odds of heart diseae are predicted to be 8.9 times (95% CI: [7.89, 10.06]) that of 18-34 year olds (@fig-heartdisease-age; @tbl-log-reg-coeffs).
 
-Sex also has a significant impact on the odds of having heart disease. **SEX 1** has 0.55 times (95% CI: [0.53, 0.57]) the odds of have heart disease compared to **SEX 0**, holding all other predictors constant (@fig-heartdisease-sex; @tbl-log-reg-coeffs).
+Sex also has a significant impact on the odds of having heart disease. Males have 0.55 times (95% CI: [0.53, 0.57]) the odds of have heart disease compared to females, holding all other predictors constant (@fig-heartdisease-sex; @tbl-log-reg-coeffs).
 
 :::::: {layout="[0.3, 0.3, 0.3]"}
 ::: {#plot1}
@@ -243,12 +243,39 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(alcohol
 
 [Medical Conditions]{.underline}
 
+Overall, individuals categorized as having 'Fair', 'Good', and 'Excellent' general health were predicted to have a lower risk of heart disease. Compared to the odds of heart disease for those with 'Poor' general health, individuals in the other health categories had 0.68 (95% CI: [0.64, 0.72]), 0.42 (95% CI: [0.40, 0.45]), and 0.13 (95% CI: [0.12, 0.14]) times the odds of heart attack, respectively (@fig-heartdisease-gen-health; @tbl-log-reg-coeffs).
+
+On the other hand, pre-existing health complications such as diabetes, kidney disease, skin cancer, asthma, and stroke significantly increased the odds of heart disease. Diabetic patients have 1.61 times (95% CI: [1.55, 1.68]) the odds, patients with skin cancer have 1.33 times (95% CI: [1.27, 1.40]) the odds, patients with kidney disease have 1.87 times (95% CI: [1.76, 1.98]) the odds, patients with asthma have 1.25 times (95% CI: [1.19, 1.31]) the odds, and patients who have had a stroke have 2.96 times (95% CI: [2.81, 3.13]) the odds of heart attack compared to individuals without those respective health conditions, holding all other predictors constant (@fig-heartdisease-diabetes; @fig-heartdisease-kidney; @fig-heartdisease-cancer; @fig-heartdisease-asthma; @fig-heartdisease-stroke @tbl-log-reg-coeffs). Overall, having a stroke increases an individuals risk for heart attack to the highest degree of the health conditions mentioned. 
+
 
 :::::: {layout="[0.3, 0.3, 0.3]"}
 <div>
 
 ```{r}
 #| echo: false
+#| label: fig-heartdisease-gen-health
+
+# GENERAL HEALTH
+disease_data |>
+  filter(!is.na(gen_health)) |>
+  ggplot(aes(x = factor(heart_disease), fill = factor(gen_health))) +
+  geom_bar(color = "black", position = "fill") + 
+  labs(x = "Heart Disease Status",
+       y = "Count",
+       fill = "General Health") +
+  scale_x_discrete(labels = c("0" = "No Heart Disease",
+                              "1" = "Heart Disease")) +
+  #scale_fill_manual(
+ #   values = c("0" = "skyblue", "1" = "tomato"),
+#    labels = c("No", "Yes")
+#  ) +
+  theme_classic() + 
+  theme(legend.position = "bottom")
+```
+
+```{r}
+#| echo: false
+#| label: fig-heartdisease-diabetes
 
 ## MEDICAL CONDITIONS
 
@@ -274,6 +301,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(diabeti
 
 ```{r}
 #| echo: false
+#| label: fig-heartdisease-kidney
 
 # KIDNEY DISEASE
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(kidney_disease))) +
@@ -297,6 +325,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(kidney_
 
 ```{r}
 #| echo: false
+#| label: fig-heartdisease-asthma
 # ASTHMA
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(asthma))) +
   geom_bar(color = "black", position = "fill") + 
@@ -321,6 +350,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(asthma)
 
 ```{r}
 #| echo: false
+#| label: fig-heartdisease-cancer
 # SKIN CANCER
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(skin_cancer))) +
   geom_bar(color = "black", position = "fill") + 
@@ -344,6 +374,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(skin_ca
 
 ```{r}
 #| echo: false
+#| label: fig-heartdisease-stroke
 # STROKE
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(stroke))) +
   geom_bar(color = "black", position = "fill") + 
