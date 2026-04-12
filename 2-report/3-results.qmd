@@ -18,15 +18,15 @@ disease_data <- heartdisease
 
 #### Descriptive Statistics
 
-**Demographics**
+[Demographics]{.underline}
 
 insert text
 
-**Behaviors**
+[Behaviors]{.underline}
 
 insert texttt
 
-**Health**
+[Health]{.underline}
 
 insert texttt
 
