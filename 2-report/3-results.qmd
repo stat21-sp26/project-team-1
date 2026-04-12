@@ -293,9 +293,9 @@ disease_data |>
   theme(legend.position = "bottom")
 ```
 
-On the other hand, pre-existing health complications such as diabetes, kidney disease, skin cancer, asthma, and stroke significantly increased the odds of heart disease. Diabetic patients have 1.61 times (95% CI: [1.55, 1.68]) the odds, patients with skin cancer have 1.33 times (95% CI: [1.27, 1.40]) the odds, patients with kidney disease have 1.87 times (95% CI: [1.76, 1.98]) the odds, patients with asthma have 1.25 times (95% CI: [1.19, 1.31]) the odds, and patients who have had a stroke have 2.96 times (95% CI: [2.81, 3.13]) the odds of heart attack compared to individuals without those respective health conditions, holding all other predictors constant (@fig-heartdisease-diabetes; @fig-heartdisease-kidney; @fig-heartdisease-cancer; @fig-heartdisease-asthma; @fig-heartdisease-stroke @tbl-log-reg-coeffs). Overall, having a stroke increases an individuals risk for heart attack to the highest degree of the health conditions mentioned. 
+On the other hand, pre-existing health complications such as diabetes, kidney disease, skin cancer, asthma, stroke, and difficulty walking significantly increased the odds of heart disease. Diabetic patients have 1.61 times (95% CI: [1.55, 1.68]) the odds, patients with skin cancer have 1.33 times (95% CI: [1.27, 1.40]) the odds, patients with kidney disease have 1.87 times (95% CI: [1.76, 1.98]) the odds, patients with asthma have 1.25 times (95% CI: [1.19, 1.31]) the odds,  patients who have had a stroke have 2.96 times (95% CI: [2.81, 3.13]) the odds, and patients with difficulty walking have 1.32 (95% CI: [1.27, 1.38]) the odds of heart attack compared to individuals without those respective health conditions, holding all other predictors constant (@fig-heartdisease-diabetes; @fig-heartdisease-kidney; @fig-heartdisease-cancer; @fig-heartdisease-asthma; @fig-heartdisease-stroke @tbl-log-reg-coeffs). Overall, having a stroke increases an individuals risk for heart attack to the highest degree of the health conditions mentioned. 
 
-:::: {layout="[0.45, 0.45]"}
+:::: {layout="[0.3, 0.3, 0.3]"}
 :::{#plot1}
 ```{r}
 #| echo: false
@@ -344,11 +344,9 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(kidney_
   theme(legend.position = "bottom")
 ```
 :::
-::::
 
+:::{#plot3}
 
-:::: {layout="[0.3, 0.3, 0.3]"}
-:::{#plot1}
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-asthma
@@ -369,6 +367,10 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(asthma)
   theme(legend.position = "bottom")
 ```
 :::
+::::
+
+
+:::: {layout="[0.3, 0.3, 0.3]"}
 
 :::{#plot2}
 
@@ -415,6 +417,30 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(stroke)
   theme(legend.position = "bottom")
 ```
 :::
+
+:::{#plot1}
+```{r}
+#| echo: false
+#| label: fig-heartdisease-walking
+#| fig-cap: "Difficulty Walking"
+# DIFFICULTY WALKING
+ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(diff_walking))) +
+  geom_bar(color = "black", position = "fill") + 
+  labs(x = "Heart Disease Status",
+       y = "Count",
+       fill = "Difficulty Walking") +
+  scale_x_discrete(labels = c("0" = "No Heart Disease",
+                              "1" = "Heart Disease")) +
+  scale_fill_manual(
+    values = c("0" = "skyblue", "1" = "tomato"),
+    labels = c("No", "Yes")
+  ) +
+  theme_classic() + 
+  theme(legend.position = "bottom")
+```
+
+:::
+
 ::::
 
 
@@ -442,6 +468,8 @@ To assess the sensitivity and specificity of our logistic regression model and t
 #| echo: false
 #| label: fig-roc
 #| fig-cap: "Receiver Operating Characteristic (ROC) Curve"
+#| fig-width: 3.5
+#| fig-height: 3.5
 
 # calculate predicted probabilities
 prob <- predict(final_log_reg, newdata = heart_test, type = "response")
@@ -479,7 +507,7 @@ topleft <- coords(roc, "best", best.method = "closest.topleft")
 
 Using this threshold, we constructed a confusion matrix for the predicted heart disease outcomes on our test data (see section 2 for details on how we developed the train and test data) (@tbl-confusion-matrix). From this confusion matrix, we then calculated the rates for true positive, false positive, true negative, and false negative detection (@tbl-confusion-matrix-rates). At the threshold of 0.09886, our model can accurately identify 80.6% of individuals with heart disease, indicating high model sensitivity. The model's ability to accurately classify individuals as not having heart disease is also quite high at 70.2%, indicating high model specificity. This being said, the model will still incorrectly diagnose an individual has having heart disease 29.8% of the time and fails to properly identify a person as having heart disease 19.4% of the time.
 
-::::: {layout="[0.6, 0.35]"}
+::::: {layout="[0.7, 0.3]"}
 <div>
 
 ```{r}
