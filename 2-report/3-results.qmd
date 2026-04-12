@@ -73,9 +73,9 @@ adj_r2 <- (0.145328)
 
 mlr_stats <- data.frame(
   Variable = c("Observations", "R-squared", "Adj. R-squared"),
-  Coefficient = c(n, round(r2, 3), round(adj_r2, 3)),
-  Std_Error = NA,
-  P_value = NA
+  Coefficient = as.numeric(c(n, r2, adj_r2)),
+  Std_Error = as.numeric(c(NA, NA, NA)),
+  P_value = as.numeric(c(NA, NA, NA))
 )
 
 final_mlr_table <- bind_rows(mlr_table, mlr_stats)
