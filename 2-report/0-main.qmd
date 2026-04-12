@@ -28,9 +28,15 @@ engine: knitr
 
 {{< include 1-introduction.qmd >}}
 
+{{< pagebreak >}}
+
 {{< include 2-data-methods.qmd >}}
 
+{{< pagebreak >}}
+
 {{< include 3-results.qmd >}}
+
+{{< pagebreak >}}
 
 {{< include 4-discussion.qmd >}}
 
