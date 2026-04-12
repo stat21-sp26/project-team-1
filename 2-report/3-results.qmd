@@ -86,8 +86,7 @@ final_mlr_table <- bind_rows(mlr_table, mlr_stats)
 ```{r}
 #| echo: false
 
-kable(final_mlr_table, caption = "Multiple Linear Regression Results") %>% 
-  kable_styling(full_width = FALSE)
+kable(final_mlr_table)
 ```
 
 
