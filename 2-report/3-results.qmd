@@ -55,6 +55,33 @@ heart_train %>%
 
 **physical activity**, **smoking**
 
+```{r}
+#| echo: false
+#| label: fig-logbmi-physical
+
+heart_train %>% 
+  filter(!is.na(physical_activity), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = physical_activity, y = log(bmi), fill = physical_activity) %>%
+  geom_boxplot() +
+  labs(x = "Physical Activity", y = "log(BMI)", fill = "Physical Activity") +
+  theme_classic() +
+  scale_fill_manual(values = c(
+    "0" = "tomato",
+    "1" = "skyblue"),
+    labels = c(
+      "0" = "No",
+      "1" = "Yes")
+  ) +
+  scale_x_discrete(labels = c(
+  "0" = "No",
+  "1" = "Yes"
+))
+  
+```
+
+
+
 [Health]{.underline}
 
 **general health**
