@@ -73,7 +73,7 @@ colnames(mlr_table)[ncol(mlr_table)] <- "CI_Upper"
 ```{r}
 #| echo: false
 #| label: tbl-mlr-reg
-#| tbl-cap: "Multiple Linear Regression Coefficients"
+#| tbl-cap: "Multiple Linear Regression Coefficients. "
 
 mlr_table %>%
   kable(col.names = c(
@@ -85,6 +85,8 @@ mlr_table %>%
     "Lower CI",
     "Upper CI"
   ))
+
+## Coefficients represent approximate percentage changes in BMI
 
 ```
 
@@ -115,8 +117,10 @@ mlr_stats <- data.frame(
 #| include: false
 #| label: tbl-mlr-stat
 #| tbl-cap: "Multiple Linear Regression Statistics"
+
 mlr_stats %>% 
   kable(col.names = c("Statistic", "Value"))
+
 ```
 
 
