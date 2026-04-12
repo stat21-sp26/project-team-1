@@ -81,6 +81,29 @@ heart_train %>%
 ```
 
 
+```{r}
+#| echo: false
+#| label: fig-logbmi-smoke
+
+heart_train %>% 
+  filter(!is.na(smoking), !is.na(bmi)) %>%
+  ggplot() +
+  aes(x = smoking, y = log(bmi), fill = smoking) +
+  geom_boxplot() +
+  labs(x = "Smoking Status", y = "log(BMI)", fill = "Smoking Status") +
+  theme_classic() +
+    scale_fill_manual(values = c(
+    "0" = "tomato",
+    "1" = "skyblue"),
+    labels = c(
+      "0" = "No",
+      "1" = "Yes")) +
+  scale_x_discrete(labels = c(
+  "0" = "No",
+  "1" = "Yes"))
+```
+
+
 
 [Health]{.underline}
 
