@@ -36,8 +36,6 @@ insert texttt
 ```{r}
 #| include: false
 
-library(modelsummary)
-
 final_mlr <- lm(log(bmi) ~ smoking + alcohol_drinking + stroke + physical_health +
                    diff_walking + sex + age_category + race + diabetic + physical_activity +
                    gen_health + sleep_time + asthma + skin_cancer, 
