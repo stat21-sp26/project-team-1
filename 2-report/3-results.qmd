@@ -436,6 +436,8 @@ heart_test <- heart_test |>
 
 ```
 
+
+To assess the sensitivity and specificity of our logistic regression model and to determine an appropriate probability threshold for classification, we plotted a Receive Operating Characteristic (ROC) curve (@fig-roc). The Area Under the Curve (AUC) is 0.83, indicating that the model's classification of individuals with and without heart disease is much better than random (AUC = 0.5, represented by the y = x dashed line). We opted to use Youden's J statistic  to determine a probability threshold. This statistic identifies the maximum vertical distance between the ROC curve and the $y = x$ line, thereby maximizing the difference between the true positive rate (sensitivity) and the false positive rate (1 - specificity). We obtained a Youden J statistic of 0.09886 and set this as our threshold for subsequent analysis.
 ```{r}
 #| echo: false
 #| label: fig-roc
@@ -474,11 +476,15 @@ topleft <- coords(roc, "best", best.method = "closest.topleft")
 
 ```
 
-::::: {layout="[0.5, 0.4]"}
+
+Using this threshold, we constructed a confusion matrix for the predicted heart disease outcomes on our test data (see section 2 for details on how we developed the train and test data) (@tbl-confusion-matrix). From this confusion matrix, we then calculated the rates for true positive, false positive, true negative, and false negative detection (@tbl-confusion-matrix-rates). At the threshold of 0.09886, our model can accurately identify 80.6% of individuals with heart disease, indicating high model sensitivity. The model's ability to accurately classify individuals as not having heart disease is also quite high at 70.2%, indicating high model specificity. This being said, the model will still incorrectly diagnose an individual has having heart disease 29.8% of the time and fails to properly identify a person as having heart disease 19.4% of the time.
+
+::::: {layout="[0.6, 0.35]"}
 <div>
 
 ```{r}
 #| echo: false
+#| label: tbl-confusion-matrix
 #| tbl-cap: "Confusion Matrix for Predicted Heart Disease Outcomes on Test Data"
 
 
@@ -501,6 +507,7 @@ confusion_matrix|> kable()
 
 ```{r}
 #| echo: false
+#| label: tbl-confusion-matrix-rates
 
 # calculate true positive, false positive, false negative, and true negative rates
 TN <- confusion_matrix[1, 1]
