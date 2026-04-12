@@ -165,10 +165,9 @@ heart_train %>%
 ```
 
 
-
 [Health]{.underline}
 
-**general health**
+Compared to those who report poor health, and keeping all other factors constant, individuals reporting fair health have 3.36% higher BMI (p <0.05, 95% CI: [0.031, 0.041]), those reporting good health have 3.46% higher BMI (p <0.05, 95% CI: [0.029, 0.040]), and those reporting excellent health have 5.79% lower BMI (p <0.05, 95% CI: [-0.064, -0.052]) (@fig-logbmi-genhealth).
 
 
 ```{r}
