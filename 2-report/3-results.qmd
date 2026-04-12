@@ -81,7 +81,8 @@ test_mlr_table %>%
 
 [Demographics: Age]{.underline}
 
-Compared to people who are 18-34 years old, and holding all other variables constant, our model predicts that 35-54 year olds have approximately 5.48% higher BMI (p-value < 0.05, 95% CI: [0.052, 0.058]). In other words, 35-54 year olds are expected to have a higher BMI than 18-34 and 55+ year olds (@fig-logbmi-age).
+The distribution of log(BMI) varies across age groups (@fig-logbmi-age). Individuals who are 35-54 years old appear to have a higher median log(BMI) compared to those who are 18-34 years old. Those who are 55+ years old have a slightly lower median (BMI) than 35-54 year olds that is also slightly higher than for 18-34 year olds. Overall, BMI appears to increase from younger to middle-aged adults.
+
 
 ```{r}
 #| echo: false
@@ -114,7 +115,10 @@ heart_train %>%
 
 [Behaviors]{.underline}
 
-Our model also predicts that individuals who engage in physical activity have 3.41% lower BMI than those who do not (p-value < 0.05, 95% CI: [-0.036, -0.032]) (@fig-logbmi-physical). Interestingly, people who smoke have an expected 1.63% lower BMI than those who do not (@fig-logbmi-smoke). Although the difference in median `log(bmi)` is small, it is statistically significant (p-value < 0.05, 95% CI: [-0.018, -0.014]).
+Physical activity is also associated with differences in BMI. Individuals who report engaging in physical activity tend to have lower log(BMI) compared to those who do not, as seen by a lower median and distribution (@fig-logbmi-physical).
+
+Smoking, on the other hand, shows a less pronounced relationship with BMI. While smokers appear to have a slightly lower median log(BMI) than non-smokers, the difference between the groups is relatively small (@fig-logbmi-smoke).
+
 
 ```{r}
 #| echo: false
@@ -167,7 +171,7 @@ heart_train %>%
 
 [Health]{.underline}
 
-Compared to those who report poor health, and keeping all other factors constant, individuals reporting fair health have 3.36% higher BMI (p <0.05, 95% CI: [0.031, 0.041]), those reporting good health have 3.46% higher BMI (p <0.05, 95% CI: [0.029, 0.040]), and those reporting excellent health have 5.79% lower BMI (p <0.05, 95% CI: [-0.064, -0.052]) (@fig-logbmi-genhealth).
+General health status shows a clear relationship with BMI. Individuals reporting excellent health tend to have lower BMI, while those reporting fair or poor health tend to have higher BMI. This suggests a gradient where better self-reported health is associated with lower BMI (@fig-logbmi-genhealth).
 
 
 ```{r}
