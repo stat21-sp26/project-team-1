@@ -24,6 +24,38 @@ disease_data <- heartdisease
 
 #### Descriptive Statistics
 
+**TBD FINAL REGRESSION EQUATION**
+
+The ultimate result of our logistic regression on the odds of heart disease are captured in @tbl-log-reg-coeffs.
+```{r}
+#| echo: false
+#| label: tbl-log-reg-coeffs
+#| tbl-cap: "Logistic Regression Coefficients. Red rows indicate coefficients that increase the odds of heart disease. Green rows indicate coefficients that decrease the odds of heart disease. Gray rows indicate coefficients with insignificant p-values."
+reg_sum <- summary(final_log_reg)
+
+coefficients <- as.data.frame(reg_sum$coefficients)
+coeff_sorted <- coefficients[order(coefficients$Estimate, decreasing = TRUE), ]
+
+
+# calculate the odds & probability
+coeff_sorted <- coeff_sorted |>
+  mutate(
+    odds_coeff = exp(coeff_sorted$Estimate),
+    prob = odds_coeff / (1 + odds_coeff),
+    ci_low = exp(Estimate - 2*`Std. Error`),
+    ci_high = exp(Estimate + 2*`Std. Error`)
+  )
+
+colnames(coeff_sorted) <- c("Estimate (log-odds)", "Std. Error", "Z value", "P-value", "Estimate (odds)", "Probability", "CI low (odds)", "CI high (odds)")
+
+coeff_sorted |> kable() |>
+  kable_styling(full_width = FALSE) |>
+  column_spec(1:ncol(coeff_sorted), width = "4em") |>
+  row_spec(which(coeff_sorted$`Estimate (log-odds)` >= 0),  background = "#ffe6e6") |>
+  row_spec(which(coeff_sorted$`Estimate (log-odds)` < 0), background = "#e6ffe6") |>
+  row_spec(which(coeff_sorted$`P-value` > 0.05), background = "#c7d1d9")
+```
+
 ```{r}
 #| include: false
 
@@ -79,6 +111,7 @@ Sex also has a significant impact on the odds of having heart disease. Males hav
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-race
+#| fig-cap: Race
 ## DEMOGRAPHICS
 
 # RACE
@@ -99,6 +132,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = race)) +
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-sex
+#| fig-cap: Sex
 # SEX
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(sex))) +
   geom_bar(color = "black", position = "fill") + 
@@ -117,6 +151,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(sex))) 
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-age
+#| fig-cap: Age
 
 # AGE
 ggplot(data = disease2, aes(x = factor(heart_disease), fill = age_category)) +
@@ -157,24 +192,8 @@ ggplot(data = disease_data, aes(x = age_category, fill = factor(heart_disease)))
   theme(legend.position = "bottom")
 ```
 
-:::::: {layout="[0.3, 0.3, 0.3]"}
-<div>
-
-</div>
-
-<div>
-
-</div>
-
-<div>
-
-</div>
-::::::
-
-
-</div>
-
-<div>
+:::
+::::
 
 
 [Behavior]{.underline}
@@ -182,6 +201,8 @@ ggplot(data = disease_data, aes(x = age_category, fill = factor(heart_disease)))
 
 As we expected, our model predicts that individuals who smoke are at higher risk for heart disease. In particular, their odds of having a heart attack are 1.41 times (95% CI: [1.35, 1.46]) the odds for individuals who do not smoke, holding all other predictors constant (@fig-heartdisease-smoking; @tbl-log-reg-coeffs). Interestingly, alcohol consumption is predicted to have a significant negative effect on the risk of heart disease. Individuals who drink alcohol have 0.70 times (95% CI: [0.64, 0.76]) the odds of heart disease compared to individuals who do not drink alcohol (@fig-heartdisease-alcohol; @tbl-log-reg-coeffs).
 
+:::: {layout="[0.45, 0.45]"}
+:::{#plot1}
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-smoking
@@ -204,7 +225,8 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(smoking
 
 
 ```
-
+:::
+:::{#plot2}
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-alcohol
@@ -224,16 +246,14 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(alcohol
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
-
-</div>
-::::::
+:::
+::::
 
 
 [Medical Conditions]{.underline}
 
 Overall, individuals categorized as having 'Fair', 'Good', and 'Excellent' general health were predicted to have a lower risk of heart disease. Compared to the odds of heart disease for those with 'Poor' general health, individuals in the other health categories had 0.68 (95% CI: [0.64, 0.72]), 0.42 (95% CI: [0.40, 0.45]), and 0.13 (95% CI: [0.12, 0.14]) times the odds of heart attack, respectively (@fig-heartdisease-gen-health; @tbl-log-reg-coeffs).
 
-On the other hand, pre-existing health complications such as diabetes, kidney disease, skin cancer, asthma, and stroke significantly increased the odds of heart disease. Diabetic patients have 1.61 times (95% CI: [1.55, 1.68]) the odds, patients with skin cancer have 1.33 times (95% CI: [1.27, 1.40]) the odds, patients with kidney disease have 1.87 times (95% CI: [1.76, 1.98]) the odds, patients with asthma have 1.25 times (95% CI: [1.19, 1.31]) the odds, and patients who have had a stroke have 2.96 times (95% CI: [2.81, 3.13]) the odds of heart attack compared to individuals without those respective health conditions, holding all other predictors constant (@fig-heartdisease-diabetes; @fig-heartdisease-kidney; @fig-heartdisease-cancer; @fig-heartdisease-asthma; @fig-heartdisease-stroke @tbl-log-reg-coeffs). Overall, having a stroke increases an individuals risk for heart attack to the highest degree of the health conditions mentioned. 
 
 
 :::::: {layout="[0.3, 0.3, 0.3]"}
@@ -261,6 +281,10 @@ disease_data |>
   theme(legend.position = "bottom")
 ```
 
+On the other hand, pre-existing health complications such as diabetes, kidney disease, skin cancer, asthma, and stroke significantly increased the odds of heart disease. Diabetic patients have 1.61 times (95% CI: [1.55, 1.68]) the odds, patients with skin cancer have 1.33 times (95% CI: [1.27, 1.40]) the odds, patients with kidney disease have 1.87 times (95% CI: [1.76, 1.98]) the odds, patients with asthma have 1.25 times (95% CI: [1.19, 1.31]) the odds, and patients who have had a stroke have 2.96 times (95% CI: [2.81, 3.13]) the odds of heart attack compared to individuals without those respective health conditions, holding all other predictors constant (@fig-heartdisease-diabetes; @fig-heartdisease-kidney; @fig-heartdisease-cancer; @fig-heartdisease-asthma; @fig-heartdisease-stroke @tbl-log-reg-coeffs). Overall, having a stroke increases an individuals risk for heart attack to the highest degree of the health conditions mentioned. 
+
+:::: {layout="[0.45, 0.45]"}
+:::{#plot1}
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-diabetes
@@ -282,11 +306,10 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(diabeti
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
+:::
 
-</div>
 
-<div>
-
+:::{#plot2}
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-kidney
@@ -306,11 +329,12 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(kidney_
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
+:::
+::::
 
-</div>
 
-<div>
-
+:::: {layout="[0.3, 0.3, 0.3]"}
+:::{#plot1}
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-asthma
@@ -329,12 +353,9 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(asthma)
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
+:::
 
-</div>
-::::::
-
-:::::: {layout="[0.3, 0.3, 0.3]"}
-<div>
+:::{#plot2}
 
 ```{r}
 #| echo: false
@@ -355,11 +376,9 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(skin_ca
   theme(legend.position = "bottom")
 
 ```
+:::
 
-</div>
-
-<div>
-
+:::{#plot3}
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-stroke
@@ -378,45 +397,13 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(stroke)
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
+:::
+::::
 
-</div>
-
-<div>
-
-</div>
-::::::
 
 #### Regression Analysis
 
--   final regression equation
 
-```{r}
-#| echo: false
-#| label: tbl-log-reg-coeffs
-#| tbl-cap: "Logistic Regression Coefficients"
-reg_sum <- summary(final_log_reg)
-
-coefficients <- as.data.frame(reg_sum$coefficients)
-coeff_sorted <- coefficients[order(coefficients$Estimate, decreasing = TRUE), ]
-
-
-# calculate the odds & probability
-coeff_sorted <- coeff_sorted |>
-  mutate(
-    odds_coeff = exp(coeff_sorted$Estimate),
-    prob = odds_coeff / (1 + odds_coeff),
-    ci_low = exp(Estimate - 2*`Std. Error`),
-    ci_high = exp(Estimate + 2*`Std. Error`)
-  )
-
-colnames(coeff_sorted) <- c("Estimate (log-odds)", "Std. Error", "Z value", "P-value", "Estimate (odds)", "Probability", "CI low (odds)", "CI high (odds)")
-
-coeff_sorted |> kable() |>
-  kable_styling() |>
-  row_spec(which(coeff_sorted$`Estimate (log-odds)` >= 0),  background = "#ffe6e6") |>
-  row_spec(which(coeff_sorted$`Estimate (log-odds)` < 0), background = "#e6ffe6") |>
-  row_spec(which(coeff_sorted$`P-value` > 0.05), background = "#c7d1d9")
-```
 
 -   interpretation of coefficients
 

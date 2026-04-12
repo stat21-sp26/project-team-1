@@ -613,8 +613,30 @@ ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease),
 ```{r}
 #| echo: false
 
+disease2 <- disease_data |>
+  mutate(sleep_time = case_when(
+    sleep_time <= 10 & sleep_time >= 7 ~ "Healthy Sleep (7-10 hrs)",
+    sleep_time < 7 ~ "Sleep Deprived (<7 hrs)",
+    sleep_time > 10 ~ "Extra Sleep (>10 hrs)",
+    TRUE ~ NA_character_),
+    
+    bmi = case_when(
+    bmi < 19 ~ "Underweight",
+    bmi >= 19 & bmi < 25 ~ "Normal Weight",
+    bmi >= 25 & bmi < 30 ~ "Overweight",
+    bmi >= 30 ~ "Obese",
+    TRUE ~ NA_character_),
+    
+   # age_category = case_when(
+ #   age_category %in% young ~ "Young (18-39)",
+  #  age_category %in% middle_age ~ "Middle Aged (40-59)",
+  #  age_category %in% old ~ "Elderly (60-80+)",
+  #  TRUE ~ NA_character_)
+    
+    )
+
 # BMI
-ggplot(data = disease_data, aes(x = factor(heart_disease), fill = bmi)) +
+ggplot(data = disease2, aes(x = factor(heart_disease), fill = bmi)) +
   geom_bar(color = "black", position = "fill") + 
   labs(x = "Heart Disease",
        y = "Count",
@@ -647,7 +669,8 @@ ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease),
 ```
 
 
-
+:::: {layout="[0.3, 0.3, 0.3]"}
+:::{#plot1}
 ```{r}
 #| echo: false
 
@@ -666,11 +689,9 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(physica
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
+:::
 
-:::::: {layout="[0.3, 0.3, 0.3]"}
-<div>
-
-
+:::{#plot2}
 ```{r}
 #| echo: false
 ## BEHAVIOR
@@ -686,7 +707,8 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = sleep_time)) +
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
-
+:::
+::::
 
 
 
