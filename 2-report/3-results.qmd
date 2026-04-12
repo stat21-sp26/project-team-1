@@ -67,6 +67,9 @@ adj_r2 <- (0.145328)
 #| echo: false
 #| label: tbl-mlr-reg
 
+library(knitr)
+library(kableExtra)
+
 kable(mlr_table) %>% 
   kable_styling(full_width = FALSE)
 
