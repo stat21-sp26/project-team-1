@@ -34,6 +34,32 @@ insert texttt
 
 The results of our multiple linear regression are presented in @tbl-mlr-reg and @tbl-mlr-stat.
 
+The results show that `physical_activity` is negatively associated with `log(bmi)` and is statistically significant (p = *insert*, 95% CI: [*insert*, *insert*]).
+
+```{r}
+#| include: false
+## IMPORTANT PREDICTORS
+
+
+# physical_activity1	-0.0341034	0.0012078	-28.2370395	0.0000000	-0.0364705	-0.0317362
+
+# gen_health
+  # gen_healthFair	0.0361928	0.0026152	13.8395346	0.0000000	0.0310671	0.0413185
+  # gen_healthGood	0.0346531	0.0027031	12.8198035	0.0000000	0.0293551	0.0399511
+  # gen_healthExcellent	-0.0578620	0.0029013	-19.9435303	0.0000000	-0.0635485	-0.0521755
+
+# smoking1	-0.0163608	0.0010499	-15.5824408	0.0000000	-0.0184187	-0.0143029
+
+#age_category
+  # age_category2	0.0547660	0.0015474	35.3924778	0.0000000	0.0517331	0.0577988
+  # age_category3	-0.0018443	0.0014969	-1.2320452	0.2179340	-0.0047782	0.0010897
+
+```
+
+
+*lower physical activity, poorer general health, and smoking behavior. It is also expected to vary across demographic characteristics such as age, reflecting differences in lifestyle patterns and accumulated health risks over time.*
+
+**Main variables of interest: physical activity, gen_health, smoking, age**
 
 
 ```{r}
