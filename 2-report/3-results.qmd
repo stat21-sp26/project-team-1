@@ -18,9 +18,76 @@ disease_data <- heartdisease
 
 #### Descriptive Statistics
 
+```{r}
+#| include: false
+
+## FROM TRAIN DATA
+
+test_finalmlr <- lm(log(bmi) ~ smoking + alcohol_drinking + stroke + physical_health +
+                   diff_walking + sex + age_category + race + diabetic + physical_activity +
+                   gen_health + sleep_time + asthma + skin_cancer, 
+                 data = heart_train)
+
+test_mlr_summary <- summary(test_finalmlr)
+
+
+## CREATING TABLE
+
+test_mlr_table <- as.data.frame(test_mlr_summary$coefficients)
+
+## ADDING CONFIDENCE INTERVALS
+
+test_mlr_ci <- as.data.frame(confint(test_finalmlr))
+test_mlr_ci$Variable <- rownames(test_mlr_ci)
+
+test_mlr_table <- cbind(test_mlr_table, test_mlr_ci[,1:2])
+
+colnames(test_mlr_table)[ncol(test_mlr_table)-1] <- "CI_Lower"
+colnames(test_mlr_table)[ncol(test_mlr_table)] <- "CI_Upper"
+
+test_mlr_table %>%
+  kable(col.names = c(
+    "Coefficient",
+    "Estimate",
+    "Std. Error",
+    "t value",
+    "p-value",
+    "Lower CI",
+    "Upper CI"
+  ))
+
+```
+```{r}
+#| include: false
+
+## TRAIN DATA RESULTS
+
+# smoking1	-0.0163608	0.0010499	-15.5824408	0.0000000	-0.0184187	-0.0143029
+
+# gen_health
+  # gen_healthFair	0.0361928	0.0026152	13.8395346	0.0000000	0.0310671	0.0413185
+  # gen_healthGood	0.0346531	0.0027031	12.8198035	0.0000000	0.0293551	0.0399511
+  # gen_healthExcellent	-0.0578620	0.0029013	-19.9435303	0.0000000	-0.0635485	-0.0521755
+
+# physical_activity1	-0.0341034	0.0012078	-28.2370395	0.0000000	-0.0364705	-0.0317362
+
+# age_category
+  # age_category2	0.0547660	0.0015474	35.3924778	0.0000000	0.0517331	0.0577988
+  # age_category3	-0.0018443	0.0014969	-1.2320452	0.2179340	-0.0047782	0.0010897
+```
+
+
 [Demographics]{.underline}
 
-**age**
+Compared to people who are 18-34 years old, and holding all other variables constant, our model predicts that 35-54 year olds have
+
+The boxplot of BMI across age groups (@fig-bmi-age) reveals that the
+median BMI is highest in the middle-age group (35-54) and slightly lower
+in the youngest (18-34) and oldest (55+) cohorts. While the
+interquartile ranges are similar across groups, all three groups exhibit
+a massive density of high-value outliers, with BMI values extending up
+to 60. This suggests that extreme BMI values are prevalent regardless of
+age.
 
 ```{r}
 #| echo: false
