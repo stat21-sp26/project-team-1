@@ -34,7 +34,12 @@ insert texttt
 
 The results of our multiple linear regression are presented in @tbl-mlr-reg and @tbl-mlr-stat.
 
-The results show that `physical_activity` is negatively associated with `log(bmi)` and is statistically significant. Individuals who report engaging in physical activity had aprproximately 0.03% lower BMI compared to those who did not (p < 0.05, 95% CI: [-0.036, -0.032]).
+**Main variables of interest: physical activity, gen_health, smoking, age**
+
+The results show that `physical_activity` is negatively associated with `log(bmi)` and is statistically significant. Holding all other factors constant, individuals who report engaging in physical activity had approximately 3.4% lower BMI compared to those who did not (p < 0.05, 95% CI: [-0.036, -0.032]).
+
+General health was also significantly associated with `log(bmi)`. Holding all other factors constant, compared to individuals reporting poor general health, individuals who reported fair health had approximately 3.6% higher BMI (p < 0.05, 95% CI: [0.031, 0.041]), those reporting good health had 3.5% higher BMI (p < 0.05, 95% CI: [0.029, 0.040]), and those reporting excellent health had 5.8% lower BMI (p <0.05, 95% CI: [-0.064, -0.052]).
+
 
 ```{r}
 #| include: false
@@ -55,11 +60,6 @@ The results show that `physical_activity` is negatively associated with `log(bmi
   # age_category3	-0.0018443	0.0014969	-1.2320452	0.2179340	-0.0047782	0.0010897
 
 ```
-
-
-*lower physical activity, poorer general health, and smoking behavior. It is also expected to vary across demographic characteristics such as age, reflecting differences in lifestyle patterns and accumulated health risks over time.*
-
-**Main variables of interest: physical activity, gen_health, smoking, age**
 
 
 ```{r}
