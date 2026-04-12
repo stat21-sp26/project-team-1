@@ -51,42 +51,25 @@ mlr_sum_coef <- mlr_summary$coefficients
 
 # MAKING MLR TABLE
 
-mlr_table <- as.data.frame(mlr_sum_coef) %>%
-  mutate(Variable = rownames(mlr_sum_coef)) %>%
-  select(Variable, Estimate, `Std. Error`, `Pr(>|t|)`)
+mlr_table <- as.data.frame(mlr_sum_coef)
+mlr_table$Variable <- rownames(mlr_table)
 
-mlr_table <- mlr_table %>%
-  rename(
-    Coefficient = Estimate,
-    Std_Error = `Std. Error`,
-    P_value = `Pr(>|t|)`
-  ) %>%
-  mutate(
-    Coefficient = round(Coefficient, 3),
-    Std_Error = round(Std_Error, 3),
-    P_value = round(P_value, 3)
-  )
+mlr_table <- mlr_table[, c("Variable", "Estimate", "Std. Error", "t value", "Pr(>|t|)")]
 
 n <- nobs(final_mlr)
 r2 <- (0.145379)
 adj_r2 <- (0.145328)
-
-mlr_stats <- data.frame(
-  Variable = c("Observations", "R-squared", "Adj. R-squared"),
-  Coefficient = as.numeric(c(n, r2, adj_r2)),
-  Std_Error = as.numeric(c(NA, NA, NA)),
-  P_value = as.numeric(c(NA, NA, NA))
-)
-
-final_mlr_table <- bind_rows(mlr_table, mlr_stats)
 
 ```
 
 
 ```{r}
 #| echo: false
+#| label: tbl-mlr-reg
 
-kable(final_mlr_table)
+kable(mlr_table) %>% 
+  kable_styling(full_width = FALSE)
+
 ```
 
 
