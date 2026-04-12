@@ -32,6 +32,8 @@ insert texttt
 
 #### Regression Analysis
 
+**Insert text**
+
 
 ```{r}
 #| include: false
@@ -64,6 +66,8 @@ mlr_table <- mlr_table %>%
     `t value` = round(`t value`, 3)
   )
 
+mlr_table <- mlr_table[, -1]
+
 n <- nobs(final_mlr)
 r2 <- (0.145379)
 adj_r2 <- (0.145328)
@@ -86,6 +90,12 @@ mlr_table %>%
 
 ```
 
+```{r}
+#| include: false
+
+# TABLE FOR MLR STATS
+
+```
 
 ### Predicting Heart Attack Risk ....
 
