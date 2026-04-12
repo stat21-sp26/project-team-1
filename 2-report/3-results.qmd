@@ -18,6 +18,18 @@ disease_data <- heartdisease
 
 #### Descriptive Statistics
 
+[Demographics]{.underline}
+
+insert text
+
+[Behaviors]{.underline}
+
+insert texttt
+
+[Health]{.underline}
+
+insert texttt
+
 #### Regression Analysis
 
 ### Predicting Heart Attack Risk ....
