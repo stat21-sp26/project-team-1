@@ -52,12 +52,28 @@ mlr_summary <- summary(final_mlr)
 
 # MAKING MLR TABLE
 
+
+## CREATING TABLE
+
 mlr_table <- as.data.frame(mlr_summary$coefficients)
 mlr_table <- mlr_table %>%
   mutate(Variable = rownames(mlr_summary$coefficients))
 
 mlr_table <- mlr_table %>%
   select(Variable, Estimate, `Std. Error`, `t value`, `Pr(>|t|)`)
+
+## ADDING CONFIDENCE INTERVALS
+
+mlr_ci <- confint(final_mlr)
+
+mlr_table$Variable <- rownames(mlr_table)
+ci <- as.data.frame(mlr_ci)
+ci$Variable <- rownames(ci)
+
+mlr_table <- merge(mlr_table, ci, by = "Variable")
+
+colnames(mlr_table)[colnames(mlr_table) == "2.5 %"] <- "CI_Lower"
+colnames(mlr_table)[colnames(mlr_table) == "97.5 %"] <- "CI_Upper"
 
 mlr_table <- mlr_table %>%
   mutate(
@@ -85,7 +101,9 @@ mlr_table %>%
     "Coefficient",
     "Std. Error",
     "t value",
-    "p-value"
+    "p-value",
+    "Lower CI",
+    "Upper CI"
   ))
 
 ```
