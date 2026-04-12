@@ -26,9 +26,27 @@ disease_data <- heartdisease
 #| echo: false
 #| label: fig-logbmi-age
 
-heart_train %>% 
+heart_train %>%
+  filter(!is.na(age_category), !is.na(bmi)) %>%
   ggplot() +
-  aes(x = age_category, )
+  aes(x = age_category, y = log(bmi), fill = age_category) +
+  geom_boxplot() +
+  labs(x = "Age Groups", y = "log(BMI)", fill = "Age Groups") +
+  theme_classic() +
+  scale_fill_manual(values = c(
+    "1" = "orange",
+    "2" = "tomato",
+    "3" = "skyblue"),
+    labels = c(
+      "1" = "18-34",
+      "2" = "35-54",
+      "3" = "55 and older")
+  ) +
+  scale_x_discrete(labels = c(
+  "1" = "18-34",
+  "2" = "35-54",
+  "3" = "55 and older"
+))
 
 ```
 
