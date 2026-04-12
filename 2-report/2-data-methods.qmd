@@ -530,6 +530,8 @@ log(BMI_i) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_i + \
 \end{aligned}
 $$
 
+{{< pagebreak >}}
+
 Linearity and homoscedasticity were evaluated using a residuals versus
 fitted values plot (@fig-mlr-resfit). The assumptions are largely
 satisfied, as the residuals are centered around zero with a relatively
@@ -574,6 +576,7 @@ plot(final_mlr, which = 2)
 ```{r}
 #| echo: false
 #| label: fig-mlr-leverage
+#| fig-align: center
 
 plot(final_mlr, which = 4)
 ```
@@ -1144,6 +1147,8 @@ heart_train |> filter(heart_disease == "1") |> nrow()
 
 [No Outliers Assumption]{.underline}
 
+::::: {layout="[0.45, 0.45]"}
+:::{#plot1}
 ```{r}
 #| echo: false
 
@@ -1151,25 +1156,33 @@ heart_train |> filter(heart_disease == "1") |> nrow()
 plot(final_log_reg, which = 1)
 
 ```
-
+:::
+:::{#plot2}
 ```{r}
 #| echo: false
 
 # Q-Q residuals
 plot(final_log_reg, which = 2)
 ```
+:::
+::::
 
+::::: {layout="[0.45, 0.45]"}
+:::{#plot1}
 ```{r}
 #| echo: false
 
 # Scale Location
 plot(final_log_reg, which = 3)
 ```
-
+:::
+:::{#plot2}
 ```{r}
 # Cook's distance
 plot(final_log_reg, which = 4)
 ```
+:::
+::::
 
 [No Multicollinearity]{.underline}
 
