@@ -147,12 +147,12 @@ coeff_sorted <- coefficients[order(coefficients$Estimate, decreasing = TRUE), ]
 coeff_sorted <- coeff_sorted |>
   mutate(
     odds_coeff = exp(coeff_sorted$Estimate),
-    prob = odds_coeff / (1 + odds_coeff),
+    #prob = odds_coeff / (1 + odds_coeff),
     ci_low = exp(Estimate - 2*`Std. Error`),
     ci_high = exp(Estimate + 2*`Std. Error`)
   )
 
-colnames(coeff_sorted) <- c("Estimate (log-odds)", "Std. Error", "Z value", "P-value", "Estimate (odds)", "Probability", "CI low (odds)", "CI high (odds)")
+colnames(coeff_sorted) <- c("Estimate (log-odds)", "Std. Error", "Z value", "P-value", "Estimate (odds)",  "CI low (odds)", "CI high (odds)")
 
 coeff_sorted |> kable() |>
   kable_styling(full_width = FALSE) |>
