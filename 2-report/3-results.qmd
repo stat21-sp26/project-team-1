@@ -32,7 +32,7 @@ insert texttt
 
 #### Regression Analysis
 
-The results of our multiple linear regression are presented in @tbl-mlr-reg and @tbl-mlr-stat.
+The results of our multiple linear regression are presented in @tbl-mlr-reg.
 
 **Main variables of interest: physical activity, gen_health, smoking, age**
 
@@ -128,15 +128,11 @@ mlr_table %>%
 
 ## GETTING STATS
 
-n <- nobs(final_mlr)
-r2 <- (0.145379)
-adj_r2 <- (0.145328)
-
 mlr_stats <- data.frame(
   Statistic = c("R-squared", "Adjusted R-squared", "N"),
   Value = c(
-    mlr_model_sum$r.squared,
-    mlr_model_sum$adj.r.squared,
+    round(mlr_summary$r.squared, 3),
+    round(mlr_summary$adj.r.squared, 3),
     nobs(final_mlr)
   )
 )
@@ -154,7 +150,15 @@ mlr_stats %>%
 
 ```
 
+```{r}
+#| include: false
 
+# MLR STATISTICS
+  # observations = 163198.000
+  # r2 & adjr2 = 0.145
+```
+
+Moreover, our model explained approximately 14.5% of the variability in `log(bmi)` ($R^2$ = 0.145), indicating a modest fit (@tbl-mlr-stat). The regression results largely confirm the patterns observed in the descriptive analyses above.
 
 ### Predicting Heart Attack Risk ....
 
