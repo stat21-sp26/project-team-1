@@ -79,15 +79,7 @@ test_mlr_table %>%
 
 [Demographics]{.underline}
 
-Compared to people who are 18-34 years old, and holding all other variables constant, our model predicts that 35-54 year olds have
-
-The boxplot of BMI across age groups (@fig-bmi-age) reveals that the
-median BMI is highest in the middle-age group (35-54) and slightly lower
-in the youngest (18-34) and oldest (55+) cohorts. While the
-interquartile ranges are similar across groups, all three groups exhibit
-a massive density of high-value outliers, with BMI values extending up
-to 60. This suggests that extreme BMI values are prevalent regardless of
-age.
+Compared to people who are 18-34 years old, and holding all other variables constant, our model predicts that 35-54 year olds have approximately 5.48% higher BMI (p-value < 0.05, 95% CI: [0.052, 0.058]). In other words, 35-54 year olds are expected to have a higher BMI than 18-34 and 55+ year olds (@fig-logbmi-age).
 
 ```{r}
 #| echo: false
