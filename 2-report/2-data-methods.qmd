@@ -361,7 +361,6 @@ selected_mlr_vars |> kable()
 ```
 
 ::::: {layout="[0.25, 0.75]"}
-<div>
 
 ```{r}
 #| include: false
@@ -371,9 +370,7 @@ selected_mlr_vars |> kable()
 selected_mlr_vars |> kable()
 ```
 
-</div>
 
-<div>
 
 ```{r}
 #| include: false
@@ -497,11 +494,13 @@ summary(chosen_mlr)
 ```
 
 $$
+\begin{aligned}
 log(BMI_i) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_i + \\
 \beta_4PhysicalHealth_i + \beta_5DiffWalking_i + \beta_6Sex_i + \beta_7{Age_{35-54}}_i + \beta_8Asian_i + \\
 \beta_9Black_i + \beta_{10}Diabetic_i + \beta_{11}HealthFair_i + \beta_{12}HealthGood_i + \\
 \beta_{13}HealthExcellent_i + \beta_{14}SleepTime_i + \beta_{15}Asthma_i + \\
 \beta_{16}SkinCancer_i
+\end{aligned}
 $$
 
 Interestingly, the multiple linear regression yielded a p-value of
@@ -522,11 +521,13 @@ summary(final_mlr)
 ```
 
 $$
+\begin{aligned}
 log(BMI_i) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_i + \\
 \beta_4PhysicalHealth_i + \beta_5DiffWalking_i + \beta_6Sex_i + \beta_7{Age_{35-54}}_i + \beta_8Asian_i + \\
 \beta_9Black_i + \beta_{10}NativeAmerican_i + \beta_{11}Diabetic_i + \beta_{12}HealthFair_i + \\
 \beta_{13}HealthGood_i + \beta_{14}HealthExcellent_i + \beta_{15}SleepTime_i + \beta_{16}Asthma_i + \\
 \beta_{17}SkinCancer_i
+\end{aligned}
 $$
 
 Linearity and homoscedasticity were evaluated using a residuals versus
@@ -534,37 +535,53 @@ fitted values plot (@fig-mlr-resfit). The assumptions are largely
 satisfied, as the residuals are centered around zero with a relatively
 consistent vertical spread across the range of fitted values.
 
-```{r}
-#| echo: false
-#| label: fig-mlr-resfit
-
-plot(final_mlr, which = 1)
-```
-
 Next, normality of residuals was assessed through a Q-Q plot
 (@fig-mlr-qq). The majority of the standardized residuals follow the
 theoretical normal line closely. While there is slight "thin-tailing" at
 the extremes, the distribution of errors is sufficiently normal for
 robust statistical inference, especially given the large sample size.
 
+We also examined potential influential observations using a residuals
+versus leverage plot (i.e., a Cook's distance plot) (@fig-mlr-leverage).
+All values remained well below the common threshold of 1.0, indicating
+that no single observation is unduly biasing the model's estimates.
+
+::::: {layout="[0.45, 0.45]"}
+::: {#plot1}
+```{r}
+#| echo: false
+#| label: fig-mlr-resfit
+
+plot(final_mlr, which = 1)
+```
+:::
+
+:::{#plot2}
 ```{r}
 #| echo: false
 #| label: fig-mlr-qq
 
 plot(final_mlr, which = 2)
 ```
+:::
 
-We also examined potential influential observations using a residuals
-versus leverage plot (i.e., a Cook's distance plot) (@fig-mlr-leverage).
-All values remained well below the common threshold of 1.0, indicating
-that no single observation is unduly biasing the model's estimates.
+::::
 
+::::: {layout="[0.2, 0.5, 0.2]"}
+:::{#space}
+:::
+::: {#plot1}
 ```{r}
 #| echo: false
 #| label: fig-mlr-leverage
 
 plot(final_mlr, which = 4)
 ```
+:::
+
+:::{#space}
+:::
+::::
 
 Lastly, we assessed multicollinearity by calculating the General
 Variance Inflation Factors (GVIFs). The VIF is calculated as follows:
