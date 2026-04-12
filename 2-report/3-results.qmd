@@ -201,11 +201,11 @@ The results of our multiple linear regression are presented in @tbl-mlr-reg.
 
 The results show that physical activity is negatively associated with `log(bmi)` and is statistically significant. Holding all other factors constant, individuals who report engaging in physical activity have approximately 3.42% lower BMI compared to those who do not (p < 0.05, 95% CI: [-0.039, -0.030]).
 
-General health is also significantly associated with `log(bmi)`. Holding all other factors constant, compared to individuals reporting poor general health, individuals who reported fair health have approximately 3.81% higher BMI (p < 0.05, 95% CI: [0.028, 0.048]), those reporting good health have 3.31% higher BMI (p < 0.05, 95% CI: [0.023, 0.044]), and those reporting excellent health have 5.77% lower BMI (p <0.05, 95% CI: [-0.069, -0.046]).
+General health is also significantly associated with `log(bmi)`. Compared to individuals reporting poor health, those reporting fair health have approximately 3.81% higher BMI (p < 0.05, 95% CI: [0.028, 0.048]), those reporting good health have 3.31% higher BMI (p < 0.05, 95% CI: [0.023, 0.044]), and those reporting excellent health have 5.77% lower BMI (p < 0.05, 95% CI: [-0.069, -0.046]).
 
 Smoking is negatively associated with `log(bmi`). Holding all other factors constant, individuals who smoke have about 1.42% lower BMI compared to those who do not (p < 0.05, 95% CI: [-0.018, -0.010]).
 
-Lastly, age is also significantly associated with `log(bmi)`, but only for individuals who are 35-54 years old. Holding all other factors constant, compared to individuals who are 18-34 years old, 35-54 year olds have 5.74% higher BMI (p < 0.05, 95% CI: [0.051, 0.063]).
+Lastly, age is also significantly associated with `log(bmi)`, but only for individuals aged 35-54. Compared to individuals aged 18–34, those aged 35–54 have approximately 5.74% higher BMI (p < 0.05, 95% CI: [0.051, 0.063]). There is no statistically significant difference for individuals aged 55 and older.
 
 
 ```{r}
@@ -303,8 +303,7 @@ mlr_stats <- data.frame(
 ```
 
 
-Moreover, our model explained approximately 14.1% of the variability in log(bmi) (R² = 0.141), indicating a modest fit (@tbl-mlr-stat). The regression results are generally consistent with the patterns observed in the descriptive analyses above.
-
+The model explains approximately 14.1% of the variability in log(BMI) (R² = 0.141), indicating a modest fit (@tbl-mlr-stat). Overall, the regression results are consistent with the patterns observed in the descriptive analysis, particularly for physical activity and general health.
 
 ```{r}
 #| echo: false
