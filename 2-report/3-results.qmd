@@ -56,7 +56,6 @@ mlr_summary <- summary(final_mlr)
 ## CREATING TABLE
 
 mlr_table <- as.data.frame(mlr_summary$coefficients)
-mlr_table$Variable <- rownames(mlr_table)
 
 ## ADDING CONFIDENCE INTERVALS
 
@@ -68,8 +67,6 @@ mlr_table <- cbind(mlr_table, mlr_ci[,1:2])
 colnames(mlr_table)[ncol(mlr_table)-1] <- "CI_Lower"
 colnames(mlr_table)[ncol(mlr_table)] <- "CI_Upper"
 
-mlr_table <- mlr_table[, !(names(mlr_table) %in% "t value")]
-
 ```
 
 
@@ -80,9 +77,10 @@ mlr_table <- mlr_table[, !(names(mlr_table) %in% "t value")]
 
 mlr_table %>%
   kable(col.names = c(
-    "Variable",
     "Coefficient",
+    "Estimate",
     "Std. Error",
+    "t value",
     "p-value",
     "Lower CI",
     "Upper CI"
