@@ -32,6 +32,99 @@ insert texttt
 
 #### Regression Analysis
 
+**Insert text**
+
+
+```{r}
+#| include: false
+
+final_mlr <- lm(log(bmi) ~ smoking + alcohol_drinking + stroke + physical_health +
+                   diff_walking + sex + age_category + race + diabetic + physical_activity +
+                   gen_health + sleep_time + asthma + skin_cancer, 
+                 data = heart_train)
+
+mlr_summary <- summary(final_mlr)
+
+```
+
+```{r}
+#| include: false
+
+# MAKING MLR TABLE
+
+
+## CREATING TABLE
+
+mlr_table <- as.data.frame(mlr_summary$coefficients)
+
+## ADDING CONFIDENCE INTERVALS
+
+mlr_ci <- as.data.frame(confint(final_mlr))
+mlr_ci$Variable <- rownames(mlr_ci)
+
+mlr_table <- cbind(mlr_table, mlr_ci[,1:2])
+
+colnames(mlr_table)[ncol(mlr_table)-1] <- "CI_Lower"
+colnames(mlr_table)[ncol(mlr_table)] <- "CI_Upper"
+
+```
+
+
+```{r}
+#| echo: false
+#| label: tbl-mlr-reg
+#| tbl-cap: "Multiple Linear Regression Coefficients. "
+
+mlr_table %>%
+  kable(col.names = c(
+    "Coefficient",
+    "Estimate",
+    "Std. Error",
+    "t value",
+    "p-value",
+    "Lower CI",
+    "Upper CI"
+  ))
+
+## Coefficients represent approximate percentage changes in BMI
+
+```
+
+```{r}
+#| include: false
+
+# TABLE FOR MLR STATS
+
+## GETTING STATS
+
+n <- nobs(final_mlr)
+r2 <- (0.145379)
+adj_r2 <- (0.145328)
+
+mlr_stats <- data.frame(
+  Statistic = c("R-squared", "Adjusted R-squared", "N"),
+  Value = c(
+    mlr_model_sum$r.squared,
+    mlr_model_sum$adj.r.squared,
+    nobs(final_mlr)
+  )
+)
+
+```
+
+
+```{r}
+#| include: false
+#| label: tbl-mlr-stat
+#| tbl-cap: "Multiple Linear Regression Statistics"
+
+mlr_stats %>% 
+  kable(col.names = c("Statistic", "Value"))
+
+```
+
+
+
 ### Predicting Heart Attack Risk ....
 
 #### Descriptive Statistics
