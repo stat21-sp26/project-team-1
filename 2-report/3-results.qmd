@@ -32,7 +32,8 @@ insert texttt
 
 #### Regression Analysis
 
-**Insert text**
+The results of our multiple linear regression are presented in @tbl-mlr-reg and @tbl-mlr-stat.
+
 
 
 ```{r}
@@ -114,7 +115,7 @@ mlr_stats <- data.frame(
 
 
 ```{r}
-#| include: false
+#| echo: false
 #| label: tbl-mlr-stat
 #| tbl-cap: "Multiple Linear Regression Statistics"
 
