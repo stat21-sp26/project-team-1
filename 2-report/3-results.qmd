@@ -63,14 +63,12 @@ mlr_table$Variable <- rownames(mlr_table)
 mlr_ci <- as.data.frame(confint(final_mlr))
 mlr_ci$Variable <- rownames(mlr_ci)
 
-mlr_table <- cbind(mlr_table, mlr_ci[, 1:2])
+mlr_table <- cbind(mlr_table, mlr_ci[,1:2])
 
 colnames(mlr_table)[ncol(mlr_table)-1] <- "CI_Lower"
 colnames(mlr_table)[ncol(mlr_table)] <- "CI_Upper"
 
-mlr_table$Estimate <- round(mlr_table$Estimate, 3)
-mlr_table$`Std. Error` <- round(mlr_table$`Std. Error`, 3)
-mlr_table$`t value` <- round(mlr_table$`t value`, 3)
+mlr_table <- mlr_table[, !(names(mlr_table) %in% "t value")]
 
 ```
 
@@ -85,7 +83,6 @@ mlr_table %>%
     "Variable",
     "Coefficient",
     "Std. Error",
-    "t value",
     "p-value",
     "Lower CI",
     "Upper CI"
