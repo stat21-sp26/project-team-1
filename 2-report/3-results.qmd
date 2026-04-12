@@ -304,7 +304,7 @@ mlr_stats <- data.frame(
 ```
 
 
-The model explains approximately 14.1% of the variability in log(BMI) (R² = 0.141), indicating a modest fit (@tbl-mlr-stat). Overall, physical activity and general health emerge as the most important factors associated with BMI in this model, while smoking and age show weaker or more limited associations after adjustment.
+The model explains approximately 14.1% of the variability in log(BMI) (R² = 0.141), indicating a modest fit (@tbl-mlr-stat). Overall, physical activity and general health emerge as the most important factors associated with BMI in this model, while smoking and age show weaker or more limited associations after adjustment of other confounders.
 
 ```{r}
 #| echo: false
