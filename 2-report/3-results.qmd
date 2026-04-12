@@ -32,6 +32,67 @@ insert texttt
 
 #### Regression Analysis
 
+
+```{r}
+#| include: false
+
+library(modelsummary)
+
+final_mlr <- lm(log(bmi) ~ smoking + alcohol_drinking + stroke + physical_health +
+                   diff_walking + sex + age_category + race + diabetic + physical_activity +
+                   gen_health + sleep_time + asthma + skin_cancer, 
+                 data = heart_train)
+
+mlr_summary <- summary(final_mlr)
+mlr_sum_coef <- mlr_summary$coefficients
+
+```
+
+```{r}
+#| include: false
+
+# MAKING MLR TABLE
+
+mlr_table <- as.data.frame(mlr_sum_coef) %>%
+  mutate(Variable = rownames(mlr_sum_coef)) %>%
+  select(Variable, Estimate, `Std. Error`, `Pr(>|t|)`)
+
+mlr_table <- mlr_table %>%
+  rename(
+    Coefficient = Estimate,
+    Std_Error = `Std. Error`,
+    P_value = `Pr(>|t|)`
+  ) %>%
+  mutate(
+    Coefficient = round(Coefficient, 3),
+    Std_Error = round(Std_Error, 3),
+    P_value = round(P_value, 3)
+  )
+
+n <- nobs(final_mlr)
+r2 <- (0.145379)
+adj_r2 <- (0.145328)
+
+mlr_stats <- data.frame(
+  Variable = c("Observations", "R-squared", "Adj. R-squared"),
+  Coefficient = c(n, round(r2, 3), round(adj_r2, 3)),
+  Std_Error = NA_real_,
+  P_value = NA_real_
+)
+
+final_mlr_table <- bind_rows(mlr_table, mlr_stats)
+
+```
+
+
+```{r}
+#| echo: false
+
+kable(final_mlr_table, caption = "Multiple Linear Regression Results") %>% 
+  kable_styling(full_width = FALSE)
+```
+
+
 ### Predicting Heart Attack Risk ....
 
 #### Descriptive Statistics
