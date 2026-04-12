@@ -42,7 +42,6 @@ final_mlr <- lm(log(bmi) ~ smoking + alcohol_drinking + stroke + physical_health
                  data = heart_train)
 
 mlr_summary <- summary(final_mlr)
-mlr_sum_coef <- mlr_summary$coefficients
 
 ```
 
@@ -51,10 +50,19 @@ mlr_sum_coef <- mlr_summary$coefficients
 
 # MAKING MLR TABLE
 
-mlr_table <- as.data.frame(mlr_sum_coef)
-mlr_table$Variable <- rownames(mlr_table)
+mlr_table <- as.data.frame(mlr_summary$coefficients)
+mlr_table <- mlr_table %>%
+  mutate(Variable = rownames(mlr_summary$coefficients))
 
-mlr_table <- mlr_table[, c("Variable", "Estimate", "Std. Error", "t value", "Pr(>|t|)")]
+mlr_table <- mlr_table %>%
+  select(Variable, Estimate, `Std. Error`, `t value`, `Pr(>|t|)`)
+
+mlr_table <- mlr_table %>%
+  mutate(
+    Estimate = round(Estimate, 3),
+    `Std. Error` = round(`Std. Error`, 3),
+    `t value` = round(`t value`, 3)
+  )
 
 n <- nobs(final_mlr)
 r2 <- (0.145379)
@@ -67,11 +75,14 @@ adj_r2 <- (0.145328)
 #| echo: false
 #| label: tbl-mlr-reg
 
-library(knitr)
-library(kableExtra)
-
-kable(mlr_table) %>% 
-  kable_styling(full_width = FALSE)
+mlr_table %>%
+  kable(col.names = c(
+    "Variable",
+    "Coefficient",
+    "Std. Error",
+    "t value",
+    "p-value"
+  ))
 
 ```
 
