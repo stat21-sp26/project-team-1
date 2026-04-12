@@ -38,6 +38,7 @@ insert texttt
 
 **TBD FINAL REGRESSION EQUATION**
 
+**TBD PROBABILITY & ODDS RATIO INTERPRETATION**
 The ultimate result of our logistic regression on the odds of heart disease are captured in @tbl-log-reg-coeffs.
 ```{r}
 #| echo: false
@@ -123,7 +124,7 @@ Sex also has a significant impact on the odds of having heart disease. Males hav
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-race
-#| fig-cap: Race
+#| fig-cap: "Race"
 ## DEMOGRAPHICS
 
 # RACE
@@ -144,7 +145,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = race)) +
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-sex
-#| fig-cap: Sex
+#| fig-cap: "Sex"
 # SEX
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(sex))) +
   geom_bar(color = "black", position = "fill") + 
@@ -163,7 +164,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(sex))) 
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-age
-#| fig-cap: Age
+#| fig-cap: "Age"
 
 # AGE
 ggplot(data = disease2, aes(x = factor(heart_disease), fill = age_category)) +
@@ -218,6 +219,7 @@ As we expected, our model predicts that individuals who smoke are at higher risk
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-smoking
+#| fig-cap: "Smoking"
 
 # SMOKING
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(smoking))) +
@@ -242,6 +244,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(smoking
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-alcohol
+#| fig-cap: "Alcohol Consumption"
 
 # ALCOHOL
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(alcohol_drinking))) +
@@ -267,9 +270,6 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(alcohol
 Overall, individuals categorized as having 'Fair', 'Good', and 'Excellent' general health were predicted to have a lower risk of heart disease. Compared to the odds of heart disease for those with 'Poor' general health, individuals in the other health categories had 0.68 (95% CI: [0.64, 0.72]), 0.42 (95% CI: [0.40, 0.45]), and 0.13 (95% CI: [0.12, 0.14]) times the odds of heart attack, respectively (@fig-heartdisease-gen-health; @tbl-log-reg-coeffs).
 
 
-
-:::::: {layout="[0.3, 0.3, 0.3]"}
-<div>
 
 ```{r}
 #| echo: false
@@ -300,6 +300,7 @@ On the other hand, pre-existing health complications such as diabetes, kidney di
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-diabetes
+#| fig-cap: "Diabetes"
 
 ## MEDICAL CONDITIONS
 
@@ -325,6 +326,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(diabeti
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-kidney
+#| fig-cap: "Kidney Disease"
 
 # KIDNEY DISEASE
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(kidney_disease))) +
@@ -350,6 +352,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(kidney_
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-asthma
+#| fig-cap: "Asthma"
 # ASTHMA
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(asthma))) +
   geom_bar(color = "black", position = "fill") + 
@@ -372,6 +375,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(asthma)
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-cancer
+#| fig-cap: "Skin Cancer"
 # SKIN CANCER
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(skin_cancer))) +
   geom_bar(color = "black", position = "fill") + 
@@ -394,6 +398,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(skin_ca
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-stroke
+#| fig-cap: "Stroke"
 # STROKE
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(stroke))) +
   geom_bar(color = "black", position = "fill") + 
@@ -416,12 +421,6 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(stroke)
 #### Regression Analysis
 
 
-
--   interpretation of coefficients
-
--   odds interpretation (odds ratio, confidence interval)
-
--   probability interpretation
 
 ```{r}
 #| include: false
