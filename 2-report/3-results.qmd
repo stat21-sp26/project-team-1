@@ -84,16 +84,13 @@ mlr_table <- mlr_table %>%
 
 mlr_table <- mlr_table[, -1]
 
-n <- nobs(final_mlr)
-r2 <- (0.145379)
-adj_r2 <- (0.145328)
-
 ```
 
 
 ```{r}
 #| echo: false
 #| label: tbl-mlr-reg
+#| tbl-cap: "Multiple Linear Regression Coefficients"
 
 mlr_table %>%
   kable(col.names = c(
@@ -113,7 +110,33 @@ mlr_table %>%
 
 # TABLE FOR MLR STATS
 
+## GETTING STATS
+
+n <- nobs(final_mlr)
+r2 <- (0.145379)
+adj_r2 <- (0.145328)
+
+mlr_stats <- data.frame(
+  Statistic = c("R-squared", "Adjusted R-squared", "N"),
+  Value = c(
+    mlr_model_sum$r.squared,
+    mlr_model_sum$adj.r.squared,
+    nobs(final_mlr)
+  )
+)
+
 ```
+
+
+```{r}
+#| include: false
+#| label: tbl-mlr-stat
+#| tbl-cap: "Multiple Linear Regression Statistics"
+mlr_stats %>% 
+  kable(col.names = c("Statistic", "Value"))
+```
+
+
 
 ### Predicting Heart Attack Risk ....
 
