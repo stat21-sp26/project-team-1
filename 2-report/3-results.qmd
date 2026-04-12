@@ -56,33 +56,21 @@ mlr_summary <- summary(final_mlr)
 ## CREATING TABLE
 
 mlr_table <- as.data.frame(mlr_summary$coefficients)
-mlr_table <- mlr_table %>%
-  mutate(Variable = rownames(mlr_summary$coefficients))
-
-mlr_table <- mlr_table %>%
-  select(Variable, Estimate, `Std. Error`, `t value`, `Pr(>|t|)`)
+mlr_table$Variable <- rownames(mlr_table)
 
 ## ADDING CONFIDENCE INTERVALS
 
-mlr_ci <- confint(final_mlr)
+mlr_ci <- as.data.frame(confint(final_mlr))
+mlr_ci$Variable <- rownames(mlr_ci)
 
-mlr_table$Variable <- rownames(mlr_table)
-ci <- as.data.frame(mlr_ci)
-ci$Variable <- rownames(ci)
+mlr_table <- cbind(mlr_table, mlr_ci[, 1:2])
 
-mlr_table <- merge(mlr_table, ci, by = "Variable")
+colnames(mlr_table)[ncol(mlr_table)-1] <- "CI_Lower"
+colnames(mlr_table)[ncol(mlr_table)] <- "CI_Upper"
 
-colnames(mlr_table)[colnames(mlr_table) == "2.5 %"] <- "CI_Lower"
-colnames(mlr_table)[colnames(mlr_table) == "97.5 %"] <- "CI_Upper"
-
-mlr_table <- mlr_table %>%
-  mutate(
-    Estimate = round(Estimate, 3),
-    `Std. Error` = round(`Std. Error`, 3),
-    `t value` = round(`t value`, 3)
-  )
-
-mlr_table <- mlr_table[, -1]
+mlr_table$Estimate <- round(mlr_table$Estimate, 3)
+mlr_table$`Std. Error` <- round(mlr_table$`Std. Error`, 3)
+mlr_table$`t value` <- round(mlr_table$`t value`, 3)
 
 ```
 
