@@ -1147,21 +1147,52 @@ heart_train |> filter(heart_disease == "1") |> nrow()
 
 [No Outliers Assumption]{.underline}
 
-**TODO**
+To identify potential outliers, we plotted the residuals vs fitted values (@fig-resids-fitted-log-reg), which indicated that observations 115488, 65997, and 96834 were abnormal values. Similarly, observations 52951, 160975, and 222531 had unusually large Cook's distance (@fig-cooks-log-reg). All of these potential outliers are compiled in @tbl-outliers. To test for the effect of these outliers, we removed all six observations from the training data set and refit the logistic regression. The new regression yielded nearly identical values for all coefficients and the same p-values. As such, we concluded that these observations did not significantly impact the regression outcome and decided to move forward with the analysis including all data points.
 
-- identify data points that correspond with these outliers: 115488, 65997 and 96834
+Since the raw residual plot (@fig-resids-fitted-log-reg) is not easily interpretable for a logistic regression, we opted to use a binned residual plot (@fig-binned-resids-log-reg). From this plot, we can see that the majority of the data points fall within the gray lines, which indicate 2 standard errors from the average residual value.
 
-- identify data points flagged as high cook's distance: 52951, 160975, 222531
+** TBD INTERPRETATION **
 
-- re-fit the logistic regression with out outliers
 
-- create new plots with gamlss library or binned residual plot
+
+```{r}
+#| echo: false
+#| label: tbl-outliers
+#| tbl-cap: "Outliers"
+
+# identifying outliers
+heart_train[c(115488,65997,96834, 52951, 160975,222531), ] |> kable()
+
+
+
+```
+
+
+```{r}
+#| include: false
+
+# remove outliers & refit the regression
+heart_train_no_outliers <- heart_train[-c(115488,65997,96834, 52951, 160975,222531), ]
+
+
+log_reg_no_outliers <- glm(
+  heart_disease ~  smoking + alcohol_drinking + stroke + diff_walking + sex + age_category + race + diabetic + gen_health + asthma + kidney_disease + skin_cancer,
+  data = heart_train_no_outliers,
+  family = "binomial"
+)
+
+
+summary(log_reg_no_outliers)
+
+```
+
 
 
 ::::: {layout="[0.45, 0.45]"}
 :::{#plot1}
 ```{r}
 #| echo: false
+#| label: fig-resids-fitted-log-reg
 
 # Residuals vs Fitted
 plot(final_log_reg, which = 1)
@@ -1171,29 +1202,52 @@ plot(final_log_reg, which = 1)
 :::{#plot2}
 ```{r}
 #| echo: false
-
-# Q-Q residuals
-plot(final_log_reg, which = 2)
+#| label: fig-cooks-log-reg
+# Cook's distance
+plot(final_log_reg, which = 4)
 ```
+
+
 :::
 ::::
 
 ::::: {layout="[0.45, 0.45]"}
 :::{#plot1}
 ```{r}
-#| echo: false
+#| include: false
 
 # Scale Location
 plot(final_log_reg, which = 3)
 ```
 :::
 :::{#plot2}
+
 ```{r}
-# Cook's distance
-plot(final_log_reg, which = 4)
+#| include: false
+
+# Q-Q residuals
+plot(final_log_reg, which = 2)
 ```
+
 :::
 ::::
+
+
+```{r}
+#| echo: false
+#| label: fig-binned-resids-log-reg
+
+library(arm)
+binnedplot(fitted(final_log_reg), 
+           residuals(final_log_reg, type = "response"), 
+           nclass = NULL, 
+           xlab = "Expected Values", 
+           ylab = "Average residual", 
+           main = "Binned residual plot", 
+           cex.pts = 0.8, 
+           col.pts = 1, 
+           col.int = "gray")
+```
 
 [No Multicollinearity]{.underline}
 
@@ -1230,3 +1284,4 @@ vif(final_log_reg)
 Finally, the normality and homoscedasticity of the residuals are not
 required assumptions for logistic regression and as such were not
 assessed for this analysis.
+
