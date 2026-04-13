@@ -122,13 +122,8 @@ summary(heartdisease$bmi)
 # max = 59.97
 ```
 
-The boxplot of BMI across age groups (@fig-bmi-age) reveals that the
-median BMI is highest in the middle-age group (35-54) and slightly lower
-in the youngest (18-34) and oldest (55+) cohorts. While the
-interquartile ranges are similar across groups, all three groups exhibit
-a massive density of high-value outliers, with BMI values extending up
-to 60. This suggests that extreme BMI values are prevalent regardless of
-age.
+The distribution of BMI across age groups (@fig-bmi-age) indicates that while median BMI is highest in the middle-aged group (35-54 years), the differences between groups are modest compared to the overall variance. Notably, all three cohorts exhibit a high density of extreme outliers, with BMI values extending up to 60. This consistent skewness and the presence of heavy tails across all age groups provide us with a strong empirical basis for a log-transformation of BMI in regression analysis to ensure the model is not unduly influenced by these extreme values.
+
 
 ```{r}
 #| echo: false
