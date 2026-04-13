@@ -124,7 +124,8 @@ summary(heartdisease$bmi)
 
 The distribution of BMI across age groups (@fig-bmi-age) indicates that while median BMI is highest in the middle-aged group (35-54 years), the differences between groups are modest compared to the overall variance. Notably, all three cohorts exhibit a high density of extreme outliers, with BMI values extending up to 60. This consistent skewness and the presence of heavy tails across all age groups provide us with a strong empirical basis for a log-transformation of BMI in regression analysis to ensure the model is not unduly influenced by these extreme values.
 
-
+::::: {layout="[0.45, 0.45]"}
+::: {#plot1}
 ```{r}
 #| echo: false
 #| label: fig-bmi-age
@@ -155,14 +156,9 @@ heartdisease %>%
   "3" = "55 and older"
 ))
 ```
+:::
 
-Comparing BMI across racial groups (@fig-bmi-race) shows noticeable
-variation in central tendency; Asian individuals display the lowest
-median BMI and a narrower overall distribution, while Black and Native
-American individuals show higher median values. Similar to the age
-categories, every racial group contains a significant number of extreme
-outliers, indicating a consistent right-skew in the BMI data across all
-individuals.
+:::{#plot2}
 
 ```{r}
 #| echo: false
@@ -184,7 +180,7 @@ heartdisease %>%
     "American Indian/Alaskan Native" = "tomato",
     "Asian" = "skyblue",
     "Black" = "orange",
-    "Hispanic" = "lightsalmon",
+    "Hispanic" = "darkolivegreen3",
     "Other" = "plum"),
     labels = c(
       "American Indian/Alaskan Native" = "Native American"
@@ -193,6 +189,16 @@ heartdisease %>%
   scale_x_discrete(labels = c(
   "American Indian/Alaskan Native" = "Native American"))
 ```
+
+:::
+::::
+Comparing BMI across racial groups (@fig-bmi-race) shows noticeable
+variation in central tendency; Asian individuals display the lowest
+median BMI and a narrower overall distribution, while Black and Native
+American individuals show higher median values. Similar to the age
+categories, every racial group contains a significant number of extreme
+outliers, indicating a consistent right-skew in the BMI data across all
+individuals.
 
 ```{r}
 #| include: false
@@ -544,22 +550,17 @@ plot(final_mlr, which = 2)
 
 ::::
 
-::::: {layout="[0.2, 0.5, 0.2]"}
-:::{#space}
-:::
-::: {#plot1}
+
 ```{r}
 #| echo: false
 #| label: fig-mlr-leverage
-#| fig-align: center
+#| fig-align: "center"
+#| fig-width: 5
+#| fig-height: 3
 
 plot(final_mlr, which = 4)
 ```
-:::
 
-:::{#space}
-:::
-::::
 
 Lastly, we assessed multicollinearity by calculating the General
 Variance Inflation Factors (GVIFs). The VIF is calculated as follows:
@@ -597,8 +598,10 @@ of the individuals do have heart disease (@fig-heartdisease-proportions).
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-proportions
+#| fig-width: 3
+#| fig-height: 2.5
 
-ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(heart_disease))) +
+ggplot(data = heartdisease, aes(x = factor(heart_disease), fill = factor(heart_disease))) +
   geom_bar(color = "black") + 
   labs(x = "Heart Disease Status",
        y = "Count") +
@@ -1138,7 +1141,7 @@ heart_train |> filter(heart_disease == "1") |> nrow()
 
 [No Outliers Assumption]{.underline}
 
-To identify potential outliers, we plotted the residuals vs fitted values (@fig-resids-fitted-log-reg), which indicated that observations 115488, 65997, and 96834 were abnormal values. Similarly, observations 52951, 160975, and 222531 had unusually large Cook's distance (@fig-cooks-log-reg). All of these potential outliers are compiled in @tbl-outliers. We could not identify any apparent trend in these outlier observations. To test for the effect of these outliers, we removed all six observations from the training data set and refit the logistic regression. The new regression yielded nearly identical values for all coefficients and the same p-values. As such, we concluded that these observations did not significantly impact the regression outcome and decided to move forward with the analysis including all data points.
+To identify potential outliers, we plotted the residuals vs fitted values (@fig-resids-fitted-log-reg), which indicated that observations 115488, 65997, and 96834 were abnormal values. Similarly, observations 52951, 160975, and 222531 had unusually large Cook's distance, indicating that the model does not fit the data points well and that these points have high leverage (@fig-cooks-log-reg). All of these potential outliers are compiled in @tbl-outliers. We could not identify any apparent trend in these outlier observations. To test for the effect of these outliers, we removed all six observations from the training data set and refit the logistic regression. The new regression yielded nearly identical values for all coefficients and the same p-values. As such, we concluded that these observations did not significantly impact the regression outcome and decided to move forward with the analysis including all data points.
 
 Since the raw residual plot (@fig-resids-fitted-log-reg) is not easily interpretable for a logistic regression, we opted to use a binned residual plot, which groups data points together that have similar predicted probabilities (@fig-binned-resids-log-reg). From this plot, we can see that the majority of the binned data points fall within the gray lines, which indicate 2 standard errors from the average residual value.
 
@@ -1237,12 +1240,14 @@ binnedplot(fitted(final_log_reg),
            xlab = "Expected Values", 
            ylab = "Average residual", 
            main = "Binned residual plot", 
-           cex.main = 1,
+           cex.main = 0.9,
            cex.pts = 0.8, 
            col.pts = 1, 
            col.int = "gray")
 
 ```
+
+
 
 [No Multicollinearity]{.underline}
 

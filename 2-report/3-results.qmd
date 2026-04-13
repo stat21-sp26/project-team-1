@@ -87,6 +87,8 @@ The distribution of log(BMI) varies across age groups (@fig-logbmi-age). Individ
 ```{r}
 #| echo: false
 #| label: fig-logbmi-age
+#| fig-width: 4
+#| fig-height: 3
 
 heart_train %>%
   filter(!is.na(age_category), !is.na(bmi)) %>%
@@ -119,7 +121,8 @@ Physical activity is also associated with differences in BMI. Individuals who re
 
 Smoking, on the other hand, shows a less pronounced relationship with BMI. While smokers appear to have a slightly lower median log(BMI) than non-smokers, the difference between the groups is relatively small (@fig-logbmi-smoke).
 
-
+::::: {layout="[0.45, 0.45]"}
+::: {#plot1}
 ```{r}
 #| echo: false
 #| label: fig-logbmi-physical
@@ -144,8 +147,9 @@ heart_train %>%
 ))
   
 ```
+:::
 
-
+:::{#plot2}
 ```{r}
 #| echo: false
 #| label: fig-logbmi-smoke
@@ -167,7 +171,8 @@ heart_train %>%
   "0" = "No",
   "1" = "Yes"))
 ```
-
+:::
+::::
 
 [Health]{.underline}
 
@@ -446,34 +451,6 @@ heartdisease |>
 
 
 The significance of these proportion differences is validated in the outcome of our logistic regression. The ultimate results of our logistic regression on the odds of heart disease are captured in @tbl-log-reg-coeffs.
-```{r}
-#| echo: false
-#| label: tbl-log-reg-coeffs
-#| tbl-cap: "Logistic Regression Coefficients. Red rows indicate coefficients that increase the odds of heart disease. Green rows indicate coefficients that decrease the odds of heart disease. Gray rows indicate coefficients with insignificant p-values."
-reg_sum <- summary(final_log_reg)
-
-coefficients <- as.data.frame(reg_sum$coefficients)
-coeff_sorted <- coefficients[order(coefficients$Estimate, decreasing = TRUE), ]
-
-
-# calculate the odds & probability
-coeff_sorted <- coeff_sorted |>
-  mutate(
-    odds_coeff = exp(coeff_sorted$Estimate),
-    #prob = odds_coeff / (1 + odds_coeff),
-    ci_low = exp(Estimate - 2*`Std. Error`),
-    ci_high = exp(Estimate + 2*`Std. Error`)
-  )
-
-colnames(coeff_sorted) <- c("Estimate (log-odds)", "Std. Error", "Z value", "P-value", "Estimate (odds)",  "CI low (odds)", "CI high (odds)")
-
-coeff_sorted |> kable() |>
-  kable_styling(full_width = FALSE) |>
-  column_spec(1:ncol(coeff_sorted), width = "4em") |>
-  row_spec(which(coeff_sorted$`Estimate (log-odds)` >= 0),  background = "#ffe6e6") |>
-  row_spec(which(coeff_sorted$`Estimate (log-odds)` < 0), background = "#e6ffe6") |>
-  row_spec(which(coeff_sorted$`P-value` > 0.05), background = "#c7d1d9")
-```
 
 ```{r}
 #| include: false
@@ -541,7 +518,17 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = race)) +
        fill = "Race") +
   scale_x_discrete(labels = c("0" = "No Heart Disease",
                               "1" = "Heart Disease")) +
-  #scale_fill_manual(values = c(1 = "tomato", 0 = "skyblue")) +
+  scale_fill_manual(values = c(
+    "White" = "antiquewhite",
+    "American Indian/Alaskan Native" = "tomato",
+    "Asian" = "skyblue",
+    "Black" = "orange",
+    "Hispanic" = "darkolivegreen3",
+    "Other" = "plum"),
+    labels = c(
+      "American Indian/Alaskan Native" = "Native American"
+      )
+    ) +
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
@@ -593,7 +580,8 @@ ggplot(data = disease2, aes(x = factor(heart_disease), fill = age_category)) +
 
 ```
 :::
-::::::
+:::::
+
 ```{r}
 #| include: false
 # AGE
@@ -612,9 +600,6 @@ ggplot(data = disease_data, aes(x = age_category, fill = factor(heart_disease)))
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
-
-:::
-::::
 
 
 [Behavior]{.underline}
@@ -682,11 +667,11 @@ Overall, individuals categorized as having 'Fair', 'Good', and 'Excellent' gener
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-gen-health
-#| fig-width: 3
+#| fig-width: 4
 #| fig-height: 3
 
 # GENERAL HEALTH
-disease_data |>
+heartdisease |>
   filter(!is.na(gen_health)) |>
   ggplot(aes(x = factor(heart_disease), fill = factor(gen_health))) +
   geom_bar(color = "black", position = "fill") + 
@@ -695,12 +680,13 @@ disease_data |>
        fill = "General Health") +
   scale_x_discrete(labels = c("0" = "No Heart Disease",
                               "1" = "Heart Disease")) +
-  #scale_fill_manual(
- #   values = c("0" = "skyblue", "1" = "tomato"),
-#    labels = c("No", "Yes")
-#  ) +
+  scale_fill_manual(values = c(
+    "Poor" = "tomato",
+    "Fair" = "orange",
+    "Good" = "gold",
+    "Excellent" = "#228B22")) +
   theme_classic() + 
-  theme(legend.position = "bottom")
+  theme(legend.position = "right")
 ```
 
 On the other hand, pre-existing health complications such as diabetes, kidney disease, skin cancer, asthma, stroke, and difficulty walking significantly increased the odds of heart disease. Diabetic patients have 1.61 times (95% CI: [1.55, 1.68]) the odds, patients with skin cancer have 1.33 times (95% CI: [1.27, 1.40]) the odds, patients with kidney disease have 1.87 times (95% CI: [1.76, 1.98]) the odds, patients with asthma have 1.25 times (95% CI: [1.19, 1.31]) the odds,  patients who have had a stroke have 2.96 times (95% CI: [2.81, 3.13]) the odds, and patients with difficulty walking have 1.32 (95% CI: [1.27, 1.38]) the odds of heart attack compared to individuals without those respective health conditions, holding all other predictors constant (@fig-heartdisease-diabetes; @fig-heartdisease-kidney; @fig-heartdisease-cancer; @fig-heartdisease-asthma; @fig-heartdisease-stroke @tbl-log-reg-coeffs). Overall, having a stroke increases an individuals risk for heart attack to the highest degree of the health conditions mentioned. 
@@ -854,6 +840,40 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(diff_wa
 ::::
 
 
+
+{{< pagebreak >}}
+```{r}
+#| echo: false
+#| label: tbl-log-reg-coeffs
+#| tbl-cap: "Logistic Regression Coefficients. Red rows indicate coefficients that increase the odds of heart disease. Green rows indicate coefficients that decrease the odds of heart disease. Gray rows indicate coefficients with insignificant p-values."
+reg_sum <- summary(final_log_reg)
+
+coefficients <- as.data.frame(reg_sum$coefficients)
+coeff_sorted <- coefficients[order(coefficients$Estimate, decreasing = TRUE), ]
+
+
+# calculate the odds & probability
+coeff_sorted <- coeff_sorted |>
+  mutate(
+    odds_coeff = exp(coeff_sorted$Estimate),
+    #prob = odds_coeff / (1 + odds_coeff),
+    ci_low = exp(Estimate - 2*`Std. Error`),
+    ci_high = exp(Estimate + 2*`Std. Error`)
+  )
+
+colnames(coeff_sorted) <- c("Estimate (log-odds)", "Std. Error", "Z value", "P-value", "Estimate (odds)",  "CI low (odds)", "CI high (odds)")
+
+coeff_sorted |> kable() |>
+  kable_styling(full_width = FALSE) |>
+  column_spec(1:ncol(coeff_sorted), width = "4em") |>
+  row_spec(which(coeff_sorted$`Estimate (log-odds)` >= 0),  background = "#ffe6e6") |>
+  row_spec(which(coeff_sorted$`Estimate (log-odds)` < 0), background = "#e6ffe6") |>
+  row_spec(which(coeff_sorted$`P-value` > 0.05), background = "#c7d1d9")
+```
+
+
+{{< pagebreak >}}
+
 #### Regression Analysis
 
 
@@ -879,7 +899,7 @@ To assess the sensitivity and specificity of our logistic regression model and t
 #| label: fig-roc
 #| fig-cap: "Receiver Operating Characteristic (ROC) Curve"
 #| fig-width: 3
-#| fig-height: 3
+#| fig-height: 2.5
 
 # calculate predicted probabilities
 prob <- predict(final_log_reg, newdata = heart_test, type = "response")
@@ -917,9 +937,8 @@ topleft <- coords(roc, "best", best.method = "closest.topleft")
 
 Using this threshold, we constructed a confusion matrix for the predicted heart disease outcomes on our test data (see section 2 for details on how we developed the train and test data) (@tbl-confusion-matrix). From this confusion matrix, we then calculated the rates for true positive, false positive, true negative, and false negative detection (@tbl-confusion-matrix-rates). At the threshold of 0.09886, our model can accurately identify 80.6% of individuals with heart disease, indicating high model sensitivity. The model's ability to accurately classify individuals as not having heart disease is also quite high at 70.2%, indicating high model specificity. This being said, the model will still incorrectly diagnose an individual has having heart disease 29.8% of the time and fails to properly identify a person as having heart disease 19.4% of the time.
 
-::::: {layout="[0.6, 0.3]"}
-<div>
-
+::::: {layout="[0.5, 0.3]"}
+:::{#plot1}
 ```{r}
 #| echo: false
 #| label: tbl-confusion-matrix
@@ -938,11 +957,9 @@ colnames(confusion_matrix) <- c("No Heart Disease (Actual)", "Heart Disease (Act
 
 confusion_matrix|> kable()
 ```
+:::
 
-</div>
-
-<div>
-
+:::{#plot2}
 ```{r}
 #| echo: false
 #| label: tbl-confusion-matrix-rates
@@ -973,8 +990,7 @@ rates_tbl <- data.frame(
 rates_tbl |> kable()
 
 ```
-
-</div>
+:::
 :::::
 
 ```{=html}
