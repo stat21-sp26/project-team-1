@@ -14,7 +14,7 @@ disease_data <- heartdisease
 
 ## Results
 
-### Factors Associated with BMI ....
+### Factors Associated with BMI
 
 #### Descriptive Statistics
 
@@ -534,7 +534,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(sex))) 
                               "1" = "Heart Disease")) +
   scale_fill_manual(
     labels = c("1" = "Male", "0" = "Female"),
-    values = c(1 = "tomato", 0 = "skyblue")) +
+    values = c("1" = "tomato", "0" = "skyblue")) +
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
@@ -893,7 +893,7 @@ Using this threshold, we constructed a confusion matrix for the predicted heart 
 ```{r}
 #| echo: false
 #| label: tbl-confusion-matrix
-#| tbl-cap: "Confusion Matrix for Predicted Heart Disease Outcomes on Test Data"
+#| tbl-cap: "Confusion Matrix for Test Data"
 
 
 # classify heart disease based on probability
