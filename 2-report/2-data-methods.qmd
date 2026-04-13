@@ -592,7 +592,27 @@ heart attack based on demographics, particularly race, behavior
 (smoking, drinking alcohol, sleep, physical activity), and other health
 conditions (diabetes, stroke, kidney disease, asthma). Given that
 `heart_disease` is a binary outcome variable, we opted to perform a
-**logistic regression**.
+**logistic regression**. In our dataset, 91.4% of the 319,795 observations do not have heart disease, while 8.6%
+of the individuals do have heart disease (@fig-heartdisease-proportions).
+```{r}
+#| echo: false
+#| label: fig-heartdisease-proportions
+
+ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(heart_disease))) +
+  geom_bar(color = "black") + 
+  labs(x = "Heart Disease Status",
+       y = "Count") +
+  scale_x_discrete(labels = c("0" = "No Heart Disease",
+                              "1" = "Heart Disease")) +
+  scale_fill_manual(values = c("0" = "skyblue",
+                               "1" = "tomato"),
+                    labels = c("0" = "No Heart Disease",
+                               "1" = "Heart Disease")) +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+```
+
 
 Initially, we investigated BMI as a potential predictor for heart
 attack, as BMI is a simple and readily accessible health measurement.
@@ -732,7 +752,6 @@ ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease),
 ```
 
 ::::: {layout="[0.3, 0.3, 0.3]"}
-<div>
 
 ```{r}
 #| include: false
@@ -753,9 +772,6 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(physica
   theme(legend.position = "bottom")
 ```
 
-</div>
-
-<div>
 
 ```{r}
 #| include: false
@@ -1096,8 +1112,8 @@ continuous variables. As such, this assumption is satisfied by default.
 
 [Sample Size Assumption]{.underline}
 
-91.4% of the 319,795 observations do not have heart disease, while 8.6%
-of the individuals do have heart disease. The same split is true for the
+As aforementioned, 91.4% of the 319,795 observations do not have heart disease, while 8.6%
+of the individuals do have heart disease (@fig-heartdisease-proportions). The same split is true for the
 training data set we used to fit the logistic regression. Given that
 less than 10% of the data have heart disease, we should exercise some
 caution in assessing the model's results. However, we will move forward
@@ -1122,12 +1138,9 @@ heart_train |> filter(heart_disease == "1") |> nrow()
 
 [No Outliers Assumption]{.underline}
 
-To identify potential outliers, we plotted the residuals vs fitted values (@fig-resids-fitted-log-reg), which indicated that observations 115488, 65997, and 96834 were abnormal values. Similarly, observations 52951, 160975, and 222531 had unusually large Cook's distance (@fig-cooks-log-reg). All of these potential outliers are compiled in @tbl-outliers. To test for the effect of these outliers, we removed all six observations from the training data set and refit the logistic regression. The new regression yielded nearly identical values for all coefficients and the same p-values. As such, we concluded that these observations did not significantly impact the regression outcome and decided to move forward with the analysis including all data points.
+To identify potential outliers, we plotted the residuals vs fitted values (@fig-resids-fitted-log-reg), which indicated that observations 115488, 65997, and 96834 were abnormal values. Similarly, observations 52951, 160975, and 222531 had unusually large Cook's distance (@fig-cooks-log-reg). All of these potential outliers are compiled in @tbl-outliers. We could not identify any apparent trend in these outlier observations. To test for the effect of these outliers, we removed all six observations from the training data set and refit the logistic regression. The new regression yielded nearly identical values for all coefficients and the same p-values. As such, we concluded that these observations did not significantly impact the regression outcome and decided to move forward with the analysis including all data points.
 
-Since the raw residual plot (@fig-resids-fitted-log-reg) is not easily interpretable for a logistic regression, we opted to use a binned residual plot (@fig-binned-resids-log-reg). From this plot, we can see that the majority of the data points fall within the gray lines, which indicate 2 standard errors from the average residual value.
-
-** TBD INTERPRETATION **
-
+Since the raw residual plot (@fig-resids-fitted-log-reg) is not easily interpretable for a logistic regression, we opted to use a binned residual plot, which groups data points together that have similar predicted probabilities (@fig-binned-resids-log-reg). From this plot, we can see that the majority of the binned data points fall within the gray lines, which indicate 2 standard errors from the average residual value.
 
 
 ```{r}
