@@ -654,6 +654,8 @@ Overall, individuals categorized as having 'Fair', 'Good', and 'Excellent' gener
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-gen-health
+#| fig-width: 3
+#| fig-height: 3
 
 # GENERAL HEALTH
 disease_data |>
