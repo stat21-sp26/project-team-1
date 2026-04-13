@@ -850,8 +850,8 @@ To assess the sensitivity and specificity of our logistic regression model and t
 #| echo: false
 #| label: fig-roc
 #| fig-cap: "Receiver Operating Characteristic (ROC) Curve"
-#| fig-width: 3.5
-#| fig-height: 3.5
+#| fig-width: 3
+#| fig-height: 3
 
 # calculate predicted probabilities
 prob <- predict(final_log_reg, newdata = heart_test, type = "response")
