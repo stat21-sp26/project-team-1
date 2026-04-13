@@ -193,10 +193,10 @@ heart_train %>%
 
 ```
 
-These observed patterns are further evaluated using multiple linear regression to assess whether these relationships persist after adjusting for other variables. Notably, `physical_activity` and `general_health` show the most visually distinct differences in BMI across groups, suggesting they may be among the strongest predictors. In contrast, `smoking` and `age_category` display more modest differences, indicating that their relationships with BMI may be weaker or influenced by other factors.
-
 
 [Combined Effects of Behavior and Health]{.underline}
+
+To further explore whether the relationship between physical activity and BMI differs depending on health, we also examined the interaction between physical activity and general health (@fig-logbmi-physhealth). Across all levels of general health, individuals who report engaging in physical activity consistently had lower log(BMI) compared to those who did not. However, the magnitude of this difference appears relatively constant across all self-reported health categories, suggesting there may not be a strong interaction effect between physical activity and general health on log(BMI).
 
 ```{r}
 #| echo: false
@@ -221,12 +221,14 @@ heart_train %>%
 
 ```
 
+Moving forward, these observed patterns are further evaluated using multiple linear regression to assess whether these relationships persist after adjusting for other variables. Notably, `physical_activity` and `general_health` show the most visually distinct differences in BMI across groups, suggesting they may be among the strongest predictors. In contrast, `smoking` and `age_category` display more modest differences, indicating that their relationships with BMI may be weaker or influenced by other factors.
+
 
 #### Regression Analysis
 
 The results of our multiple linear regression are presented in @tbl-mlr-reg.
 
-The results show that physical activity is negatively associated with `log(bmi)` and is statistically significant. Holding all other factors constant, individuals who report engaging in physical activity have approximately 3.42% lower BMI compared to those who do not (p < 0.05, 95% CI: [-0.039, -0.030]). This aligns with expectations and supports the idea that engaging in physical activity is an important factor associated with lower BMI.
+Physical activity is negatively associated with `log(bmi)` and is statistically significant. Holding all other factors constant, individuals who report engaging in physical activity have approximately 3.42% lower BMI compared to those who do not (p < 0.05, 95% CI: [-0.039, -0.030]). This aligns with expectations and supports the idea that engaging in physical activity is an important factor associated with lower BMI.
 
 General health is also significantly associated with `log(bmi)`. Compared to individuals reporting poor health, those reporting fair health have approximately 3.81% higher BMI (p < 0.05, 95% CI: [0.028, 0.048]), those reporting good health have 3.31% higher BMI (p < 0.05, 95% CI: [0.023, 0.044]), and those reporting excellent health have 5.77% lower BMI (p < 0.05, 95% CI: [-0.069, -0.046]). The consistent gradient across health categories reinforces the strength of this relationship and suggests that self-reported health status is closely linked to BMI.
 
