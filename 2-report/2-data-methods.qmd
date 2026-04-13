@@ -226,13 +226,6 @@ aggregate(bmi ~ sleep_time, data = heartdisease, FUN = mean)
 
 #### Multiple Linear Regression: Factors that Determine BMI
 
--   coefficients of interest:
--   reasoning for fitting the model:
-    -   other models we considered
-    -   assessing the validity of conditions
-    -   variable transformations
--   forward vs. backward selection
--   AIC & BIC
 
 **Selecting a Multiple Linear Regression Model**
 
