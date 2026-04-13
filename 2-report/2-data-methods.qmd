@@ -80,7 +80,7 @@ diabetes"). This simplifies future analyses, where we will only be
 concerned whether diabetes was present, regardless of when or in what
 context.
 
-TO DO: - \[\] add EDA visualizations
+
 
 ### Exploratory Data Analyses
 
@@ -627,7 +627,7 @@ disease (@fig-heartdisease-bmi-hist). Categorizing BMIs into different
 weight categories seemed to reveal that a slightly larger proportion of
 individuals with heart disease had BMI values classified as obese
 (@fig-heartdisease-bmi-bar). However, as will be shown further on in
-this analysis, BMI was ommited as a predictor in our final regression
+this analysis, BMI was omitted as a predictor in our final regression
 model.
 
 ```{r}
@@ -760,7 +760,7 @@ ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease),
 <div>
 
 ```{r}
-#| echo: false
+#| include: false
 
 # PHYSICAL ACTIVITY
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(physical_activity))) +
@@ -783,7 +783,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(physica
 <div>
 
 ```{r}
-#| echo: false
+#| include: false
 ## BEHAVIOR
 
 # SLEEP
@@ -1161,7 +1161,10 @@ Since the raw residual plot (@fig-resids-fitted-log-reg) is not easily interpret
 #| tbl-cap: "Outliers"
 
 # identifying outliers
-heart_train[c(115488,65997,96834, 52951, 160975,222531), ] |> kable()
+heart_train[c(115488,65997,96834, 52951, 160975,222531), ] |> kable() |>
+  kable_styling() |>
+  row_spec(0, angle = 90) |>
+  column_spec(which(names(heart_train) == "race"), width = "3em")
 
 
 
@@ -1236,6 +1239,8 @@ plot(final_log_reg, which = 2)
 ```{r}
 #| echo: false
 #| label: fig-binned-resids-log-reg
+#| fig-width: 4
+#| fig-height: 3.5
 
 library(arm)
 binnedplot(fitted(final_log_reg), 
@@ -1244,9 +1249,11 @@ binnedplot(fitted(final_log_reg),
            xlab = "Expected Values", 
            ylab = "Average residual", 
            main = "Binned residual plot", 
+           cex.main = 0.6,
            cex.pts = 0.8, 
            col.pts = 1, 
            col.int = "gray")
+
 ```
 
 [No Multicollinearity]{.underline}
