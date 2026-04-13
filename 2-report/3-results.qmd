@@ -196,6 +196,32 @@ heart_train %>%
 These observed patterns are further evaluated using multiple linear regression to assess whether these relationships persist after adjusting for other variables. Notably, `physical_activity` and `general_health` show the most visually distinct differences in BMI across groups, suggesting they may be among the strongest predictors. In contrast, `smoking` and `age_category` display more modest differences, indicating that their relationships with BMI may be weaker or influenced by other factors.
 
 
+[Combined Effects of Behavior and Health]{.underline}
+
+```{r}
+#| echo: false
+#| label: fig-logbmi-physhealth
+
+heart_train %>%
+  filter(!is.na(gen_health), !is.na(bmi), !is.na(physical_activity)) %>%
+  ggplot(aes(
+    x = factor(physical_activity, levels = c(0,1), labels = c("No","Yes")),
+    y = log(bmi),
+    fill = factor(physical_activity, levels = c(0,1), labels = c("No","Yes"))
+  )) +
+  geom_boxplot() +
+  facet_wrap(~ gen_health) +
+  labs(
+    x = "Physical Activity",
+    y = "log(BMI)",
+    fill = "Physical Activity"
+  ) +
+  theme_classic() +
+  scale_fill_manual(values = c("No" = "tomato", "Yes" = "skyblue"))
+
+```
+
+
 #### Regression Analysis
 
 The results of our multiple linear regression are presented in @tbl-mlr-reg.
