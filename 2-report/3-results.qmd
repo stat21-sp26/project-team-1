@@ -326,14 +326,98 @@ mlr_stats %>%
 ```
 
 
-### Predicting Heart Attack Risk ....
+### Predicting Heart Attack Risk
 
 #### Descriptive Statistics
 
-**TBD FINAL REGRESSION EQUATION**
+Individuals with and without heart disease exhibit distinct differences in the proportions of race, sex, age, health behaviors (smoking, alcohol consumption), and medical conditions (diabetes, kidney disease, asthma, skin cancer, stroke, and difficulty walking). Of individuals with heart disease, 59.0% were female, 82.2% were White, and 87.6% were 55 years or older. These proportions decrease for individuals without heart disease, of whom only 46.5% were female, 76.2% were White, and 51.4% were 55 years or older (@fig-heartdisease-race; @fig-heartdisease-sex; @fig-heartdisease-age).
 
-**TBD PROBABILITY & ODDS RATIO INTERPRETATION**
-The ultimate result of our logistic regression on the odds of heart disease are captured in @tbl-log-reg-coeffs.
+The majority (58.6%) of individuals with heart disease were smokers, while smokers constituted the minority (39.6%) of individuals without heart disease (@fig-heartdisease-smoking). Interestingly, a slightly larger portion (7.1%) of those without heart disease reported drinking alcohol compared to those with heart disease (4.2%) (@fig-heartdisease-alcohol).
+
+In general, a greater percentage (14.1%) of those with heart disease were categorized as having 'poor' health compared to those without heart disease (2.5%) (@fig-heartdisease-gen-health). More specifically, comorbidity with other health complications was more common amongst those with heart disease. Of individuals with heart disease, 33.1% were diabetic, 12.6% had kidney disease, 18.0% has asthma, 18.2% had skin cancer, 16.0% had had a stroke, and 36.6% experienced difficulty walking. These percentages were all lower for individuals with out heart disease: Only 11.7% were diabetic, 2.9% had kidney disease, 13.0% had asthma, 8.5% had skin cancer, 2.6% had had a stroke, and 11.8% experienced difficulty walking ((@fig-heartdisease-diabetes; @fig-heartdisease-kidney; @fig-heartdisease-cancer; @fig-heartdisease-asthma; @fig-heartdisease-stroke).
+
+```{r}
+#| include: false
+
+# calculating proportions
+
+# sex
+heartdisease |>
+  count(heart_disease, sex) |>
+  group_by(heart_disease) |>
+  mutate(prop = n / sum(n))
+
+# race
+heartdisease |>
+  count(heart_disease, race) |>
+  group_by(heart_disease) |>
+  mutate(prop = n / sum(n))
+
+# age
+heartdisease |>
+  count(heart_disease, age_category) |>
+  group_by(heart_disease) |>
+  mutate(prop = n / sum(n))
+
+
+# smoking
+heartdisease |>
+  count(heart_disease, smoking) |>
+  group_by(heart_disease) |>
+  mutate(prop = n / sum(n))
+
+# alcohol
+heartdisease |>
+  count(heart_disease, alcohol_drinking) |>
+  group_by(heart_disease) |>
+  mutate(prop = n / sum(n))
+
+# general health
+heartdisease |>
+  count(heart_disease, gen_health) |>
+  group_by(heart_disease) |>
+  mutate(prop = n / sum(n))
+
+# diabetes
+heartdisease |>
+  count(heart_disease, diabetic) |>
+  group_by(heart_disease) |>
+  mutate(prop = n / sum(n))
+
+# kidney disease
+heartdisease |>
+  count(heart_disease, kidney_disease) |>
+  group_by(heart_disease) |>
+  mutate(prop = n / sum(n))
+
+# asthma
+heartdisease |>
+  count(heart_disease, asthma) |>
+  group_by(heart_disease) |>
+  mutate(prop = n / sum(n))
+
+# skin cancer
+heartdisease |>
+  count(heart_disease, skin_cancer) |>
+  group_by(heart_disease) |>
+  mutate(prop = n / sum(n))
+
+# stroke
+heartdisease |>
+  count(heart_disease, stroke) |>
+  group_by(heart_disease) |>
+  mutate(prop = n / sum(n))
+
+# difficulty walking
+heartdisease |>
+  count(heart_disease, diff_walking) |>
+  group_by(heart_disease) |>
+  mutate(prop = n / sum(n))
+```
+
+
+
+The significance of these proportion differences is validated in the outcome of our logistic regression. The ultimate results of our logistic regression on the odds of heart disease are captured in @tbl-log-reg-coeffs.
 ```{r}
 #| echo: false
 #| label: tbl-log-reg-coeffs
@@ -448,7 +532,9 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(sex))) 
        fill = "Sex") +
   scale_x_discrete(labels = c("0" = "No Heart Disease",
                               "1" = "Heart Disease")) +
-  #scale_fill_manual(values = c(1 = "tomato", 0 = "skyblue")) +
+  scale_fill_manual(
+    labels = c("1" = "Male", "0" = "Female"),
+    values = c(1 = "tomato", 0 = "skyblue")) +
   theme_classic() + 
   theme(legend.position = "bottom")
 ```
@@ -784,7 +870,7 @@ ggplot(data = df, aes(x = 1 - specificity, y = sensitivity)) +
 
 
 # calculate the Area Under the Curve
-auc(roc) # 0.8292
+#auc(roc) # 0.8292
 
 # pick a threshold
 # Method 1: Youden's J statistic (maximum vertical distance between ROC curve & diagonal line)
@@ -801,7 +887,7 @@ topleft <- coords(roc, "best", best.method = "closest.topleft")
 
 Using this threshold, we constructed a confusion matrix for the predicted heart disease outcomes on our test data (see section 2 for details on how we developed the train and test data) (@tbl-confusion-matrix). From this confusion matrix, we then calculated the rates for true positive, false positive, true negative, and false negative detection (@tbl-confusion-matrix-rates). At the threshold of 0.09886, our model can accurately identify 80.6% of individuals with heart disease, indicating high model sensitivity. The model's ability to accurately classify individuals as not having heart disease is also quite high at 70.2%, indicating high model specificity. This being said, the model will still incorrectly diagnose an individual has having heart disease 29.8% of the time and fails to properly identify a person as having heart disease 19.4% of the time.
 
-::::: {layout="[0.7, 0.3]"}
+::::: {layout="[0.6, 0.3]"}
 <div>
 
 ```{r}
