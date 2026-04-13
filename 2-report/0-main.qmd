@@ -26,7 +26,6 @@ Cardiovascular disease risk is a cumulative result of biological, behavioral, an
 
 {{< include 1-introduction.qmd >}}
 
-{{< pagebreak >}}
 
 {{< include 2-data-methods.qmd >}}
 
