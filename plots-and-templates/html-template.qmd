@@ -1,0 +1,124 @@
+---
+title: "Advanced Quarto Layouts"
+subtitle: "Columns, Callouts, and Tabsets"
+author: "Data Science Student"
+format: 
+  html:
+    theme: cosmo
+    toc: true
+    code-fold: true
+execute:
+  message: false
+  warning: false    
+---
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(broom)
+library(scales)
+```
+
+# 1. Using Columns for Data Summaries
+Columns are perfect for placing descriptive text alongside a quick data snapshot.
+
+::: {.columns}
+
+::: {.column width="45%"}
+### Data Overview
+The `mtcars` dataset contains engine and performance specs for 32 automobiles. 
+
+**Key Variables:**
+- `mpg`: Miles per gallon
+- `wt`: Weight (1000 lbs)
+- `am`: Transmission (0 = auto, 1 = manual)
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+### Quick Glimpse
+```{r}
+mtcars |> 
+  select(mpg, wt, am) |> 
+  head(5) |> 
+  knitr::kable()
+```
+:::
+
+:::
+
+---
+
+# 2. Using Callouts for Critical Insights
+Callouts draw the reader's attention to specific types of information.
+
+::: {.callout-note}
+## Research Objective
+We aim to model fuel efficiency while accounting for vehicle weight and transmission type.
+:::
+
+::: {.callout-warning}
+## Data Limitation
+This dataset is from 1974. Technological advances in modern engines may result in different coefficient scales today.
+:::
+
+::: {.callout-tip icon=false}
+## 💡 Pro-Tip
+When plotting probabilities, always use `scales::label_percent()` for the Y-axis to make it more readable for non-statisticians.
+:::
+
+---
+
+# 3. Using Tabsets for Model Comparison
+Tabsets are the best way to present multiple models without overwhelming the reader.
+
+::: {.panel-tabset}
+
+## 🚗 Linear Model (MPG)
+This model predicts Miles Per Gallon.
+
+```{r}
+#| label: fig-mlr-report
+#| fig-cap: "Linear coefficients showing that Weight is the strongest predictor of MPG."
+
+m_lin <- lm(mpg ~ wt + hp + am, data = mtcars)
+
+tidy(m_lin, conf.int = TRUE) |> 
+  filter(term != "(Intercept)") |> 
+  mutate(term = reorder(term, estimate)) |> 
+  ggplot(aes(x = estimate, y = term)) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
+  geom_errorbar(aes(xmin = conf.low, xmax = conf.high), width = 0.2) +
+  geom_point(size = 3, color = "steelblue") +
+  theme_minimal()
+```
+
+## ⚙️ Logistic Model (Transmission)
+This model predicts the probability of a car being a Manual.
+
+```{r}
+#| label: fig-log-report
+#| fig-cap: "Probability of manual transmission decreases sharply as weight increases."
+
+m_log <- glm(am ~ wt, data = mtcars, family = binomial)
+
+# Generate smooth prediction line
+grid <- data.frame(wt = seq(min(mtcars$wt), max(mtcars$wt), length.out = 100))
+grid$prob <- predict(m_log, newdata = grid, type = "response")
+
+ggplot(grid, aes(x = wt, y = prob)) +
+  geom_line(color = "darkgreen", linewidth = 1) +
+  scale_y_continuous(labels = label_percent()) +
+  labs(x = "Weight (1000 lbs)", y = "Prob(Manual)") +
+  theme_minimal()
+```
+
+:::
+
+---
+
+# Summary Checklist
+1. **Columns:** Use `::: {.columns}` and `::: {.column width="X%"}` to place items side-by-side.
+2. **Callouts:** Use `::: {.callout-TYPE}` (note, warning, tip, important, caution).
+3. **Tabsets:** Use `::: {.panel-tabset}`. Each `## Header` inside becomes a new tab.
+4. **Closing:** Always remember to close every div with `:::`.
