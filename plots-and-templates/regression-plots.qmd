@@ -1,0 +1,309 @@
+---
+title: "Visualizing Regression Results"
+subtitle: "Communicating Uncertainty with ggplot2"
+author: "Template"
+format: 
+  html:
+    toc: true
+theme: cosmo
+---
+
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(broom)    # For tidying model objects
+library(modelr)   # For generating prediction grids
+library(scales)   # For better axis labels
+library(yardstick) # For ROC curve
+```
+
+## Introduction
+
+When presenting regression results, tables are informative but visualizations are often more intuitive for understanding the magnitude of effects and the precision of our estimates (Confidence Intervals).
+
+## 1. The Forest Plot: Visualizing Coefficients
+
+The "Forest Plot" shows the point estimate of each coefficient and its 95% confidence interval. This is much better than looking at p-values alone.
+
+### Step A: Fit the Model 🔧
+
+We will use the built-in `mtcars` dataset to model Miles Per Gallon (MPG).
+
+```{r}
+# Fit a multiple linear regression
+m_lin <- lm(mpg ~ hp + wt + am + cyl, data = mtcars)
+
+```
+
+### Step B: Prepare the Results 👔
+
+We start by tidying the results and including confidence intervals
+
+```{r}
+results_tidy <- tidy(m_lin, conf.int = TRUE) 
+head(results_tidy)
+```
+
+In this dataset, each variable in the model is a row: `term` is the variable's name, `estimate` is its estimated coefficient, `conf.low` and `conf.high` are the lower and upper bounds of its confidence interval.
+
+We want to plot the confidence intervals of each variable so we prepare the dataset to look nice in the plot:
+
+```{r}
+results_tidy <- results_tidy |> 
+   # Usually we exclude the intercept for plotting
+  filter(term != "(Intercept)") |> 
+  # We give "nice" names for the plot axis
+  mutate(
+    term = case_match(term,
+      "hp"  ~ "Horsepower",
+      "wt"  ~ "Weight (1000 lbs)",
+      "am"  ~ "Transmission (Manual)",
+      "cyl" ~ "Cylinders",
+      .default = term
+    ),
+  # We turn 'term' into a factor sorted by the 'estimate' value.
+  # This way, the coefficients will be shown in order from smallest to largest estimate
+    # Without this, ggplot would default to alphabetical order.
+     term = reorder(term, estimate)
+  )
+ 
+```
+
+### Step C: Create the Plot 🧑🏼‍🎨
+
+Next we make the forest plot!
+
+```{r}
+#| label: fig-mpg-forest
+#| fig-cap: "Impact of Car Characteristics on Fuel Efficiency."
+
+ggplot(results_tidy, aes(x = estimate, y = term)) +
+  # Adds a vertical reference line at 0 (null effect)
+  geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
+  # Use geom_errorbar with xmin and xmax for horizontal intervals
+  geom_errorbar(aes(xmin = conf.low, xmax = conf.high), width = 0.2) +
+  geom_point(size = 3, color = "steelblue") +
+  labs(
+    title = "Impact of Car Characteristics on Fuel Efficiency",
+    x = "Effect on MPG (with 95% Confidence Interval)",
+    y = NULL, # We remove the axis label because variable names are self-explanatory
+    caption = "Data source: 1974 Motor Trend US magazine. Model adjusted for engine and weight factors."
+  ) +
+  theme_minimal()
+```
+
+## 2. Visualizing Predictions
+
+While Forest Plots show us *coefficients*, Prediction Plots show us the *real-world relationship* between a predictor and the outcome. We use `modelr::data_grid()` to create a "typical" scenario (e.g., varying weight while holding other variables at their mean).
+
+### MLR
+
+#### Step A: Create the Prediction Data
+
+We want to see how **Weight** affects **MPG**, but we must tell R what to do with the other variables in the model (`hp`, `am`, `cyl`).
+
+Code snippet
+
+```{r}
+# 1. Generate a grid of data
+# We vary 'wt' across its full range and hold others at their mean/mode
+plot_grid <- mtcars |> 
+  data_grid(
+    wt = seq_range(wt, n = 100),
+    hp = mean(hp),
+    am = mean(am),
+    cyl = mean(cyl)
+  )
+
+# 2. Add predictions and standard errors
+mlr_preds <- augment(m_lin, newdata = plot_grid, se_fit = TRUE) |> 
+  mutate(
+    # Calculate 95% Confidence Interval bounds
+    lower = .fitted - (1.96 * .se.fit),
+    upper = .fitted + (1.96 * .se.fit)
+  )
+```
+
+#### Step B: Plot the Trend with Uncertainty
+
+A good prediction plot uses a line for the estimate and a "ribbon" for the confidence interval.
+
+```{r}
+#| label: fig-mlr-predictions
+#| fig-cap: "Predicted MPG based on vehicle weight. The blue line represents the expected MPG, while the shaded area shows the 95% confidence interval."
+#| echo: fenced
+
+ggplot(mlr_preds, aes(x = wt, y = .fitted)) +
+  # The ribbon represents our uncertainty
+  geom_ribbon(aes(ymin = lower, ymax = upper), fill = "steelblue", alpha = 0.2) +
+  # The line represents our best estimate
+  geom_line(color = "steelblue", linewidth = 1) +
+  labs(
+    title = "The Relationship Between Weight and Fuel Efficiency",
+    subtitle = "Adjusted for Horsepower, Transmission, and Cylinders",
+    x = "Weight (1000 lbs)",
+    y = "Predicted MPG",
+    caption = "Confidence ribbon calculated using standard errors from the MLR model."
+  ) +
+  theme_minimal()
+```
+
+### Logistic regression
+
+For Logistic Regression (GLM), it is often hard to interpret "Log-Odds." Plotting the **predicted probability** is much more effective.
+
+#### Step A: Fit Logistic Model
+
+We'll predict whether a car has an automatic (`am=0`) or manual (`am=1`) transmission based on its weight.
+
+```{r}
+m_log <- glm(am ~ wt + hp, data = mtcars, family = binomial)
+```
+
+#### Step B: Create a Prediction Grid
+
+To plot a smooth line with confidence ribbons, we simulate data across the entire range of our predictor.
+
+```{r}
+# Create a grid of weights, holding HP at its mean
+grid <- mtcars  |> 
+  data_grid(
+    wt = seq_range(wt, n = 100),
+    hp = mean(hp)
+  )
+
+```
+
+We then add estimated log-odds and probabilities. We can use the plogis() to convert log-odds to probabilities, since `plogis()` does
+
+$$p = \frac{1}{1 + e^{-\text{log-odds}}}$$
+
+```{r}
+# Add predictions with standard errors
+# Note: type = "link" gets us the log-odds scale where SEs are symmetric
+preds <- augment(m_log, newdata = grid, se_fit = TRUE) |> 
+  mutate(
+    # Convert log-odds to probabilities using the inverse logit (plogis)
+    prob = plogis(.fitted),
+    lower = plogis(.fitted - (1.96 * .se.fit)),
+    upper = plogis(.fitted + (1.96 * .se.fit))
+  )
+```
+
+#### Step C: Plot the Probability Curve
+
+```{r}
+#| label: fig-prob-curve
+#| fig-cap: "Probability of a manual transmission as a function of car weight, holding horsepower constant at its mean."
+
+ggplot(preds, aes(x = wt, y = prob)) +
+  # The Confidence Ribbon
+  geom_ribbon(aes(ymin = lower, ymax = upper), fill = "grey80", alpha = 0.5) +
+  # The Prediction Line
+  geom_line(color = "darkgreen", linewidth = 1) +
+  # Add the original data points (rug plot)
+  geom_rug(data = mtcars, aes(y = am), sides = "b", alpha = 0.5) +
+  labs(
+    title = "Predicted Probability of Manual Transmission",
+    subtitle = "Holding Horsepower at its mean",
+    x = "Weight (1000 lbs)",
+    y = "Probability (Manual)",
+    caption = "The grey ribbon represents the 95% confidence interval."
+  ) +
+  scale_y_continuous(labels = label_percent()) +
+  theme_minimal()
+```
+
+## 3. Visualizing ROC curve
+
+An ROC (Receiver Operating Characteristic) curve shows how well a logistic model distinguishes between two classes. We use the yardstick package for a tidy workflow.
+
+```{r}
+#| fig-cap: "Figure 3: ROC Curve for the transmission prediction model. The area under the curve (AUC) indicates high predictive accuracy."
+
+# 1. Get predictions from the original data
+m_log_preds <- augment(m_log, type.predict = "response") |> 
+  mutate(am = as.factor(am))
+
+# 2. Calculate the ROC curve coordinates
+roc_data <- roc_curve(m_log_preds, am, .fitted, event_level = "second")
+
+# 3. Plot
+autoplot(roc_data) +
+  labs(
+    title = "Model Performance: ROC Curve",
+    subtitle = "Predicting Manual vs. Automatic Transmission",
+    caption = "A diagonal line represents a model no better than random chance."
+  ) +
+  theme_minimal()
+```
+
+## 4. Captions and Figure Numbering
+
+A plot without a proper caption is like a news story without a lead. Captions provide context, define abbreviations, and state the "takeaway" so the reader doesn't have to guess.
+
+### Good vs. Bad Captions
+
+| Type | Example | Why? |
+|:-----------------------|:-----------------------|:-----------------------|
+| **Bad** | "Plot of regression results." | It is redundant (the reader can see it's a plot) and provides no context. |
+| **Good** | "Figure 1: Estimated change in MPG per unit increase in predictor. Error bars represent 95% CIs. Note that Weight and Horsepower show significant negative correlations with efficiency." | It defines the error bars, identifies the data source, and highlights the key finding. |
+
+### How to add it in Quarto/ggplot
+
+You can add two types of captions:
+
+1.  **Inside `labs()` (as seen above):** Best for general notes and data sourcing.
+
+2.  **In the Quarto Chunk Header:** Best for formal figure numbering in reports. **Using this you can cross-reference the figure in other parts of the text!**
+
+#### Cross-Referencing (The Real Magic)
+
+To enable automatic numbering (e.g., "Figure 1"), you must provide **both a label and a caption** in the code chunk header.
+
+```{r}
+#| fig-width: 4
+#| fig-height: 3
+#| label: fig-mpg-results
+#| fig-cap: "Impact of Car Characteristics on Fuel Efficiency. Error bars represent 95% Confidence Intervals."
+#| echo: fenced
+
+ggplot(results_tidy, aes(x = estimate, y = term)) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
+  geom_errorbar(aes(xmin = conf.low, xmax = conf.high), width = 0.2) +
+  geom_point(size = 3, color = "steelblue") +
+  theme_minimal()
+```
+
+#### Why do we need both?
+
+|  |  |  |
+|------------------------|------------------------|------------------------|
+| **Component** | **Example** | **Purpose** |
+| **`label`** | `fig-mpg-results` | The **internal ID**. It must start with `fig-`. It enables the numbering engine and allows you to "call" this figure in your text. |
+| **`fig-cap`** | `"Impact of Car..."` | The **external text**. This is the human-readable description that appears directly under the plot in your report. |
+
+The primary reason Quarto uses this system is so you don't have to remember the numbers yourself. Once you have a label, you can reference it in your prose:
+
+> As seen in `@fig-mpg-results`, weight is the most significant predictor...
+
+Becomes
+
+> As seen in @fig-mpg-results, weight is the most significant predictor...
+
+The magic is that if you add a new plot above it later, Quarto will automatically re-index it to "Figure 4" without you changing a single word of text.
+
+## Summary of Best Practices
+
+1.  **Forest Plots for Coefficients**: Use `tidy(conf.int = TRUE)` to extract estimates and confidence intervals. A forest plot is the gold standard for showing which variables are "significant" (do they cross the 0 line?) and the magnitude of their impact.
+
+2.  **Intentional Axis Sorting**: Never settle for alphabetical order. Use `reorder(term, estimate)` to sort your variables by the size of their effect. This creates a "ladder" effect that makes the strongest predictors stand out immediately.
+
+3.  **Probability Curves for Logistic Regression**: Raw log-odds are nearly impossible to visualize. Use `plogis()` to transform model predictions into **probabilities** ($0$ to $100\%$). This allows students to see the "S-curve" and understand how the likelihood of an event changes across a range of values.
+
+4.  **Model Performance with ROC**: Beyond individual predictors, use the ROC curve to visualize the overall accuracy of a classification model. A curve hugging the top-left corner represents a strong model, while the diagonal line represents random guessing.
+
+5.  **Interpretive Captions**: A good caption is self-contained. Instead of saying "Plot of model," use the caption to state the finding (e.g., "Figure 1: Weight has the strongest negative impact on MPG...").
+
+6.  **The Label + Caption Rule**: To enable automatic figure numbering in Quarto, every code chunk must include both `#| label: fig-xxx` and `#| fig-cap: "..."`.
+
+7.  **Automated Cross-Referencing**: Use `@fig-label` in your text to create clickable links. Quarto will handle the numbering (Figure 1, Figure 2, etc.) for you, even if you move your plots around later.
