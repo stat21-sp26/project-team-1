@@ -1,0 +1,21 @@
+---
+title: "Project Title: Predicting MPG"
+subtitle: "Stat 21 Final Presentation"
+author: "Students Names"
+format: 
+  revealjs:
+    theme: simple  # Changed from 'cosmo' to 'simple'
+    slide-number: true
+    incremental: true
+title-slide-attributes:
+  data-background-image: "images/allison_horst_model_fish.png"
+  data-background-size: "40%"
+  data-background-opacity: "0.9"    
+execute:
+  echo: false
+  message: false
+  warning: false
+engine: knitr  
+---
+
+<!-- Be inspired by template and then..the world is your oyster! -->
