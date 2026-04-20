@@ -1,0 +1,249 @@
+---
+title: "Project Title: Predicting MPG"
+subtitle: "Stat 21 Final Presentation"
+author: "Students Names"
+format: 
+  revealjs:
+    theme: simple  # Changed from 'cosmo' to 'simple'
+    slide-number: true
+    incremental: true
+title-slide-attributes: 
+    # The path to your image
+    data-background-image: "https://www.swarthmore.edu/sites/default/files/assets/images/communications-office/swarthmore_logo.jpg" 
+    # Adjust size (e.g., 20% of the slide or 'cover' for full screen)
+    data-background-size: "15%" 
+    # Position: 'center', 'top left', 'bottom right', etc.
+    data-background-position: "bottom 50px right 50px" 
+    # Adjust opacity if the image is too distracting
+    data-background-opacity: "0.5"  
+execute:
+  echo: false
+  message: false
+  warning: false
+engine: knitr  
+---
+
+```{r}
+library(tidyverse)
+library(broom)
+```
+
+# Introduction
+
+## Research Question 🚘
+
+Every good project starts with a clear question.
+
+-   What factors most significantly impact vehicle fuel efficiency?
+-   We will examine **Horsepower**, **Weight**, and **Transmission Type**.
+-   **Data Source:** 1974 Motor Trend US magazine.
+
+. . .
+
+> "Data is the new oil, but visualization is the engine." — Anonymous
+
+------------------------------------------------------------------------
+
+## Data Source & Collection
+
+:::::: columns
+::: {.column width="60%"}
+-   **Dataset:** `mtcars` (Motor Trend Car Road Tests).
+-   **Source:** 1974 *Motor Trend* US magazine.
+-   **Sample Size:** $n = 32$ automobiles.
+-   **Variables:** 11 aspects of automobile design and performance.
+:::
+
+:::: {.column width="40%"}
+::: callout-tip
+## Why this data?
+
+It is a classic dataset for learning MLR because of the strong correlations between engine specs and fuel economy.
+:::
+::::
+::::::
+
+------------------------------------------------------------------------
+
+## Data Source & Collection
+
+::::::: columns
+:::: {.column width="60%"}
+::: nonincremental
+-   **Dataset:** `mtcars` (Motor Trend Car Road Tests).
+-   **Source:** 1974 *Motor Trend* US magazine.
+-   **Sample Size:** $n = 32$ automobiles.
+-   **Variables:** 11 aspects of automobile design and performance.
+:::
+::::
+
+:::: {.column width="40%"}
+::: callout-warning
+## A Note on "Recency"
+
+Because this data is from 1974, the results reflect mechanical engineering from 50 years ago. Modern cars would likely show different coefficient magnitudes!
+:::
+::::
+:::::::
+
+------------------------------------------------------------------------
+
+## Data Cleaning & Selection
+
+Before modeling, we performed the following steps:
+
+1.  **Filtering:** Focused on 4 key predictors based on previous literature.
+2.  **Transformation:** Converted `am` (Transmission) and `vs` (Engine shape) into factors.
+3.  **Missing Values:** Confirmed the dataset was complete (no `NA` values).
+
+------------------------------------------------------------------------
+
+## The Model
+
+We are using a Multiple Linear Regression (MLR) model:
+
+$$\text{mpg} = \beta_0 + \beta_1(\text{wt}) + \beta_2(\text{hp}) + \beta_3(\text{am}) + \varepsilon$$
+
+::: callout-note
+## Model Assumption
+
+We assume that the residuals are normally distributed and have constant variance.
+:::
+
+# Results & Visualization
+
+## Key Drivers of Efficiency
+
+::::: columns
+::: {.column width="50%"}
+**Findings:**
+
+-   Weight has the strongest negative impact.
+
+-   Manual transmissions tend to be more efficient.
+
+-   Horsepower has a smaller, but significant, effect.
+:::
+
+::: {.column width="50%"}
+```{r}
+#| fig-height: 3
+#| fig-width: 6
+
+# Fit a multiple linear regression
+m_lin <- lm(mpg ~ hp + wt + am + cyl, data = mtcars)
+
+# Prepare results
+results_tidy <- tidy(m_lin, conf.int = TRUE) 
+
+results_tidy <- results_tidy |> 
+   # Usually we exclude the intercept for plotting
+  filter(term != "(Intercept)") |> 
+  # We give "nice" names for the plot axis
+  mutate(
+    term = case_match(term,
+      "hp"  ~ "Horsepower",
+      "wt"  ~ "Weight (1000 lbs)",
+      "am"  ~ "Transmission (Manual)",
+      "cyl" ~ "Cylinders",
+      .default = term
+    ),
+  # We turn 'term' into a factor sorted by the 'estimate' value.
+  # This way, the coefficients will be shown in order from smallest to largest estimate
+    # Without this, ggplot would default to alphabetical order.
+     term = reorder(term, estimate)
+  )
+
+ggplot(results_tidy, aes(x = estimate, y = term)) +
+  # Adds a vertical reference line at 0 (null effect)
+  geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
+  # Use geom_errorbar with xmin and xmax for horizontal intervals
+  geom_errorbar(aes(xmin = conf.low, xmax = conf.high), width = 0.2) +
+  geom_point(size = 3, color = "steelblue") +
+  labs(
+    x = "Linear 'effect' on MPG (with 95% CI)",
+    y = NULL, # We remove the axis label because variable names are self-explanatory
+  ) +
+  theme_minimal(base_size = 16)
+```
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Exploring Trends: Tabsets
+
+Tabs are perfect for showing multiple "sides" of something without cluttering the slide.
+
+::: panel-tabset
+### Weight
+
+```{r}
+#| fig-height: 4
+plot(mtcars$wt, mtcars$mpg, pch = 19, col = "steelblue", 
+     xlab = "Weight", ylab = "MPG")
+abline(lm(mpg ~ wt, data = mtcars), col = "red", lwd = 2)
+```
+
+### Horsepower
+
+```{r}
+#| fig-height: 4
+plot(mtcars$hp, mtcars$mpg, pch = 19, col = "steelblue", 
+     xlab = "Horsepower", ylab = "MPG")
+abline(lm(mpg ~ hp, data = mtcars), col = "red", lwd = 2)
+```
+:::
+
+# Diagnostics & Performance
+
+## How good is our model?
+
+We can check the performance metrics and residuals.
+
+:::::: columns
+::: {.column width="60%"}
+```{r}
+#| fig-height: 4
+#| fig-width: 5
+plot(m_lin, 1)
+```
+:::
+
+:::: {.column width="40%"}
+::: {.callout-tip icon="false"}
+## R squared
+
+An $R^2$ of 0.82 means our model explains 82% of the variance in MPG.
+:::
+::::
+::::::
+
+------------------------------------------------------------------------
+
+## Important Takeaways
+
+::: callout-important
+## Critical Finding
+
+....
+:::
+
+. . .
+
+### Next Steps
+
+-   [ ] Incorporate newer 2024 vehicle data.
+-   [ ] Compare with Random Forest models.
+
+# Thank you! {background-color="#1982C4"}
+
+Questions?
+
+## Helpful Resources 📚
+
+-   [**Official Revealjs Guide**](https://quarto.org/docs/presentations/revealjs/): The "Source of Truth" for all slide features.
+
+-   [**Quarto Gallery**](https://quarto.org/docs/gallery/#presentations): Examples of award-winning presentations.
+
+-   [**Slide Customization**](https://quarto.org/docs/presentations/revealjs/themes.html): Learn how to change colors, fonts, and backgrounds
