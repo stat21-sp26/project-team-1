@@ -1,3 +1,16 @@
+<!-- {{< include 3-results.qmd >}} -->
+
 ## Discussion
 
-<!--- I suggest you don't write this section until the final report, since you may refine your analysis between now and then -->
+### Factors Associated with BMI
+
+
+### Predicting Heart Attack
+Overall, our logistic regression model for predicting the log-odds of heart disease displays much higher classification performance than random (AUC = 0.83 for the ROC) and exhibits high sensitivity and specificity for predicting whether an individual will experience heart attack (@fig-roc). The model posits that being over 55 years of age has the greatest impact on risk for heart attack, followed by having had a stroke or being between 35-54 years old (@fig-log-reg-coefficients). On the other hand, the model claims that generally having excellent and good health are the largest contributors to decreasing risk of heart disease, followed by being male or Asian (@fig-log-reg-coefficients). For the most part, the model confirmed our expectations that pre-existing health conditions (stroke, kidney disease, diabetes, smoking, skin cancer, difficulty walking, asthma, poor health) would predispose someone to heart disease. These health complications become more common with age due to general effects of aging on human biology and increased opportunity to be exposed to unhealthy conditions, which would explain the strong effect of older age on heart disease risk. However, contrary to these findings, the model forwarded that consuming alcohol decreases the odds of heart disease (@fig-log-reg-coefficients). **INCLUDE EXPLANATION**.
+
+The model also predicted unexpected results for the influence of demographic factors on heart attack risk. Notably, it would predict that White individuals would be at greatest risk for heart disease compared to Hispanic, Black, and Asian individuals. A possible explanation for this could be bias in the data set due to different access to health care and formal diagnosis. For instance, White individuals may more regularly attend hospital check-ups and thus may have a higher rate of heart disease diagnosis. 
+
+**TBD EXPLANATION OF FEMALE HEART DISEASE RISK**.
+
+
+
