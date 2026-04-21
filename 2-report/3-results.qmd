@@ -21,7 +21,7 @@ disease_data <- heartdisease
 
 ### Factors Associated with BMI
 
-#### Descriptive Statistics
+#### Descriptive Statistics & Model Results
 
 ```{r}
 #| include: false
@@ -230,6 +230,57 @@ heart_train %>%
   scale_fill_manual(values = c("No" = "tomato", "Yes" = "skyblue"))
 
 ```
+
+
+The patterns observed in the above descriptive analyses are further evaluated using a multiple linear regression model. The results of the regression on log(BMI) are captured in @fig-mlr-coefficients. Most predictors included in the final model significantly (p < 0.05) contributed to variation in log(BMI), with the exception of age category 55+, which was not statistically significant after adjusting for other variables.
+
+```{r}
+#| echo: false
+#| label: fig-mlr-coefficients
+#| fig-cap: "Coefficients of multiple linear regression model. Blue data points represent the estimated effect of each predictor on log(BMI). The red dashed line represents no effect on log(BMI). Bars represent 95% confidence intervals. Most effects are significant (p < 0.05), aside from age category 55+."
+
+library(broom)
+
+mlr_tidy <- tidy(final_mlr, conf.int = TRUE) |>
+  filter(term != "(Intercept)") |>
+  mutate(
+    term = case_match(term,
+      "smoking1" ~ "Smoker",
+      "alcohol_drinking1" ~ "Drinks Alcohol",
+      "stroke1" ~ "Stroke",
+      "physical_health" ~ "Physical Health",
+      "diff_walking1" ~ "Difficulty Walking",
+      "sex1" ~ "Male",
+      "age_category2" ~ "35–54 years old",
+      "age_category3" ~ "55 and older",
+      "raceAsian" ~ "Asian",
+      "raceBlack" ~ "Black",
+      "raceAmerican Indian/Alaskan Native" ~ "Native American",
+      "diabetic1" ~ "Diabetic",
+      "gen_healthFair" ~ "Fair Health",
+      "gen_healthGood" ~ "Good Health",
+      "gen_healthExcellent" ~ "Excellent Health",
+      "sleep_time" ~ "Sleep Time",
+      "asthma1" ~ "Asthma",
+      "skin_cancer1" ~ "Skin Cancer",
+      .default = term
+    ),
+    term = reorder(term, estimate)
+  )
+
+ggplot(mlr_tidy, aes(x = estimate, y = term)) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
+  geom_errorbar(aes(xmin = conf.low, xmax = conf.high), width = 0.2) +
+  geom_point(size = 2, color = "steelblue") +
+  labs(
+    x = "Effect on log(BMI) (with 95% confidence interval)",
+    y = NULL
+  ) +
+  theme_classic()
+```
+
+
+
 
 Moving forward, these observed patterns are further evaluated using multiple linear regression to assess whether these relationships persist after adjusting for other variables. Notably, `physical_activity` and `general_health` show the most visually distinct differences in BMI across groups, suggesting they are likely to remain among the strongest predictors in the regression model. In contrast, `smoking` and `age_category` display more modest differences, indicating that their relationships with BMI may be weaker or influenced by other factors after adjustment.
 
