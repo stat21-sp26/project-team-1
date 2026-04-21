@@ -257,7 +257,7 @@ model complexity and reducing the risk of overfitting. These variables
 were the following: `smoking`, `alcohol_drinking`, `stroke`,
 `physical_health`, `diff_walking`, `sex`, `age_category` (particularly
 ages 35 to 54 years), `race` (particularly Asian and Black), `diabetic`,
-`gen_health`, `sleep_time`, `asthma`, and `skin_cancer`.
+`gen_health`, `sleep_time`, `asthma`, and `skin_cancer` (@tbl-selected-vars-mlr).
 
 ```{r}
 #| include: false
