@@ -344,9 +344,11 @@ mlr_stats %>%
 ```
 
 
+{{< pagebreak >}}
+
 ### Predicting Heart Attack Risk
 
-#### Descriptive Statistics
+#### Descriptive Statistics & Model Results
 
 Individuals with and without heart disease exhibit distinct differences in the proportions of race, sex, age, health behaviors (smoking, alcohol consumption), and medical conditions (diabetes, kidney disease, asthma, skin cancer, stroke, and difficulty walking). Of individuals with heart disease, 59.0% were female, 82.2% were White, and 87.6% were 55 years or older. These proportions decrease for individuals without heart disease, of whom only 46.5% were female, 76.2% were White, and 51.4% were 55 years or older (@fig-heartdisease-race; @fig-heartdisease-sex; @fig-heartdisease-age).
 
@@ -435,12 +437,12 @@ heartdisease |>
 
 
 
-The significance of these proportion differences is validated in the outcome of our logistic regression. The ultimate results of our logistic regression on the odds of heart disease are captured in @fig-log-reg-coefficients (See @tbl-log-reg-coeffs in the appendix for details on all coefficient estimates).
+The significance of these proportion differences is validated in the outcome of our logistic regression. The ultimate results of our logistic regression on the odds of heart disease are captured in @fig-log-reg-coefficients (See @tbl-log-reg-coeffs in the appendix for details on all coefficient estimates). All predictors included in our final model significantly (p < 0.05) impacted the odds of an individual experiencing heart disease, excluding the following: mental health score, being Native American, and being an unspecified race.
 
 
 ```{r}
 #| echo: false
-#| fig-cap: "Coefficients of logistic regression model. Blue data points represent the additive effect of each predictor on the log-odds of heart disease. Red dashed line represents no effect on the log-odds of heart disease. Bars represent 95% confidence interval for the estimate."
+#| fig-cap: "Coefficients of logistic regression model. Blue data points represent the additive effect of each predictor on the log-odds of heart disease. Red dashed line represents no effect on the log-odds of heart disease. Bars represent 95% confidence interval for the estimate. All effects are significant (p < 0.05) aside from the terms Mental Health, Native American, and Other Race."
 #| label: fig-log-reg-coefficients
 log_reg_tidy <- tidy(final_log_reg, conf.int = TRUE) |>
   filter(term != "(Intercept)") |>
@@ -530,7 +532,7 @@ disease2 <- disease_data |>
 
 [Demographics]{.underline}
 
-Compared to White peers, and holding all other variables constant, our model predicts that Hispanic, Black, and Asian individuals have 0.75 (95% CI: \[0.70, 0.81\]), 0.70 (95% CI: \[0.66, 0.76\]), and 0.60 (95% CI: \[0.51, 0.71\]) times the odds of having heart disease, respectively (@fig-heartdisease-race; @tbl-log-reg-coeffs). In short, White individuals are predicted to have the highest likelihood of heart attack.
+Compared to White peers, and holding all other variables constant, our model predicts that Hispanic, Black, and Asian individuals have 0.75 (95% CI: \[0.70, 0.81\]), 0.70 (95% CI: \[0.66, 0.76\]), and 0.60 (95% CI: \[0.51, 0.71\]) times the odds of having heart disease, respectively (@fig-heartdisease-race; @tbl-log-reg-coeffs). In short, White individuals are predicted to have the highest likelihood of heart attack, contrary to our initial hypothesis which posited that historical discrimination against non-White communities in the US would lead to worse health outcomes (i.e. greater risk for heart disease).
 
 As one may expect, the predicted risk for heart disease increases with age. Compared to 18-34 year olds of the same sex, race, and health conditions, 35-54 year olds are expected to have 2.97 the odds of heart disease (95% CI: [2.61, 3.37]). This risk increases even more dramatically for ages 55 years and older, whose odds of heart disease are predicted to be 8.9 times (95% CI: [7.89, 10.06]) that of 18-34 year olds (@fig-heartdisease-age; @tbl-log-reg-coeffs).
 
@@ -893,11 +895,11 @@ heart_test <- heart_test |>
 ```
 
 
-To assess the sensitivity and specificity of our logistic regression model and to determine an appropriate probability threshold for classification, we plotted a Receive Operating Characteristic (ROC) curve (@fig-roc). The Area Under the Curve (AUC) is 0.83, indicating that the model's classification of individuals with and without heart disease is much better than random (AUC = 0.5, represented by the y = x dashed line). We opted to use Youden's J statistic  to determine a probability threshold. This statistic identifies the maximum vertical distance between the ROC curve and the $y = x$ line, thereby maximizing the difference between the true positive rate (sensitivity) and the false positive rate (1 - specificity). We obtained a Youden J statistic of 0.09886 and set this as our threshold for subsequent analysis.
+To assess the sensitivity and specificity of our logistic regression model and to determine an appropriate probability threshold for classification, we applied our model to a test data set (see Methodology for how we created this split) and plotted a Receive Operating Characteristic (ROC) curve (@fig-roc). The Area Under the Curve (AUC) is 0.83, indicating that the model's classification of individuals with and without heart disease is much better than random (AUC = 0.5, represented by the y = x dashed line). We opted to use Youden's J statistic  to determine a probability threshold. This statistic identifies the maximum vertical distance between the ROC curve and the $y = x$ line, thereby maximizing the difference between the true positive rate (sensitivity) and the false positive rate (1 - specificity). We obtained a Youden J statistic of 0.09886 and set this as our threshold for subsequent analysis.
 ```{r}
 #| echo: false
 #| label: fig-roc
-#| fig-cap: "Model Performance: Receiver Operating Characteristic (ROC) Curve for predicting heart disease. The dotted red line represents a model that is no better than random chance."
+#| fig-cap: "Model Performance: Receiver Operating Characteristic (ROC) Curve for predicting heart disease. The dotted red line represents a model that is no better than random chance. Performance was assessed by fitting the model on a test data set."
 #| fig-width: 3
 #| fig-height: 2.5
 
