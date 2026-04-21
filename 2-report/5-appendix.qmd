@@ -1,22 +1,57 @@
 ---
-title: "The title of your study, as in 0-main"
-subtitle: "Appendix"
-authors: "Your names"
-format: 
-  pdf:
-    documentclass: article
-    number-sections: true
-    geometry:
-      - top=20mm
-      - left=25mm
-      - right=25mm
-      - heightrounded
-execute: 
-  message: false
-  warning: false
-  echo: false
-bibliography: ../bibliography/references.bib
-engine: knitr
+title: "5-appendix"
+format: html
 ---
 
+
+```{r}
+#| echo: false
+#| label: tbl-mlr-reg
+#| tbl-cap: "Multiple Linear Regression Coefficients. "
+
+mlr_table %>%
+  kable(col.names = c(
+    "Coefficient",
+    "Estimate",
+    "Std. Error",
+    "t value",
+    "p-value",
+    "Lower CI",
+    "Upper CI"
+  ))
+
+## Coefficients represent approximate percentage changes in BMI
+
+```
+
+
+```{r}
+#| echo: false
+#| label: tbl-log-reg-coeffs
+#| tbl-cap: "Logistic Regression Coefficients. Red rows indicate coefficients that increase the odds of heart disease. Green rows indicate coefficients that decrease the odds of heart disease. Gray rows indicate coefficients with insignificant p-values."
+
+reg_sum <- summary(final_log_reg)
+
+coefficients <- as.data.frame(reg_sum$coefficients)
+coeff_sorted <- coefficients[order(coefficients$Estimate, decreasing = TRUE), ]
+
+
+# calculate the odds & probability
+coeff_sorted <- coeff_sorted |>
+  mutate(
+    odds_coeff = exp(coeff_sorted$Estimate),
+    #prob = odds_coeff / (1 + odds_coeff),
+    ci_low = exp(Estimate - 2*`Std. Error`),
+    ci_high = exp(Estimate + 2*`Std. Error`)
+  )
+
+colnames(coeff_sorted) <- c("Estimate (log-odds)", "Std. Error", "Z value", "P-value", "Estimate (odds)",  "CI low (odds)", "CI high (odds)")
+
+coeff_sorted |> kable() |>
+  kable_styling(full_width = FALSE) |>
+  column_spec(1:ncol(coeff_sorted), width = "4em") |>
+  row_spec(which(coeff_sorted$`Estimate (log-odds)` >= 0),  background = "#ffe6e6") |>
+  row_spec(which(coeff_sorted$`Estimate (log-odds)` < 0), background = "#e6ffe6") |>
+  row_spec(which(coeff_sorted$`P-value` > 0.05), background = "#c7d1d9")
+```
 
