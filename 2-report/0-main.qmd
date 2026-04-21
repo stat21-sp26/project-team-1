@@ -37,13 +37,15 @@ Cardiovascular disease risk is a cumulative result of biological, behavioral, an
 
 {{< include 4-discussion.qmd >}}
 
-{{< pagebreak >}}
 
-{{< include 5-appendix.qmd >}}
 
 \newpage 
 
 ## Bibliography {-}
+
+{{< pagebreak >}}
+
+{{< include 5-appendix.qmd >}}s
 
 <!-- This section should not be edited by hand. If you add bibliographic sources to bibliography/references.bib and then cite them in your report using @... then the citations will be automatically printed here. -->
 

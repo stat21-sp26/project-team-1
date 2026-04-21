@@ -1,4 +1,4 @@
-{{< include 3-results.qmd >}}
+<!-- {{< include 3-results.qmd >}} -->
 
 ## Discussion
 
