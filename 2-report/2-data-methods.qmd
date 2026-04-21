@@ -80,8 +80,6 @@ diabetes"). This simplifies future analyses, where we will only be
 concerned whether diabetes was present, regardless of when or in what
 context.
 
-
-
 ### Exploratory Data Analyses
 
 #### BMI and Predictors
@@ -122,7 +120,14 @@ summary(heartdisease$bmi)
 # max = 59.97
 ```
 
-The distribution of BMI across age groups (@fig-bmi-age) indicates that while median BMI is highest in the middle-aged group (35-54 years), the differences between groups are modest compared to the overall variance. Notably, all three cohorts exhibit a high density of extreme outliers, with BMI values extending up to 60. This consistent skewness and the presence of heavy tails across all age groups provide us with a strong empirical basis for a log-transformation of BMI in regression analysis to ensure the model is not unduly influenced by these extreme values.
+The distribution of BMI across age groups (@fig-bmi-age) indicates that
+while median BMI is highest in the middle-aged group (35-54 years), the
+differences between groups are modest compared to the overall variance.
+Notably, all three cohorts exhibit a high density of extreme outliers,
+with BMI values extending up to 60. This consistent skewness and the
+presence of heavy tails across all age groups provide us with a strong
+empirical basis for a log-transformation of BMI in regression analysis
+to ensure the model is not unduly influenced by these extreme values.
 
 ::::: {layout="[0.45, 0.45]"}
 ::: {#plot1}
@@ -158,8 +163,7 @@ heartdisease %>%
 ```
 :::
 
-:::{#plot2}
-
+::: {#plot2}
 ```{r}
 #| echo: false
 #| label: fig-bmi-race
@@ -189,9 +193,9 @@ heartdisease %>%
   scale_x_discrete(labels = c(
   "American Indian/Alaskan Native" = "Native American"))
 ```
-
 :::
-::::
+:::::
+
 Comparing BMI across racial groups (@fig-bmi-race) shows noticeable
 variation in central tendency; Asian individuals display the lowest
 median BMI and a narrower overall distribution, while Black and Native
@@ -227,12 +231,24 @@ aggregate(bmi ~ sleep_time, data = heartdisease, FUN = mean)
 
 #### Multiple Linear Regression: Factors that Determine BMI
 
-
 **Selecting a Multiple Linear Regression Model**
 
-Given that our cleaned data set only contains 17 potential predictors, we opted to employ all-subset, forward stepwise, and backward stepwise model selection processes. These methods were computationally feasible and allowed for a robust comparison of model fit. Before performing model selection, the dataset was split into a training set (80%) and a testing set (20%) to ensure the generalizability of the final model. A random seed (1234) was set to ensure reproducibility of the split. The training set (n = 255836) was used for model development and variable selection, while the testing set was reserved for final model validation to assess its predictive performance on unseen data.
+Given that our cleaned data set only contains 17 potential predictors,
+we opted to employ all-subset, forward stepwise, and backward stepwise
+model selection processes. These methods were computationally feasible
+and allowed for a robust comparison of model fit. Before performing
+model selection, the dataset was split into a training set (80%) and a
+testing set (20%) to ensure the generalizability of the final model. A
+random seed (1234) was set to ensure reproducibility of the split. The
+training set (n = 255836) was used for model development and variable
+selection, while the testing set was reserved for final model validation
+to assess its predictive performance on unseen data.
 
-To address the right-skewness observed in the raw BMI distribution during exploratory analysis, we used the natural log of BMI ($\log(\text{BMI})$) as the response variable. This transformation stabilizes variance and ensures that the model residuals better satisfy the normality assumption of linear regression.
+To address the right-skewness observed in the raw BMI distribution
+during exploratory analysis, we used the natural log of BMI
+($\log(\text{BMI})$) as the response variable. This transformation
+stabilizes variance and ensures that the model residuals better satisfy
+the normality assumption of linear regression.
 
 All three selection methods identified the same predictors that
 minimized BIC, indicating that these variables collectively explained
@@ -294,7 +310,8 @@ selected_mlr_vars <- names(selected_mlr)[selected_mlr] # keeping only the TRUE p
 ```
 
 ::::: {layout="[0.25, 0.75]"}
-::: {#plot1}
+<div>
+
 ```{r}
 #| include: false
 #| label: tbl-all-sub-set-mlr
@@ -302,9 +319,11 @@ selected_mlr_vars <- names(selected_mlr)[selected_mlr] # keeping only the TRUE p
 
 selected_mlr_vars |> kable()
 ```
-:::
 
-::: {#plot2}
+</div>
+
+<div>
+
 ```{r}
 #| include: false
 #| label: fig-all-subset-mlr
@@ -312,7 +331,8 @@ selected_mlr_vars |> kable()
 plot(best_mlr_all_sub, scale = "bic")
 
 ```
-:::
+
+</div>
 :::::
 
 ```{=html}
@@ -341,8 +361,7 @@ selected_mlr_vars |> kable()
 
 ```
 
-::::: {layout="[0.25, 0.75]"}
-
+::: {layout="[0.25, 0.75]"}
 ```{r}
 #| include: false
 #| label: tbl-fwd-mlr
@@ -350,8 +369,6 @@ selected_mlr_vars |> kable()
 
 selected_mlr_vars |> kable()
 ```
-
-
 
 ```{r}
 #| include: false
@@ -362,7 +379,7 @@ plot(best_mlr_fwd, scale = "bic")
 ```
 
 </div>
-:::::
+:::
 
 ```{=html}
 <!-- 
@@ -530,26 +547,28 @@ All values remained well below the common threshold of 1.0, indicating
 that no single observation is unduly biasing the model's estimates.
 
 ::::: {layout="[0.45, 0.45]"}
-::: {#plot1}
+<div>
+
 ```{r}
 #| echo: false
 #| label: fig-mlr-resfit
 
 plot(final_mlr, which = 1)
 ```
-:::
 
-:::{#plot2}
+</div>
+
+<div>
+
 ```{r}
 #| echo: false
 #| label: fig-mlr-qq
 
 plot(final_mlr, which = 2)
 ```
-:::
 
-::::
-
+</div>
+:::::
 
 ```{r}
 #| echo: false
@@ -560,7 +579,6 @@ plot(final_mlr, which = 2)
 
 plot(final_mlr, which = 4)
 ```
-
 
 Lastly, we assessed multicollinearity by calculating the General
 Variance Inflation Factors (GVIFs). The VIF is calculated as follows:
@@ -593,8 +611,10 @@ heart attack based on demographics, particularly race, behavior
 (smoking, drinking alcohol, sleep, physical activity), and other health
 conditions (diabetes, stroke, kidney disease, asthma). Given that
 `heart_disease` is a binary outcome variable, we opted to perform a
-**logistic regression**. In our dataset, 91.4% of the 319,795 observations do not have heart disease, while 8.6%
-of the individuals do have heart disease (@fig-heartdisease-proportions).
+**logistic regression**. In our dataset, 91.4% of the 319,795
+observations do not have heart disease, while 8.6% of the individuals do
+have heart disease (@fig-heartdisease-proportions).
+
 ```{r}
 #| echo: false
 #| label: fig-heartdisease-proportions
@@ -615,7 +635,6 @@ ggplot(data = heartdisease, aes(x = factor(heart_disease), fill = factor(heart_d
   theme(legend.position = "none")
 
 ```
-
 
 Initially, we investigated BMI as a potential predictor for heart
 attack, as BMI is a simple and readily accessible health measurement.
@@ -754,8 +773,7 @@ ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease),
 
 ```
 
-::::: {layout="[0.3, 0.3, 0.3]"}
-
+::: {layout="[0.3, 0.3, 0.3]"}
 ```{r}
 #| include: false
 
@@ -775,7 +793,6 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(physica
   theme(legend.position = "bottom")
 ```
 
-
 ```{r}
 #| include: false
 ## BEHAVIOR
@@ -793,7 +810,7 @@ ggplot(data = disease2, aes(x = factor(heart_disease), fill = sleep_time)) +
 ```
 
 </div>
-:::::
+:::
 
 ```{r}
 #| include: false
@@ -819,7 +836,7 @@ for our multiple linear regression of BMI in the section above.
 All three model selection methods yielded the same predictors that
 minimized the BIC, i.e. accounted for the largest amount of variance in
 the log-odds of heart disease while mitigating overfitting and
-optimizing model parsimony. These variables were the following:
+optimizing model parsimony (@tbl-selected-vars-log-reg). These variables were the following:
 `smoking`,`alcohol_drinking`, `stroke`, `mental_health`, `diff_walking`,
 `sex`, `age_category` (particularly ages 55 years and above), `race`
 (particularly Asian, Black, and Hispanic with White as a baseline),
@@ -1045,14 +1062,14 @@ using the selected predictors listed above:
 ```{r}
 #| include: false
 # selected logistic model
-logistic_model <- glm(
+final_log_reg <- glm(
   heart_disease ~  smoking + alcohol_drinking + stroke + mental_health + diff_walking + sex + age_category + race + diabetic + gen_health + asthma + kidney_disease + skin_cancer,
   data = heartdisease,
   family = "binomial"
 )
 
 
-summary(logistic_model)
+summary(final_log_reg)
 ```
 
 $$
@@ -1069,58 +1086,54 @@ $$
 Interestingly, the logistic regression yielded a p-value of 0.128 (\>
 0.05) for $\beta_{MentalHealth}$, indicating that the predictor does not
 significantly impact the log-odds of an individual having a heart
-attack. Given this, we removed `mental_health` from the final model. All
-other p-values indicated that our selected variables were significant (p
-\< 0.05).
+attack. Despite this p-value, we opted to include mental health as one
+of our predictors to remain true to the outcome from our model selection
+process (@tbl-selected-vars-log-reg).
 
 ```{r}
 #| include: false
 
 # FINAL logistic model
-final_log_reg <- glm(
-  heart_disease ~  smoking + alcohol_drinking + stroke + diff_walking + sex + age_category + race + diabetic + gen_health + asthma + kidney_disease + skin_cancer,
-  data = heart_train,
-  family = "binomial"
-)
+#final_log_reg <- glm(
+#  heart_disease ~  smoking + alcohol_drinking + stroke + diff_walking + sex + age_category + race + diabetic + gen_health + asthma + kidney_disease + skin_cancer,
+#  data = heart_train,
+#  family = "binomial"
+#)
 
 
-summary(final_log_reg)
+#summary(final_log_reg)
 ```
-
-$$
-\begin{aligned}
-log(Odds_{i}) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_i + \\
-+ \beta_3DiffWalking_i + \beta_4Sex_i + \\
-\beta_5Over55_i + \beta_6Asian_i + \beta_7Black_i + \beta_8Hispanic_i + \\
-\beta_{9}Diabetic_i + \beta_{10}HealthFair_i + \beta_{11}HealthGood_i + \\
-\beta_{12}HealthExcellent_i + \beta_{13}Asthma_i + \beta_{14}KidneyDisease_i + \\
-\beta_{15}SkinCancer_i
-\end{aligned}
-$$
 
 [Binary Predictor Assumption]{.underline}
 
 Our outcome variable (heart disease, where 0 is absence of heart disease
 and 1 is presence) is binary and thus can be properly modeled using
 logistic regression. The data cleaning process ensured that all
-observations of independent, upholding the independence assumption of
+observations are independent, upholding the independence assumption of
 the regression.
 
 [Linearity Assumption]{.underline}
 
 The linearity of the log-odds of heart disease must also be assessed
-with each of its continuous predictor variables. However, after removing
-`mental_health` from our regression, the model no longer contains any
-continuous variables. As such, this assumption is satisfied by default.
+with each of its continuous predictor variables. The only continuous predictor included in our final model is mental health (with scores ranging from 0 to 30). **ADD DETAILS**. 
+
+```{r}
+#| echo: false
+
+## EVALUTION OF LINEARITY OF MENTAL HEALTH vs LOG ODDS
+
+```
+
 
 [Sample Size Assumption]{.underline}
 
-As aforementioned, 91.4% of the 319,795 observations do not have heart disease, while 8.6%
-of the individuals do have heart disease (@fig-heartdisease-proportions). The same split is true for the
-training data set we used to fit the logistic regression. Given that
-less than 10% of the data have heart disease, we should exercise some
-caution in assessing the model's results. However, we will move forward
-with the analysis.
+As aforementioned, 91.4% of the 319,795 observations do not have heart
+disease, while 8.6% of the individuals do have heart disease
+(@fig-heartdisease-proportions). The same split is true for the training
+data set we used to fit the logistic regression. Given that less than
+10% of the data have heart disease, we should exercise some caution in
+assessing the model's results. This class imbalance for heart disease could result in model bias towards the majority class (those without heart disease), potentially inhibiting model accuracy and general performance. Implementing class weighting or oversampling could help to mitigate these problems, however, these strategies are beyond the scope of this study. As such, we will move forward with the
+analysis.
 
 ```{r}
 #| include: false
@@ -1141,10 +1154,27 @@ heart_train |> filter(heart_disease == "1") |> nrow()
 
 [No Outliers Assumption]{.underline}
 
-To identify potential outliers, we plotted the residuals vs fitted values (@fig-resids-fitted-log-reg), which indicated that observations 115488, 65997, and 96834 were abnormal values. Similarly, observations 52951, 160975, and 222531 had unusually large Cook's distance, indicating that the model does not fit the data points well and that these points have high leverage (@fig-cooks-log-reg). All of these potential outliers are compiled in @tbl-outliers. We could not identify any apparent trend in these outlier observations. To test for the effect of these outliers, we removed all six observations from the training data set and refit the logistic regression. The new regression yielded nearly identical values for all coefficients and the same p-values. As such, we concluded that these observations did not significantly impact the regression outcome and decided to move forward with the analysis including all data points.
+To identify potential outliers, we plotted the residuals vs fitted
+values (@fig-resids-fitted-log-reg), which indicated that observations
+115488, 65997, and 96834 were abnormal values. Similarly, observations
+52951, 160975, and 222531 had unusually large Cook's distance,
+indicating that the model does not fit the data points well and that
+these points have high leverage (@fig-cooks-log-reg). All of these
+potential outliers are compiled in @tbl-outliers. We could not identify
+any apparent trend in these outlier observations. To test for the effect
+of these outliers, we removed all six observations from the training
+data set and refit the logistic regression. The new regression yielded
+nearly identical values for all coefficients and the same p-values. As
+such, we concluded that these observations did not significantly impact
+the regression outcome and decided to move forward with the analysis
+including all data points.
 
-Since the raw residual plot (@fig-resids-fitted-log-reg) is not easily interpretable for a logistic regression, we opted to use a binned residual plot, which groups data points together that have similar predicted probabilities (@fig-binned-resids-log-reg). From this plot, we can see that the majority of the binned data points fall within the gray lines, which indicate 2 standard errors from the average residual value.
-
+Since the raw residual plot (@fig-resids-fitted-log-reg) is not easily
+interpretable for a logistic regression, we opted to use a binned
+residual plot, which groups data points together that have similar
+predicted probabilities (@fig-binned-resids-log-reg). From this plot, we
+can see that the majority of the binned data points fall within the gray
+lines, which indicate 2 standard errors from the average residual value.
 
 ```{r}
 #| echo: false
@@ -1160,7 +1190,6 @@ heart_train[c(115488,65997,96834, 52951, 160975,222531), ] |> kable() |>
 
 
 ```
-
 
 ```{r}
 #| include: false
@@ -1180,10 +1209,9 @@ summary(log_reg_no_outliers)
 
 ```
 
-
-
 ::::: {layout="[0.45, 0.45]"}
-:::{#plot1}
+<div>
+
 ```{r}
 #| echo: false
 #| label: fig-resids-fitted-log-reg
@@ -1192,8 +1220,11 @@ summary(log_reg_no_outliers)
 plot(final_log_reg, which = 1)
 
 ```
-:::
-:::{#plot2}
+
+</div>
+
+<div>
+
 ```{r}
 #| echo: false
 #| label: fig-cooks-log-reg
@@ -1201,20 +1232,22 @@ plot(final_log_reg, which = 1)
 plot(final_log_reg, which = 4)
 ```
 
-
-:::
-::::
+</div>
+:::::
 
 ::::: {layout="[0.45, 0.45]"}
-:::{#plot1}
+<div>
+
 ```{r}
 #| include: false
 
 # Scale Location
 plot(final_log_reg, which = 3)
 ```
-:::
-:::{#plot2}
+
+</div>
+
+<div>
 
 ```{r}
 #| include: false
@@ -1223,9 +1256,8 @@ plot(final_log_reg, which = 3)
 plot(final_log_reg, which = 2)
 ```
 
-:::
-::::
-
+</div>
+:::::
 
 ```{r}
 #| echo: false
@@ -1246,8 +1278,6 @@ binnedplot(fitted(final_log_reg),
            col.int = "gray")
 
 ```
-
-
 
 [No Multicollinearity]{.underline}
 
@@ -1273,15 +1303,7 @@ vif(final_log_reg)
 
 ```
 
-```{r}
-#| include: false
-
-# ASSUMPTION 3: linear relationship between continuous predictor & log-odds outcome
-
-
-```
 
 Finally, the normality and homoscedasticity of the residuals are not
 required assumptions for logistic regression and as such were not
 assessed for this analysis.
-
