@@ -248,7 +248,7 @@ To address the right-skewness observed in the raw BMI distribution
 during exploratory analysis, we used the natural log of BMI
 ($\log(\text{BMI})$) as the response variable. This transformation
 stabilizes variance and ensures that the model residuals better satisfy
-the normality assumption of linear regression.
+the normality assumption of linear regression. Without this transformation, extreme BMI values could disproportionately influence the model, potentially biasing the coefficient estimates.
 
 All three selection methods identified the same predictors that
 minimized BIC, indicating that these variables collectively explained
@@ -501,11 +501,6 @@ log(BMI_i) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_i + \
 \end{aligned}
 $$
 
-Interestingly, the multiple linear regression yielded a p-value of
-3.10e-05 (\< 0.05) for $\beta_{NativeAmerican}$, indicating that the
-predictor is significantly associated with variation in log-transformed
-BMI, holding all other variables constant. Given this, the predictor was
-included in the final model below:
 
 ```{r}
 #| include: false
@@ -518,15 +513,6 @@ final_mlr <- lm(log(bmi) ~ smoking + alcohol_drinking + stroke + physical_health
 summary(final_mlr)
 ```
 
-$$
-\begin{aligned}
-log(BMI_i) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_i + \\
-\beta_4PhysicalHealth_i + \beta_5DiffWalking_i + \beta_6Sex_i + \beta_7{Age_{35-54}}_i + \beta_8Asian_i + \\
-\beta_9Black_i + \beta_{10}NativeAmerican_i + \beta_{11}Diabetic_i + \beta_{12}HealthFair_i + \\
-\beta_{13}HealthGood_i + \beta_{14}HealthExcellent_i + \beta_{15}SleepTime_i + \beta_{16}Asthma_i + \\
-\beta_{17}SkinCancer_i
-\end{aligned}
-$$
 
 {{< pagebreak >}}
 
