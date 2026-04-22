@@ -30,7 +30,7 @@ library(broom)
 
 ## Motivation & Research Question 💟
 
-Cardiovascular disease (CVD) develops through a combination of biological, behavioral, and lifestyle factors that accumulate over time that reinforce one another, influencing overall cardiovascular health.
+Cardiovascular disease (CVD) results from the cumulative and reinforcing effects of biological, behavioral, and lifestyle factors over time.
 
 -   How do demographic factors and health factors impact the probability that an individual will experience a heart attack?
 -   We will examine **Horsepower**, **Weight**, and **Transmission Type**.
@@ -46,8 +46,8 @@ Cardiovascular disease (CVD) develops through a combination of biological, behav
 
 :::::: columns
 ::: {.column width="60%"}
--   **Dataset:** `mtcars` (Motor Trend Car Road Tests).
--   **Source:** 1974 *Motor Trend* US magazine.
+-   **Dataset:** `heart_disease` (Indicators of Heart Disease).
+-   **Source:** Centers for Disease Control and Prevention (CDC) from Kaggle
 -   **Sample Size:** $n = 32$ automobiles.
 -   **Variables:** 11 aspects of automobile design and performance.
 :::
