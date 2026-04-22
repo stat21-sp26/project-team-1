@@ -1,16 +1,21 @@
 ---
-title: "Predicting Heart Attack"
+title: "Project Title: Predicting MPG"
 subtitle: "Stat 21 Final Presentation"
-author: "Lily von Behren & Katelynne De Lara"
+author: "Students Names"
 format: 
   revealjs:
     theme: simple  # Changed from 'cosmo' to 'simple'
     slide-number: true
     incremental: true
-title-slide-attributes:
-  data-background-image: "images/allison_horst_model_fish.png"
-  data-background-size: "40%"
-  data-background-opacity: "0.9"    
+title-slide-attributes: 
+    # The path to your image
+    data-background-image: "https://www.swarthmore.edu/sites/default/files/assets/images/communications-office/swarthmore_logo.jpg" 
+    # Adjust size (e.g., 20% of the slide or 'cover' for full screen)
+    data-background-size: "15%" 
+    # Position: 'center', 'top left', 'bottom right', etc.
+    data-background-position: "bottom 50px right 50px" 
+    # Adjust opacity if the image is too distracting
+    data-background-opacity: "0.5"  
 execute:
   echo: false
   message: false
@@ -20,17 +25,151 @@ engine: knitr
 
 ```{r}
 library(tidyverse)
-library(tidyr)
-library(kableExtra)
-library(pROC)
-library(broom)    # For tidying model objects
-library(modelr)   # For generating prediction grids
-library(scales)   # For better axis labels
-library(yardstick) # For ROC curve
+library(broom)
 ```
 
-## Motivation & Research Question 💟
+## Motivation & Research Question 🚘
 
-*How do demographic factors (e.g. sex, age, race) and health factors (e.g. smoking, drinking, previous health conditions, sleep) impact the probability that an individual will experience a heart attack?*
+Every good project starts with a clear question.
+
+-   What factors most significantly impact vehicle fuel efficiency?
+-   We will examine **Horsepower**, **Weight**, and **Transmission Type**.
+-   **Data Source:** 1974 Motor Trend US magazine.
+
+. . .
+
+> "Data is the new oil, but visualization is the engine." — Anonymous
+
+------------------------------------------------------------------------
+
+## Data Source & Collection
+
+:::::: columns
+::: {.column width="60%"}
+-   **Dataset:** `mtcars` (Motor Trend Car Road Tests).
+-   **Source:** 1974 *Motor Trend* US magazine.
+-   **Sample Size:** $n = 32$ automobiles.
+-   **Variables:** 11 aspects of automobile design and performance.
+:::
+
+:::: {.column width="40%"}
+::: callout-tip
+## Why this data?
+
+It is a classic dataset for learning MLR because of the strong correlations between engine specs and fuel economy.
+:::
+::::
+::::::
+
+------------------------------------------------------------------------
+
+## Data Source & Collection
+
+::::::: columns
+:::: {.column width="60%"}
+::: nonincremental
+-   **Dataset:** `mtcars` (Motor Trend Car Road Tests).
+-   **Source:** 1974 *Motor Trend* US magazine.
+-   **Sample Size:** $n = 32$ automobiles.
+-   **Variables:** 11 aspects of automobile design and performance.
+:::
+::::
+
+:::: {.column width="40%"}
+::: callout-warning
+## A Note on "Recency"
+
+Because this data is from 1974, the results reflect mechanical engineering from 50 years ago. Modern cars would likely show different coefficient magnitudes!
+:::
+::::
+:::::::
+
+------------------------------------------------------------------------
+
+## Highlights from EDA
+
+Some plots?
+
+------------------------------------------------------------------------
+
+## The Model
+
+We are using a Multiple Linear Regression (MLR) model:
+
+$$\text{mpg} = \beta_0 + \beta_1(\text{wt}) + \beta_2(\text{hp}) + \beta_3(\text{am}) + \varepsilon$$
+
+::: callout-note
+## Model Assumption
+
+We assume that the residuals are normally distributed and have constant variance.
+:::
+
+## Key Drivers of Efficiency
+
+::::: columns
+::: {.column width="50%"}
+**Findings:**
+
+1.  Weight has the strongest negative impact.
+
+2.  Manual transmissions tend to be more efficient.
+
+3.  Horsepower has a smaller, but significant, effect.
+:::
+
+::: {.column width="50%"}
+```{r}
+#| fig-height: 3
+#| fig-width: 6
+
+# Fit a multiple linear regression
+m_lin <- lm(mpg ~ hp + wt + am + cyl, data = mtcars)
+
+# Prepare results
+results_tidy <- tidy(m_lin, conf.int = TRUE) 
+
+results_tidy <- results_tidy |> 
+   # Usually we exclude the intercept for plotting
+  filter(term != "(Intercept)") |> 
+  # We give "nice" names for the plot axis
+  mutate(
+    term = case_match(term,
+      "hp"  ~ "Horsepower",
+      "wt"  ~ "Weight (1000 lbs)",
+      "am"  ~ "Transmission (Manual)",
+      "cyl" ~ "Cylinders",
+      .default = term
+    ),
+  # We turn 'term' into a factor sorted by the 'estimate' value.
+  # This way, the coefficients will be shown in order from smallest to largest estimate
+    # Without this, ggplot would default to alphabetical order.
+     term = reorder(term, estimate)
+  )
+
+ggplot(results_tidy, aes(x = estimate, y = term)) +
+  # Adds a vertical reference line at 0 (null effect)
+  geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
+  # Use geom_errorbar with xmin and xmax for horizontal intervals
+  geom_errorbar(aes(xmin = conf.low, xmax = conf.high), width = 0.2) +
+  geom_point(size = 3, color = "steelblue") +
+  labs(
+    x = "Linear 'effect' on MPG (with 95% CI)",
+    y = NULL, # We remove the axis label because variable names are self-explanatory
+  ) +
+  theme_minimal(base_size = 16)
+```
+:::
+:::::
 
 
+# Thank you! {background-color="#1982C4"}
+
+Questions?
+
+## Helpful Resources 📚
+
+-   [**Official Revealjs Guide**](https://quarto.org/docs/presentations/revealjs/): The "Source of Truth" for all slide features.
+
+-   [**Quarto Gallery**](https://quarto.org/docs/gallery/#presentations): Examples of award-winning presentations.
+
+-   [**Slide Customization**](https://quarto.org/docs/presentations/revealjs/themes.html): Learn how to change colors, fonts, and backgrounds

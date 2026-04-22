@@ -1,0 +1,47 @@
+---
+title: "Predicting Heart Attack"
+subtitle: "Stat 21 Final Presentation"
+author: "Lily von Behren & Katelynne De Lara"
+format: 
+  revealjs:
+    theme: simple  # Changed from 'cosmo' to 'simple'
+    slide-number: true
+    incremental: true
+title-slide-attributes: 
+    # The path to your image
+    data-background-image: "https://www.swarthmore.edu/sites/default/files/assets/images/communications-office/swarthmore_logo.jpg" 
+    # Adjust size (e.g., 20% of the slide or 'cover' for full screen)
+    data-background-size: "15%" 
+    # Position: 'center', 'top left', 'bottom right', etc.
+    data-background-position: "bottom 50px right 50px" 
+    # Adjust opacity if the image is too distracting
+    data-background-opacity: "0.9"
+execute:
+  echo: false
+  message: false
+  warning: false
+engine: knitr  
+---
+
+```{r}
+library(tidyverse)
+library(tidyr)
+library(kableExtra)
+library(pROC)
+library(broom)    # For tidying model objects
+library(modelr)   # For generating prediction grids
+library(scales)   # For better axis labels
+library(yardstick) # For ROC curve
+```
+
+## Motivation & Research Question 💟
+
+Cardiovascular disease (CVD) develops through a combination of biological, behavioral, and lifestyle factors that accumulate over time. Rather than acting independently, these elements tend to cluster and reinforce one another, influencing overall cardiovascular health.
+
+-   How do demographic factors and health factors impact the probability that an individual will experience a heart attack?
+-   We will examine **insert**, **insert**, **insert**
+-    **Data Source**: Indicators of Heart Disease (2022) from Kaggle
+
+. . .
+
+> "Data is the new oil, but visualization is the engine." — Anonymous
