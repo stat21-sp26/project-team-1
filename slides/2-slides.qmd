@@ -162,7 +162,7 @@ ggplot(results_tidy, aes(x = estimate, y = term)) +
 :::::
 
 
-# Thank you! {background-color="#1982C4"}
+# Thank you! {background-color="#FFB7CE"}
 
 Questions?
 
