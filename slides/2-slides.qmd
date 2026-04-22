@@ -46,17 +46,18 @@ Cardiovascular disease (CVD) results from the cumulative and reinforcing effects
 
 :::::: columns
 ::: {.column width="60%"}
--   **Dataset:** `heart_disease` (Indicators of Heart Disease).
+-   **Dataset:** `heart_disease` (Indicators of Heart Disease)
 -   **Source:** 2022 Centers for Disease Control and Prevention (CDC) from Kaggle
 -   **Sample Size:** $n = 319795$ individuals
--   **Variables:** 18 aspects of demographics, behaviors, and health condition.
+-   **Variables:** 18 aspects of demographics, behaviors, and health condition
 :::
 
 :::: {.column width="40%"}
 ::: callout-tip
 ## Why this data?
 
-It is a strong dataset for learning MLR because of the strong correlations between engine specs and fuel economy.
+It is a large and strong dataset to observe how demographics and lifestyle
+collide to drive the risk of heart disease. 
 :::
 ::::
 ::::::
@@ -68,18 +69,20 @@ It is a strong dataset for learning MLR because of the strong correlations betwe
 ::::::: columns
 :::: {.column width="60%"}
 ::: nonincremental
--   **Dataset:** `heart_disease` (Indicators of Heart Disease).
+-   **Dataset:** `heart_disease` (Indicators of Heart Disease)
 -   **Source:** 2022 Centers for Disease Control and Prevention (CDC) from Kaggle
 -   **Sample Size:** $n = 319795$ individuals
--   **Variables:** 18 aspects of demographics, behaviors, and health condition.
+-   **Variables:** 18 aspects of demographics, behaviors, and health condition
 :::
 ::::
 
 :::: {.column width="40%"}
 ::: callout-warning
-## A Note on "Recency"
+## A Note on Self-Reporting
 
-Because this data is from 1974, the results reflect mechanical engineering from 50 years ago. Modern cars would likely show different coefficient magnitudes!
+As some responses from this survey data are self-reported, variables like 
+`general_health` may be subject to bias, though the massive $n$ helps stabilize 
+these trends.
 :::
 ::::
 :::::::
@@ -94,7 +97,7 @@ Some plots?
 
 ## The Model
 
-We are using a Multiple Linear Regression (MLR) model:
+We are using the following Logistic Regression model:
 
 $$\text{mpg} = \beta_0 + \beta_1(\text{wt}) + \beta_2(\text{hp}) + \beta_3(\text{am}) + \varepsilon$$
 
