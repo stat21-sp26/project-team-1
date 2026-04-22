@@ -31,3 +31,8 @@ library(scales)   # For better axis labels
 library(yardstick) # For ROC curve
 ```
 
+## Motivation & Research Question 💟
+
+*How do demographic factors (e.g. sex, age, race) and health factors (e.g. smoking, drinking, previous health conditions, sleep) impact the probability that an individual will experience a heart attack?*
+
+
