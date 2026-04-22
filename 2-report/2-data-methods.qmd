@@ -235,8 +235,7 @@ aggregate(bmi ~ sleep_time, data = heartdisease, FUN = mean)
 
 Given that our cleaned data set only contains 17 potential predictors,
 we opted to employ all-subset, forward stepwise, and backward stepwise
-model selection processes. These methods were computationally feasible
-and allowed for a robust comparison of model fit. Before performing
+model selection processes. These methods were computationally feasible and allowed for comparison of model fit while penalizing model complexity using BIC. Before performing
 model selection, the dataset was split into a training set (80%) and a
 testing set (20%) to ensure the generalizability of the final model. A
 random seed (1234) was set to ensure reproducibility of the split. The
@@ -248,7 +247,7 @@ To address the right-skewness observed in the raw BMI distribution
 during exploratory analysis, we used the natural log of BMI
 ($\log(\text{BMI})$) as the response variable. This transformation
 stabilizes variance and ensures that the model residuals better satisfy
-the normality assumption of linear regression. Without this transformation, extreme BMI values could disproportionately influence the model, potentially biasing the coefficient estimates.
+the normality assumption of linear regression. Without this transformation, extreme BMI values could disproportionately influence the model.
 
 All three selection methods identified the same predictors that
 minimized BIC, indicating that these variables collectively explained
@@ -568,7 +567,7 @@ plot(final_mlr, which = 4)
 
 Lastly, we assessed multicollinearity by calculating the General
 Variance Inflation Factors (GVIFs). The VIF is calculated as follows:
-$VIF_j = \frac{1}{1 - R_j^2}$ and indicates to what extent a the ariance
+$VIF_j = \frac{1}{1 - R_j^2}$ and indicates to what extent the variance
 in predictor $X_j$ can be explained by the other predictors. To avoid
 collinearity, we would hope that $R_j^2$ is as close to 0 as possible,
 in which case $VIF_j$ is 1. In general, a VIF score of less than or
