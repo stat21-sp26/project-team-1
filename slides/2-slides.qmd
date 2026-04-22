@@ -1,7 +1,7 @@
 ---
-title: "Project Title: Predicting MPG"
+title: "Predicting Heart Attack"
 subtitle: "Stat 21 Final Presentation"
-author: "Students Names"
+author: "Lily von Behren & Katelynne De Lara"
 format: 
   revealjs:
     theme: simple  # Changed from 'cosmo' to 'simple'
