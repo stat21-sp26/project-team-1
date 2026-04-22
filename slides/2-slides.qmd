@@ -47,8 +47,8 @@ Cardiovascular disease (CVD) results from the cumulative and reinforcing effects
 :::::: columns
 ::: {.column width="60%"}
 -   **Dataset:** `heart_disease` (Indicators of Heart Disease).
--   **Source:** Centers for Disease Control and Prevention (CDC) from Kaggle
--   **Sample Size:** $n = 319795$ automobiles.
+-   **Source:** 2022 Centers for Disease Control and Prevention (CDC) from Kaggle
+-   **Sample Size:** $n = 319795$ individuals
 -   **Variables:** 18 aspects of demographics, behaviors, and health condition.
 :::
 
@@ -68,10 +68,10 @@ It is a strong dataset for learning MLR because of the strong correlations betwe
 ::::::: columns
 :::: {.column width="60%"}
 ::: nonincremental
--   **Dataset:** `mtcars` (Motor Trend Car Road Tests).
--   **Source:** 1974 *Motor Trend* US magazine.
--   **Sample Size:** $n = 32$ automobiles.
--   **Variables:** 11 aspects of automobile design and performance.
+-   **Dataset:** `heart_disease` (Indicators of Heart Disease).
+-   **Source:** 2022 Centers for Disease Control and Prevention (CDC) from Kaggle
+-   **Sample Size:** $n = 319795$ individuals
+-   **Variables:** 18 aspects of demographics, behaviors, and health condition.
 :::
 ::::
 
