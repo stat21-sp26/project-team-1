@@ -19,3 +19,15 @@ engine: knitr
 ---
 
 <!-- Be inspired by template and then..the world is your oyster! -->
+
+```{r}
+library(tidyverse)
+library(tidyr)
+library(kableExtra)
+library(pROC)
+library(broom)    # For tidying model objects
+library(modelr)   # For generating prediction grids
+library(scales)   # For better axis labels
+library(yardstick) # For ROC curve
+```
+
