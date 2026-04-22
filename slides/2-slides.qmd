@@ -1,7 +1,7 @@
 ---
-title: "Project Title: Predicting MPG"
+title: "Predicting Heart Attack"
 subtitle: "Stat 21 Final Presentation"
-author: "Students Names"
+author: "Lily von Behren & Katelynne De Lara"
 format: 
   revealjs:
     theme: simple  # Changed from 'cosmo' to 'simple'
@@ -15,7 +15,7 @@ title-slide-attributes:
     # Position: 'center', 'top left', 'bottom right', etc.
     data-background-position: "bottom 50px right 50px" 
     # Adjust opacity if the image is too distracting
-    data-background-opacity: "0.5"  
+    data-background-opacity: "0.9"  
 execute:
   echo: false
   message: false
@@ -28,13 +28,13 @@ library(tidyverse)
 library(broom)
 ```
 
-## Motivation & Research Question 🚘
+## Motivation & Research Question 💟
 
-Every good project starts with a clear question.
+Cardiovascular disease (CVD) develops through a combination of biological, behavioral, and lifestyle factors that accumulate over time that reinforce one another, influencing overall cardiovascular health.
 
--   What factors most significantly impact vehicle fuel efficiency?
+-   How do demographic factors and health factors impact the probability that an individual will experience a heart attack?
 -   We will examine **Horsepower**, **Weight**, and **Transmission Type**.
--   **Data Source:** 1974 Motor Trend US magazine.
+-   **Data Source:** Indicators of Heart Disease (2022) from Kaggle
 
 . . .
 
