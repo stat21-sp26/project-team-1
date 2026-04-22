@@ -232,7 +232,7 @@ heart_train %>%
 ```
 
 
-The patterns observed in the above descriptive analyses are further evaluated using a multiple linear regression model. The results of the regression on log(BMI) are captured in @fig-mlr-coefficients. Most predictors included in the final model significantly (p < 0.05) contributed to variation in log(BMI), with the exception of age category 55+, which was not statistically significant after adjusting for other variables.
+The results of the multiple linear regression on log(BMI) are shown in @fig-mlr-coefficients. Key relationships observed in the descriptive analysis—particularly for physical activity, general health, and age—remain statistically significant, with the exception of individuals aged 55+, whose effect is not significant after adjustment.
 
 ```{r}
 #| echo: false
@@ -278,11 +278,6 @@ ggplot(mlr_tidy, aes(x = estimate, y = term)) +
   ) +
   theme_classic()
 ```
-
-
-
-
-Moving forward, these observed patterns are further evaluated using multiple linear regression to assess whether these relationships persist after adjusting for other variables. Notably, `physical_activity` and `general_health` show the most visually distinct differences in BMI across groups, suggesting they are likely to remain among the strongest predictors in the regression model. In contrast, `smoking` and `age_category` display more modest differences, indicating that their relationships with BMI may be weaker or influenced by other factors after adjustment.
 
 
 #### Regression Analysis
@@ -373,7 +368,7 @@ mlr_stats <- data.frame(
 ```
 
 
-The model explains approximately 14.1% of the variability in log(BMI) (R² = 0.141), indicating a modest fit (@tbl-mlr-stat). This suggests that a substantial portion of variability in BMI remains unexplained by the predictors included in the model. Overall, physical activity and general health emerge as the most important factors associated with BMI in this model, while smoking and age show weaker or more limited associations after adjustment of other confounders.
+The model explains approximately 14.1% of the variability in log(BMI) (R² = 0.141), indicating a modest fit (@tbl-mlr-stat). This suggests that a substantial portion of variability in BMI remains unexplained by the predictors included in the model. Overall, physical activity and general health emerge as the most important factors associated with BMI in this model, while smoking and age show weaker or more limited associations after adjustment of other confounders. In particular, physical activity and general health exhibit the largest effect sizes, while variables such as smoking have comparatively small effects despite statistical significance.
 
 ```{r}
 #| echo: false
