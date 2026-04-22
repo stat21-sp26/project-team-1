@@ -48,15 +48,15 @@ Cardiovascular disease (CVD) results from the cumulative and reinforcing effects
 ::: {.column width="60%"}
 -   **Dataset:** `heart_disease` (Indicators of Heart Disease).
 -   **Source:** Centers for Disease Control and Prevention (CDC) from Kaggle
--   **Sample Size:** $n = 32$ automobiles.
--   **Variables:** 11 aspects of automobile design and performance.
+-   **Sample Size:** $n = 319795$ automobiles.
+-   **Variables:** 18 aspects of demographics, behaviors, and health condition.
 :::
 
 :::: {.column width="40%"}
 ::: callout-tip
 ## Why this data?
 
-It is a classic dataset for learning MLR because of the strong correlations between engine specs and fuel economy.
+It is a strong dataset for learning MLR because of the strong correlations between engine specs and fuel economy.
 :::
 ::::
 ::::::
@@ -162,7 +162,7 @@ ggplot(results_tidy, aes(x = estimate, y = term)) +
 :::::
 
 
-# Thank you! {background-color="#FFB7CE"}
+# Thank you! {background-color="#FFE3EB"}
 
 Questions?
 
