@@ -103,7 +103,7 @@ summary(heartdisease) # only 1 numeric variable
 ```
 
 
-:::{.fragment .current-visible style="position:absolute; top:0; left:0; width:100%;"}
+:::{.fragment .current-visible style="position:absolute; top:30%; left:5%; width:100%;"}
 ```{r}
 #| echo: false
 
@@ -131,7 +131,7 @@ ggplot(data = heartdisease, aes(x = factor(heart_disease), fill = race)) +
 ```
 :::
 
-:::{.fragment .current-visible style="position:absolute; top:0; left:0; width:100%;"}
+:::{.fragment .current-visible style="position:absolute; top:30%; left:5%; width:100%;"}
 
 ```{r}
 #| echo: false
@@ -160,7 +160,7 @@ ggplot(data = heartdisease, aes(x = factor(heart_disease), fill = factor(age_cat
 ```
 :::
 
-:::{.fragment .current-visible style="position:absolute; top:0; left:0; width:100%;"}
+:::{.fragment .current-visible style="position:absolute; top:30%; left:5%; width:100%;"}
 
 ```{r}
 #| echo: false
@@ -203,7 +203,7 @@ Best subset, forward, and backward selection all converged on the same predictor
 for heart disease, optimizing for BIC.
 :::
 
-::: callout-note
+::: callout-warning
 ## Model Assumptions
 
 Caution: The dataset exhibits a class imbalance for the number of individuals with vs without
@@ -214,17 +214,18 @@ were satisfied.
 ## Key Predictors of Heart Attack Risk
 
 ::::: columns
-::: {.column width="20%"}
+::: {.column width="0%"}
+<!--
 **Findings:**
 
 1.  Weight has the strongest negative impact.
 
 2.  Manual transmissions tend to be more efficient.
 
-3.  Horsepower has a smaller, but significant, effect.
+3.  Horsepower has a smaller, but significant, effect. -->
 :::
 
-::: {.column width="80%"}
+::: {.column width="100%"}
 
 ```{r}
 #| include: false
@@ -321,7 +322,6 @@ ggplot(log_reg_tidy, aes(x = estimate, y = term)) +
 
 
 
-```
 :::
 :::::
 
