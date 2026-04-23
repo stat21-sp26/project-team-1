@@ -432,47 +432,8 @@ plot(best_mlr_bwd, scale = "bic")
 </div>
 :::::
 
-::::: {layout="[0.25, 0.75]"}
-<div>
 
-```{r}
-#| echo: false
-#| label: tbl-selected-vars-mlr
-#| tbl-cap: "Selected Predictors Based on BIC (for exhaustive, forward, and backward selection technqiues)"
 
-selected_mlr_vars |> kable()
-```
-
-</div>
-
-<div>
-
-```{r}
-#| echo: false
-#| fig-cap: "A) Exhaustive Model Selection"
-
-# Exhaustive
-plot(best_mlr_all_sub, scale = "bic")
-
-```
-
-```{r}
-#| echo: false
-#| fig-cap: "B) Forward Model Selection"
-#| # Forward
-plot(best_mlr_fwd, scale = "bic")
-
-```
-
-```{r}
-#| echo: false
-#| fig-cap: "C) Backward Model Selection"
-# Backward
-plot(best_mlr_bwd, scale = "bic")
-```
-
-</div>
-:::::
 
 **Validating Final Model Assumptions**
 
@@ -531,40 +492,6 @@ versus leverage plot (i.e., a Cook's distance plot) (@fig-mlr-leverage).
 All values remained well below the common threshold of 1.0, indicating
 that no single observation is unduly biasing the model's estimates.
 
-::::: {layout="[0.45, 0.45]"}
-<div>
-
-```{r}
-#| echo: false
-#| label: fig-mlr-resfit
-
-plot(final_mlr, which = 1)
-```
-
-</div>
-
-<div>
-
-```{r}
-#| echo: false
-#| label: fig-mlr-qq
-
-plot(final_mlr, which = 2)
-```
-
-</div>
-:::::
-
-```{r}
-#| echo: false
-#| label: fig-mlr-leverage
-#| fig-align: "center"
-#| fig-width: 5
-#| fig-height: 3
-
-plot(final_mlr, which = 4)
-```
-
 Lastly, we assessed multicollinearity by calculating the General
 Variance Inflation Factors (GVIFs). The VIF is calculated as follows:
 $VIF_j = \frac{1}{1 - R_j^2}$ and indicates to what extent the variance
@@ -587,7 +514,7 @@ vif(final_mlr)
 
 ```
 
-{{< pagebreak >}}
+
 
 #### Logistic Regression: Predicting Heart Attack
 
@@ -983,47 +910,9 @@ plot(best_log_reg_bwd, scale = "bic")
 </div>
 :::::
 
-::::: {layout="[0.25, 0.75]"}
-<div>
 
-```{r}
-#| echo: false
-#| label: tbl-selected-vars-log-reg
-#| tbl-cap: "Selected Predictors Based on BIC (for exhaustive, forward, and backward selection technqiues)"
 
-selected_vars |> kable()
-```
 
-</div>
-
-<div>
-
-```{r}
-#| echo: false
-#| fig-cap: "A) Exhaustive Model Selection"
-
-# Exhaustive
-plot(best_log_reg_all_sub, scale = "bic")
-
-```
-
-```{r}
-#| echo: false
-#| fig-cap: "B) Forward Model Selection"
-#| # Forward
-plot(best_log_reg_fwd, scale = "bic")
-
-```
-
-```{r}
-#| echo: false
-#| fig-cap: "C) Backward Model Selection"
-# Backward
-plot(best_log_reg_bwd, scale = "bic")
-```
-
-</div>
-:::::
 
 ```{r}
 #| include: false
@@ -1161,108 +1050,6 @@ predicted probabilities (@fig-binned-resids-log-reg). From this plot, we
 can see that the majority of the binned data points fall within the gray
 lines, which indicate 2 standard errors from the average residual value.
 
-```{r}
-#| echo: false
-#| label: tbl-outliers
-#| tbl-cap: "Outliers"
-
-# identifying outliers
-heart_train[c(115488,65997,96834, 52951, 160975,222531), ] |> kable() |>
-  kable_styling() |>
-  row_spec(0, angle = 90) |>
-  column_spec(which(names(heart_train) == "race"), width = "3em")
-
-
-
-```
-
-```{r}
-#| include: false
-
-# remove outliers & refit the regression
-heart_train_no_outliers <- heart_train[-c(115488,65997,96834, 52951, 160975,222531), ]
-
-
-log_reg_no_outliers <- glm(
-  heart_disease ~  smoking + alcohol_drinking + stroke + diff_walking + sex + age_category + race + diabetic + gen_health + asthma + kidney_disease + skin_cancer,
-  data = heart_train_no_outliers,
-  family = "binomial"
-)
-
-
-summary(log_reg_no_outliers)
-
-```
-
-::::: {layout="[0.45, 0.45]"}
-<div>
-
-```{r}
-#| echo: false
-#| label: fig-resids-fitted-log-reg
-
-# Residuals vs Fitted
-plot(final_log_reg, which = 1)
-
-```
-
-</div>
-
-<div>
-
-```{r}
-#| echo: false
-#| label: fig-cooks-log-reg
-# Cook's distance
-plot(final_log_reg, which = 4)
-```
-
-</div>
-:::::
-
-::::: {layout="[0.45, 0.45]"}
-<div>
-
-```{r}
-#| include: false
-
-# Scale Location
-plot(final_log_reg, which = 3)
-```
-
-</div>
-
-<div>
-
-```{r}
-#| include: false
-
-# Q-Q residuals
-plot(final_log_reg, which = 2)
-```
-
-</div>
-:::::
-
-```{r}
-#| echo: false
-#| label: fig-binned-resids-log-reg
-#| fig-width: 4
-#| fig-height: 3.5
-
-library(arm)
-binnedplot(fitted(final_log_reg), 
-           residuals(final_log_reg, type = "response"), 
-           nclass = NULL, 
-           xlab = "Expected Values", 
-           ylab = "Average residual", 
-           main = "Binned residual plot", 
-           cex.main = 0.9,
-           cex.pts = 0.8, 
-           col.pts = 1, 
-           col.int = "gray")
-
-```
 
 [No Multicollinearity]{.underline}
 

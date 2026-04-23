@@ -1,9 +1,233 @@
 ## Appendix
 
+
+<!-- MLR MODEL SELECTION -->
+::::: {layout="[0.25, 0.75]"}
+:::{#table}
+```{r}
+#| echo: false
+#| label: tbl-selected-vars-mlr
+#| tbl-cap: "Selected Predictors Based on BIC (for exhaustive, forward, and backward selection technqiues)"
+
+selected_mlr_vars |> kable()
+```
+:::
+:::{#plots}
+```{r}
+#| echo: false
+#| fig-cap: "A) Multiple Linear Regression on Log(BMI): Exhaustive Model Selection"
+
+# Exhaustive
+plot(best_mlr_all_sub, scale = "bic")
+
+```
+
+```{r}
+#| echo: false
+#| fig-cap: "B) Multiple Linear Regression on Log(BMI): Forward Model Selection"
+#| # Forward
+plot(best_mlr_fwd, scale = "bic")
+
+```
+
+```{r}
+#| echo: false
+#| fig-cap: "C) Multiple Linear Regression on Log(BMI): Backward Model Selection"
+# Backward
+plot(best_mlr_bwd, scale = "bic")
+```
+:::
+::::
+
+
+<!-- ASSUMPTIONS FOR MLR -->
+
+
+::::: {layout="[0.45, 0.45]"}
+<div>
+
+```{r}
+#| echo: false
+#| label: fig-mlr-resfit
+
+plot(final_mlr, which = 1)
+```
+
+</div>
+
+<div>
+
+```{r}
+#| echo: false
+#| label: fig-mlr-qq
+
+plot(final_mlr, which = 2)
+```
+
+</div>
+:::::
+
+```{r}
+#| echo: false
+#| label: fig-mlr-leverage
+#| fig-align: "center"
+#| fig-width: 5
+#| fig-height: 3
+
+plot(final_mlr, which = 4)
+```
+
+
+<!-- LOGISTIC REGRESSION MODEL SELECTION -->
+
+::::: {layout="[0.25, 0.75]"}
+:::{#table}
+```{r}
+#| echo: false
+#| label: tbl-selected-vars-log-reg
+#| tbl-cap: "Selected Predictors Based on BIC (for exhaustive, forward, and backward selection technqiues)"
+
+selected_vars |> kable()
+```
+:::
+:::{#plots}
+```{r}
+#| echo: false
+#| fig-cap: "A) Logistic Regression for Log-Odds of Heart Disease: Exhaustive Model Selection"
+
+# Exhaustive
+plot(best_log_reg_all_sub, scale = "bic")
+
+```
+
+```{r}
+#| echo: false
+#| fig-cap: "B) Logistic Regression for Log-Odds of Heart Disease: Forward Model Selection"
+#| # Forward
+plot(best_log_reg_fwd, scale = "bic")
+
+```
+
+```{r}
+#| echo: false
+#| fig-cap: "C) Logistic Regression for Log-Odds of Heart Disease: Backward Model Selection"
+# Backward
+plot(best_log_reg_bwd, scale = "bic")
+```
+:::
+::::
+
+
+<!-- ASSUMPTIONS FOR LOGISTIC REGRESSION -->
+
+```{r}
+#| echo: false
+#| label: tbl-outliers
+#| tbl-cap: "Outliers in Heart Disease Dataset. Outliers had abnormally large Pearson residuals and Cook's distance for the logistic regression for the log-odds of heart disease."
+
+# identifying outliers
+heart_train[c(115488,65997,96834, 52951, 160975,222531), ] |> kable() |>
+  kable_styling() |>
+  row_spec(0, angle = 90) |>
+  column_spec(which(names(heart_train) == "race"), width = "3em")
+
+
+
+```
+
+```{r}
+#| include: false
+
+# remove outliers & refit the regression
+heart_train_no_outliers <- heart_train[-c(115488,65997,96834, 52951, 160975,222531), ]
+
+
+log_reg_no_outliers <- glm(
+  heart_disease ~  smoking + alcohol_drinking + stroke + diff_walking + sex + age_category + race + diabetic + gen_health + asthma + kidney_disease + skin_cancer,
+  data = heart_train_no_outliers,
+  family = "binomial"
+)
+
+
+summary(log_reg_no_outliers)
+
+```
+
+::::: {layout="[0.45, 0.45]"}
+:::{#plot1}
+```{r}
+#| echo: false
+#| label: fig-resids-fitted-log-reg
+
+# Residuals vs Fitted
+plot(final_log_reg, which = 1)
+
+```
+:::
+:::{#plot2}
+```{r}
+#| echo: false
+#| label: fig-cooks-log-reg
+# Cook's distance
+plot(final_log_reg, which = 4)
+```
+:::
+:::::
+
+
+
+
+::::: {layout="[0.45, 0.45]"}
+<div>
+
+```{r}
+#| include: false
+
+# Scale Location
+plot(final_log_reg, which = 3)
+```
+
+</div>
+
+<div>
+
+```{r}
+#| include: false
+
+# Q-Q residuals
+plot(final_log_reg, which = 2)
+```
+
+</div>
+:::::
+
+```{r}
+#| echo: false
+#| label: fig-binned-resids-log-reg
+#| fig-width: 4
+#| fig-height: 3.5
+
+library(arm)
+binnedplot(fitted(final_log_reg), 
+           residuals(final_log_reg, type = "response"), 
+           nclass = NULL, 
+           xlab = "Expected Values", 
+           ylab = "Average residual", 
+           main = "Binned residual plot", 
+           cex.main = 0.9,
+           cex.pts = 0.8, 
+           col.pts = 1, 
+           col.int = "gray")
+
+```
+
+
+
+<!-- MODEL COEFFICIENT TABLES -->
 ```{r}
 #| echo: false
 #| label: tbl-mlr-reg
-#| tbl-cap: "Multiple Linear Regression Coefficients. "
+#| tbl-cap: "Multiple Linear Regression Model Coefficients. "
 
 mlr_table %>%
   kable(col.names = c(
@@ -24,7 +248,7 @@ mlr_table %>%
 ```{r}
 #| echo: false
 #| label: tbl-log-reg-coeffs
-#| tbl-cap: "Logistic Regression Coefficients. Red rows indicate coefficients that increase the odds of heart disease. Green rows indicate coefficients that decrease the odds of heart disease. Gray rows indicate coefficients with insignificant p-values."
+#| tbl-cap: "Logistic Regression Model Coefficients. Red rows indicate coefficients that increase the odds of heart disease. Green rows indicate coefficients that decrease the odds of heart disease. Gray rows indicate coefficients with insignificant p-values."
 
 reg_sum <- summary(final_log_reg)
 
