@@ -25,7 +25,11 @@ engine: knitr
 
 ```{r}
 library(tidyverse)
+library(bestglm)
+library(tidyr)
 library(broom)
+library(modelr)   # For generating prediction grids
+library(scales)   # For better axis labels
 ```
 
 ## Motivation & Research Question 💟
@@ -33,7 +37,7 @@ library(broom)
 Cardiovascular disease (CVD) results from the cumulative and reinforcing effects of biological, behavioral, and lifestyle factors over time.
 
 -   How do demographic factors and health factors impact the probability that an individual will experience a heart attack?
--   We will examine **Horsepower**, **Weight**, and **Transmission Type**.
+-   We will examine **race, sex, age, smoking, drinking, diabetes, asthma, kidney disease, skin cancer, stroke,** and **general health** as predictors.
 -   **Data Source:** Indicators of Heart Disease (2022) from Kaggle
 
 . . .
@@ -91,26 +95,126 @@ these trends.
 
 ## Highlights from EDA
 
-Some plots?
+```{r}
+#| include: false
+# load data
+heartdisease <- readRDS("../disease_data/disease-prepared.RDS")
+summary(heartdisease) # only 1 numeric variable
+```
+
+
+:::{.fragment .current-visible style="position:absolute; top:0; left:0; width:100%;"}
+```{r}
+#| echo: false
+
+# RACE
+ggplot(data = heartdisease, aes(x = factor(heart_disease), fill = race)) +
+  geom_bar(color = "black", position = "fill") + 
+  labs(x = "Heart Disease Status",
+       y = "Count",
+       fill = "Race") +
+  scale_x_discrete(labels = c("0" = "No Heart Disease",
+                              "1" = "Heart Disease")) +
+  scale_fill_manual(values = c(
+    "White" = "antiquewhite",
+    "American Indian/Alaskan Native" = "tomato",
+    "Asian" = "skyblue",
+    "Black" = "orange",
+    "Hispanic" = "darkolivegreen3",
+    "Other" = "plum"),
+    labels = c(
+      "American Indian/Alaskan Native" = "Native American"
+      )
+    ) +
+  theme_classic() + 
+  theme(legend.position = "bottom")
+```
+:::
+
+:::{.fragment .current-visible style="position:absolute; top:0; left:0; width:100%;"}
+
+```{r}
+#| echo: false
+# AGE
+heartdisease <- heartdisease %>% 
+  mutate(age_category = case_when(
+    age_category %in% c("18-24", "25-29", "30-34") ~ "18-34",
+    age_category %in% c("35-39", "40-44", "45-49", "50-54") ~ "35-54",
+    age_category %in% c("55-59", "60-64", "65-69", "70-74", "75-79", "80 or older") ~ "55 and older"
+  ))
+
+ggplot(data = heartdisease, aes(x = factor(heart_disease), fill = factor(age_category))) +
+  geom_bar(color = "black", position = "fill") + 
+  labs(x = "Heart Disease",
+       y = "Count",
+       fill = "Age Group") +
+  scale_x_discrete(labels = c("0" = "No Heart Disease",
+                              "1" = "Heart Disease")) +
+  #scale_fill_manual(
+  #  values = c("1" = "orange", "2" = "tomato", "3" = "skyblue"),
+   # labels = c("18-34", "35-54", "55 and older")) +
+  theme_classic() + 
+  theme(legend.position = "bottom")
+
+
+```
+:::
+
+:::{.fragment .current-visible style="position:absolute; top:0; left:0; width:100%;"}
+
+```{r}
+#| echo: false
+
+# STROKE
+ggplot(data = heartdisease, aes(x = factor(heart_disease), fill = factor(stroke))) +
+  geom_bar(color = "black", position = "fill") + 
+  labs(x = "Heart Disease Status",
+       y = "Count",
+       fill = "Stroke") +
+  scale_x_discrete(labels = c("0" = "No Heart Disease",
+                              "1" = "Heart Disease")) +
+  scale_fill_manual(
+    values = c("0" = "skyblue", "1" = "tomato"),
+    labels = c("No", "Yes")
+  ) +
+  theme_classic() + 
+  theme(legend.position = "bottom")
+```
+:::
+
 
 ------------------------------------------------------------------------
 
-## The Model
+## Logistic Regression Model
 
-We are using the following Logistic Regression model:
 
-$$\text{mpg} = \beta_0 + \beta_1(\text{wt}) + \beta_2(\text{hp}) + \beta_3(\text{am}) + \varepsilon$$
+$$log(Odds_{i}) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_i + \\
+\beta_3MentalHealth_i + \beta_4DiffWalking_i + \beta_5Sex_i + \\
+\beta_6Over55_i + \beta_7Asian_i + \beta_8Black_i + \beta_9Hispanic_i + \\
+\beta_{10}Diabetic_i + \beta_{11}HealthFair_i + \beta_{12}HealthGood_i + \\
+\beta_{13}HealthExcellent_i + \beta_{14}Asthma_i + \beta_{15}KidneyDisease_i + \\
+\beta_{16}SkinCancer_i$$
+
 
 ::: callout-note
-## Model Assumption
+## Model Selection
 
-We assume that the residuals are normally distributed and have constant variance.
+Best subset, forward, and backward selection all converged on the same predictors
+for heart disease, optimizing for BIC.
 :::
 
-## Key Drivers of Efficiency
+::: callout-note
+## Model Assumptions
+
+Caution: The dataset exhibits a class imbalance for the number of individuals with vs without
+heart disease (less than 10% have heart disease)! All other logistic regression assumptions
+were satisfied.
+:::
+
+## Key Predictors of Heart Attack Risk
 
 ::::: columns
-::: {.column width="50%"}
+::: {.column width="20%"}
 **Findings:**
 
 1.  Weight has the strongest negative impact.
@@ -120,46 +224,103 @@ We assume that the residuals are normally distributed and have constant variance
 3.  Horsepower has a smaller, but significant, effect.
 :::
 
-::: {.column width="50%"}
+::: {.column width="80%"}
+
 ```{r}
-#| fig-height: 3
-#| fig-width: 6
+#| include: false
 
-# Fit a multiple linear regression
-m_lin <- lm(mpg ~ hp + wt + am + cyl, data = mtcars)
+set.seed(1234)
 
-# Prepare results
-results_tidy <- tidy(m_lin, conf.int = TRUE) 
+# 80% of data
+n <-nrow(heartdisease)
+train_indices <- sample(1:n, size = round(0.80 * n))
 
-results_tidy <- results_tidy |> 
-   # Usually we exclude the intercept for plotting
-  filter(term != "(Intercept)") |> 
-  # We give "nice" names for the plot axis
+# add indices to data
+heartdisease <- heartdisease %>% mutate(
+  row_id = row_number(),
+  set = ifelse(row_id %in% train_indices, "train", "test")
+)
+
+# filter train data
+heart_train <- heartdisease %>% 
+  filter(set == "train") %>% 
+  select(-row_id, -set)
+
+# filter test data
+heart_test <- heartdisease %>% 
+  filter(set == "test") %>% 
+  select(-row_id, -set)
+```
+
+
+```{r}
+#| include: false
+
+# relevel the data to make sure that raceWhite is used as the baseline
+heartdisease$race <- relevel(factor(heartdisease$race), ref = "White")
+heartdisease$gen_health <- relevel(factor(heartdisease$gen_health), ref = "Poor")
+
+heart_train$race <- relevel(factor(heart_train$race), ref = "White")
+heart_train$gen_health <- relevel(factor(heart_train$gen_health), ref = "Poor")
+
+
+final_log_reg <- glm(
+  heart_disease ~  smoking + alcohol_drinking + stroke + mental_health + diff_walking + sex + age_category + race + diabetic + gen_health + asthma + kidney_disease + skin_cancer,
+  data = heartdisease,
+  family = "binomial"
+)
+
+```
+
+
+```{r}
+
+#| echo: false
+#| fig-cap: "Coefficients of logistic regression model. Blue data points represent the additive effect of each predictor on the log-odds of heart disease. Red dashed line represents no effect on the log-odds of heart disease. Bars represent 95% confidence interval for the estimate. All effects are significant (p < 0.05) aside from the terms Mental Health, Native American, and Other Race."
+#| label: fig-log-reg-coefficients
+log_reg_tidy <- tidy(final_log_reg, conf.int = TRUE) |>
+  filter(term != "(Intercept)") |>
   mutate(
     term = case_match(term,
-      "hp"  ~ "Horsepower",
-      "wt"  ~ "Weight (1000 lbs)",
-      "am"  ~ "Transmission (Manual)",
-      "cyl" ~ "Cylinders",
-      .default = term
-    ),
-  # We turn 'term' into a factor sorted by the 'estimate' value.
-  # This way, the coefficients will be shown in order from smallest to largest estimate
-    # Without this, ggplot would default to alphabetical order.
-     term = reorder(term, estimate)
+                     "alcohol_drinking1" ~ "Drinks Alcohol",
+                     "mental_health" ~ "Mental Health",
+                     "sex1" ~ "Male",
+                     "age_category3" ~ "55 and older",
+                     "raceAsian" ~ "Asian",
+                     "raceHispanic" ~ "Hispanic",
+                     "diabetic1" ~ "Diabetic",
+                     "gen_healthGood" ~ "Good Health",
+                     "asthma1" ~ "Asthma",
+                     "skin_cancer1" ~ "Skin Cancer",
+                     "smoking1" ~ "Smoker",
+                     "stroke1" ~ "Stroke",
+                     "diff_walking1" ~ "Difficulty Walking",
+                     "age_category2" ~ "35-54 years old",
+                     "raceAmerican Indian/Alaskan Native" ~ "Native American",
+                     "raceBlack" ~ "Black",
+                     "raceOther" ~ "Other Race",
+                     "gen_healthFair" ~ "Fair Health",
+                     "gen_healthExcellent" ~ "Excellent Health",
+                     "kidney_disease1" ~ "Kidney Disease",
+                     .default = term
+                     ),
+    term = reorder(term, estimate)
   )
 
-ggplot(results_tidy, aes(x = estimate, y = term)) +
-  # Adds a vertical reference line at 0 (null effect)
+ggplot(log_reg_tidy, aes(x = estimate, y = term)) +
   geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
-  # Use geom_errorbar with xmin and xmax for horizontal intervals
   geom_errorbar(aes(xmin = conf.low, xmax = conf.high), width = 0.2) +
-  geom_point(size = 3, color = "steelblue") +
+  geom_point(size = 2, color = "steelblue") +
   labs(
-    x = "Linear 'effect' on MPG (with 95% CI)",
-    y = NULL, # We remove the axis label because variable names are self-explanatory
-  ) +
-  theme_minimal(base_size = 16)
+    x = "Effect on log-odds of heart disease (with 95% confidence interval)",
+    y = NULL
+  ) + 
+  theme_classic()
+
+```
+
+
+
 ```
 :::
 :::::
