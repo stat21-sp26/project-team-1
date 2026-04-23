@@ -195,14 +195,16 @@ $$log(Odds_{i}) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_
 \beta_{13}HealthExcellent_i + \beta_{14}Asthma_i + \beta_{15}KidneyDisease_i + \\
 \beta_{16}SkinCancer_i$$
 
-
+:::{.fragment .current-visible style="position:absolute; top:70%; left:5%; width:100%;"}
 ::: callout-note
 ## Model Selection
 
 Best subset, forward, and backward selection all converged on the same predictors
 for heart disease, optimizing for BIC.
 :::
+:::
 
+:::{.fragment .current-visible style="position:absolute; top:70%; left:5%; width:100%;"}
 ::: callout-warning
 ## Model Assumptions
 
@@ -210,7 +212,7 @@ Caution: The dataset exhibits a class imbalance for the number of individuals wi
 heart disease (less than 10% have heart disease)! All other logistic regression assumptions
 were satisfied.
 :::
-
+:::
 ## Key Predictors of Heart Attack Risk
 
 ::::: columns
@@ -283,26 +285,26 @@ log_reg_tidy <- tidy(final_log_reg, conf.int = TRUE) |>
   filter(term != "(Intercept)") |>
   mutate(
     term = case_match(term,
-                     "alcohol_drinking1" ~ "Drinks Alcohol",
+                     "alcohol_drinking" ~ "Drinks Alcohol",
                      "mental_health" ~ "Mental Health",
                      "sex1" ~ "Male",
-                     "age_category3" ~ "55 and older",
+                     "age_category55 and older" ~ "55 and older",
                      "raceAsian" ~ "Asian",
                      "raceHispanic" ~ "Hispanic",
-                     "diabetic1" ~ "Diabetic",
+                     "diabetic" ~ "Diabetic",
                      "gen_healthGood" ~ "Good Health",
-                     "asthma1" ~ "Asthma",
-                     "skin_cancer1" ~ "Skin Cancer",
-                     "smoking1" ~ "Smoker",
-                     "stroke1" ~ "Stroke",
+                     "asthma" ~ "Asthma",
+                     "skin_cancer" ~ "Skin Cancer",
+                     "smoking" ~ "Smoker",
+                     "stroke" ~ "Stroke",
                      "diff_walking1" ~ "Difficulty Walking",
-                     "age_category2" ~ "35-54 years old",
+                     "age_category35-54" ~ "35-54 years old",
                      "raceAmerican Indian/Alaskan Native" ~ "Native American",
                      "raceBlack" ~ "Black",
                      "raceOther" ~ "Other Race",
                      "gen_healthFair" ~ "Fair Health",
                      "gen_healthExcellent" ~ "Excellent Health",
-                     "kidney_disease1" ~ "Kidney Disease",
+                     "kidney_disease" ~ "Kidney Disease",
                      .default = term
                      ),
     term = reorder(term, estimate)
