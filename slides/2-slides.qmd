@@ -9,18 +9,21 @@ format:
     incremental: true
 title-slide-attributes: 
     # The path to your image
-    data-background-image: "https://www.swarthmore.edu/sites/default/files/assets/images/communications-office/swarthmore_logo.jpg" 
     # Adjust size (e.g., 20% of the slide or 'cover' for full screen)
+    # Adjust opacity if the image is too distracting
+    data-background-image: "https://www.swarthmore.edu/sites/default/files/assets/images/communications-office/swarthmore_logo.jpg" 
     data-background-size: "15%" 
     # Position: 'center', 'top left', 'bottom right', etc.
     data-background-position: "bottom 50px right 50px" 
-    # Adjust opacity if the image is too distracting
     data-background-opacity: "0.9"  
 execute:
   echo: false
   message: false
   warning: false
 engine: knitr  
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r}
@@ -34,10 +37,14 @@ library(scales)   # For better axis labels
 
 ## Motivation & Research Question 💟
 
-Cardiovascular disease (CVD) results from the cumulative and reinforcing effects of biological, behavioral, and lifestyle factors over time.
+Cardiovascular disease (CVD) results from the cumulative and reinforcing
+effects of biological, behavioral, and lifestyle factors over time.
 
--   How do demographic factors and health factors impact the probability that an individual will experience a heart attack?
--   We will examine **race, sex, age, smoking, drinking, diabetes, asthma, kidney disease, skin cancer, stroke,** and **general health** as predictors.
+-   How do demographic factors and health factors impact the probability
+    that an individual will experience a heart attack?
+-   We will examine **race, sex, age, smoking, drinking, diabetes,
+    asthma, kidney disease, skin cancer, stroke,** and **general
+    health** as predictors.
 -   **Data Source:** Indicators of Heart Disease (2022) from Kaggle
 
 . . .
@@ -51,17 +58,19 @@ Cardiovascular disease (CVD) results from the cumulative and reinforcing effects
 :::::: columns
 ::: {.column width="60%"}
 -   **Dataset:** `heart_disease` (Indicators of Heart Disease)
--   **Source:** 2022 Centers for Disease Control and Prevention (CDC) from Kaggle
+-   **Source:** 2022 Centers for Disease Control and Prevention (CDC)
+    from Kaggle
 -   **Sample Size:** $n = 319795$ individuals
--   **Variables:** 18 aspects of demographics, behaviors, and health condition
+-   **Variables:** 18 aspects of demographics, behaviors, and health
+    condition
 :::
 
 :::: {.column width="40%"}
 ::: callout-tip
 ## Why this data?
 
-It is a large and strong dataset to observe how demographics and lifestyle
-collide to drive the risk of heart disease. 
+It is a large and strong dataset to observe how demographics and
+lifestyle collide to drive the risk of heart disease.
 :::
 ::::
 ::::::
@@ -74,9 +83,11 @@ collide to drive the risk of heart disease.
 :::: {.column width="60%"}
 ::: nonincremental
 -   **Dataset:** `heart_disease` (Indicators of Heart Disease)
--   **Source:** 2022 Centers for Disease Control and Prevention (CDC) from Kaggle
+-   **Source:** 2022 Centers for Disease Control and Prevention (CDC)
+    from Kaggle
 -   **Sample Size:** $n = 319795$ individuals
--   **Variables:** 18 aspects of demographics, behaviors, and health condition
+-   **Variables:** 18 aspects of demographics, behaviors, and health
+    condition
 :::
 ::::
 
@@ -84,9 +95,9 @@ collide to drive the risk of heart disease.
 ::: callout-warning
 ## A Note on Self-Reporting
 
-As some responses from this survey data are self-reported, variables like 
-`general_health` may be subject to bias, though the massive $n$ helps stabilize 
-these trends.
+As some responses from this survey data are self-reported, variables
+like `general_health` may be subject to bias, though the massive $n$
+helps stabilize these trends.
 :::
 ::::
 :::::::
@@ -102,8 +113,7 @@ heartdisease <- readRDS("../disease_data/disease-prepared.RDS")
 summary(heartdisease) # only 1 numeric variable
 ```
 
-
-:::{.fragment .current-visible style="position:absolute; top:30%; left:5%; width:100%;"}
+::: {.fragment .current-visible style="position:absolute; top:20%; left:5%; width:100%;"}
 ```{r}
 #| echo: false
 
@@ -131,8 +141,7 @@ ggplot(data = heartdisease, aes(x = factor(heart_disease), fill = race)) +
 ```
 :::
 
-:::{.fragment .current-visible style="position:absolute; top:30%; left:5%; width:100%;"}
-
+::: {.fragment .current-visible style="position:absolute; top:20%; left:5%; width:100%;"}
 ```{r}
 #| echo: false
 # AGE
@@ -160,8 +169,7 @@ ggplot(data = heartdisease, aes(x = factor(heart_disease), fill = factor(age_cat
 ```
 :::
 
-:::{.fragment .current-visible style="position:absolute; top:30%; left:5%; width:100%;"}
-
+::: {.fragment .current-visible style="position:absolute; top:20%; left:5%; width:100%;"}
 ```{r}
 #| echo: false
 
@@ -182,11 +190,9 @@ ggplot(data = heartdisease, aes(x = factor(heart_disease), fill = factor(stroke)
 ```
 :::
 
-
 ------------------------------------------------------------------------
 
 ## Logistic Regression Model
-
 
 $$log(Odds_{i}) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_i + \\
 \beta_3MentalHealth_i + \beta_4DiffWalking_i + \beta_5Sex_i + \\
@@ -195,138 +201,56 @@ $$log(Odds_{i}) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_
 \beta_{13}HealthExcellent_i + \beta_{14}Asthma_i + \beta_{15}KidneyDisease_i + \\
 \beta_{16}SkinCancer_i$$
 
-:::{.fragment .current-visible style="position:absolute; top:70%; left:5%; width:100%;"}
+:::: {.fragment .current-visible style="position:absolute; top:65%; left:0%; width:100%;"}
 ::: callout-note
 ## Model Selection
 
-Best subset, forward, and backward selection all converged on the same predictors
-for heart disease, optimizing for BIC.
+Best subset, forward, and backward selection all converged on the same
+predictors for heart disease, optimizing for BIC.
 :::
-:::
+::::
 
-:::{.fragment .current-visible style="position:absolute; top:70%; left:5%; width:100%;"}
+:::: {.fragment .current-visible style="position:absolute; top:65%; left:0%; width:100%;"}
 ::: callout-warning
 ## Model Assumptions
 
-Caution: The dataset exhibits a class imbalance for the number of individuals with vs without
-heart disease (less than 10% have heart disease)! All other logistic regression assumptions
-were satisfied.
+*Caution!* The dataset exhibits a class imbalance for the number of
+individuals with vs without heart disease (less than 10% have heart
+disease)! All other logistic regression assumptions were satisfied.
 :::
-:::
+::::
+
 ## Key Predictors of Heart Attack Risk
 
-::::: columns
-::: {.column width="0%"}
-<!--
-**Findings:**
-
-1.  Weight has the strongest negative impact.
-
-2.  Manual transmissions tend to be more efficient.
-
-3.  Horsepower has a smaller, but significant, effect. -->
+:::::: columns
+::: {.column width="70%"}
+![](images/log_reg_coefficients_plot.png)
 :::
 
-::: {.column width="100%"}
+:::{.column width = "30%"}
 
-```{r}
-#| include: false
+::: {.fragment style="font-size: 0.7em;"}
+**Greatest contributors to risk of heart disease:**
 
-set.seed(1234)
+-   55+ years old
 
-# 80% of data
-n <-nrow(heartdisease)
-train_indices <- sample(1:n, size = round(0.80 * n))
+-   Had a stroke
 
-# add indices to data
-heartdisease <- heartdisease %>% mutate(
-  row_id = row_number(),
-  set = ifelse(row_id %in% train_indices, "train", "test")
-)
-
-# filter train data
-heart_train <- heartdisease %>% 
-  filter(set == "train") %>% 
-  select(-row_id, -set)
-
-# filter test data
-heart_test <- heartdisease %>% 
-  filter(set == "test") %>% 
-  select(-row_id, -set)
-```
-
-
-```{r}
-#| include: false
-
-# relevel the data to make sure that raceWhite is used as the baseline
-heartdisease$race <- relevel(factor(heartdisease$race), ref = "White")
-heartdisease$gen_health <- relevel(factor(heartdisease$gen_health), ref = "Poor")
-
-heart_train$race <- relevel(factor(heart_train$race), ref = "White")
-heart_train$gen_health <- relevel(factor(heart_train$gen_health), ref = "Poor")
-
-
-final_log_reg <- glm(
-  heart_disease ~  smoking + alcohol_drinking + stroke + mental_health + diff_walking + sex + age_category + race + diabetic + gen_health + asthma + kidney_disease + skin_cancer,
-  data = heartdisease,
-  family = "binomial"
-)
-
-```
-
-
-```{r}
-
-#| echo: false
-#| fig-cap: "Coefficients of logistic regression model. Blue data points represent the additive effect of each predictor on the log-odds of heart disease. Red dashed line represents no effect on the log-odds of heart disease. Bars represent 95% confidence interval for the estimate. All effects are significant (p < 0.05) aside from the terms Mental Health, Native American, and Other Race."
-#| label: fig-log-reg-coefficients
-log_reg_tidy <- tidy(final_log_reg, conf.int = TRUE) |>
-  filter(term != "(Intercept)") |>
-  mutate(
-    term = case_match(term,
-                     "alcohol_drinking" ~ "Drinks Alcohol",
-                     "mental_health" ~ "Mental Health",
-                     "sex1" ~ "Male",
-                     "age_category55 and older" ~ "55 and older",
-                     "raceAsian" ~ "Asian",
-                     "raceHispanic" ~ "Hispanic",
-                     "diabetic" ~ "Diabetic",
-                     "gen_healthGood" ~ "Good Health",
-                     "asthma" ~ "Asthma",
-                     "skin_cancer" ~ "Skin Cancer",
-                     "smoking" ~ "Smoker",
-                     "stroke" ~ "Stroke",
-                     "diff_walking1" ~ "Difficulty Walking",
-                     "age_category35-54" ~ "35-54 years old",
-                     "raceAmerican Indian/Alaskan Native" ~ "Native American",
-                     "raceBlack" ~ "Black",
-                     "raceOther" ~ "Other Race",
-                     "gen_healthFair" ~ "Fair Health",
-                     "gen_healthExcellent" ~ "Excellent Health",
-                     "kidney_disease" ~ "Kidney Disease",
-                     .default = term
-                     ),
-    term = reorder(term, estimate)
-  )
-
-ggplot(log_reg_tidy, aes(x = estimate, y = term)) +
-  geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
-  geom_errorbar(aes(xmin = conf.low, xmax = conf.high), width = 0.2) +
-  geom_point(size = 2, color = "steelblue") +
-  labs(
-    x = "Effect on log-odds of heart disease (with 95% confidence interval)",
-    y = NULL
-  ) + 
-  theme_classic()
-
-```
-
-
-
+-   35-54 years old
 :::
-:::::
 
+::: {.fragment style="font-size: 0.7em;"}
+**Lowest risk of heart disease:**
+
+-   Excellent/good general health
+
+-   Male
+
+-   Asian
+:::
+::::::
+
+::::::
 
 # Thank you! {background-color="#FFE3EB"}
 
@@ -334,8 +258,14 @@ Questions?
 
 ## Helpful Resources 📚
 
--   [**Official Revealjs Guide**](https://quarto.org/docs/presentations/revealjs/): The "Source of Truth" for all slide features.
+-   [**Official Revealjs
+    Guide**](https://quarto.org/docs/presentations/revealjs/): The
+    "Source of Truth" for all slide features.
 
--   [**Quarto Gallery**](https://quarto.org/docs/gallery/#presentations): Examples of award-winning presentations.
+-   [**Quarto
+    Gallery**](https://quarto.org/docs/gallery/#presentations): Examples
+    of award-winning presentations.
 
--   [**Slide Customization**](https://quarto.org/docs/presentations/revealjs/themes.html): Learn how to change colors, fonts, and backgrounds
+-   [**Slide
+    Customization**](https://quarto.org/docs/presentations/revealjs/themes.html):
+    Learn how to change colors, fonts, and backgrounds
