@@ -529,6 +529,7 @@ ggplot(log_reg_tidy, aes(x = estimate, y = term)) +
   ) + 
   theme_classic()
 
+ggsave("log_reg_coefficients_plot.png")
 ```
 
 
@@ -966,6 +967,7 @@ ggplot(data = df, aes(x = 1 - specificity, y = sensitivity)) +
               color = "red") +
   theme_classic()
 
+ggsave("roc_curve.png")
 
 # calculate the Area Under the Curve
 #auc(roc) # 0.8292
