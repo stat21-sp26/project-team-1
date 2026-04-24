@@ -201,7 +201,7 @@ $$log(Odds_{i}) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_
 \beta_{13}HealthExcellent_i + \beta_{14}Asthma_i + \beta_{15}KidneyDisease_i + \\
 \beta_{16}SkinCancer_i$$
 
-:::: {.fragment .current-visible style="position:absolute; top:65%; left:0%; width:100%;"}
+:::: {.fragment .current-visible style="position:absolute; top:68%; left:0%; width:100%;"}
 ::: callout-note
 ## Model Selection
 
@@ -210,7 +210,7 @@ predictors for heart disease, optimizing for BIC.
 :::
 ::::
 
-:::: {.fragment .current-visible style="position:absolute; top:65%; left:0%; width:100%;"}
+:::: {.fragment .current-visible style="position:absolute; top:68%; left:0%; width:100%;"}
 ::: callout-warning
 ## Model Assumptions
 
