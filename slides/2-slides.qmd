@@ -7,6 +7,7 @@ format:
     theme: simple  # Changed from 'cosmo' to 'simple'
     slide-number: true
     incremental: true
+    pdf-separate-fragments: true
 title-slide-attributes: 
     # The path to your image
     # Adjust size (e.g., 20% of the slide or 'cover' for full screen)
@@ -35,7 +36,7 @@ library(modelr)   # For generating prediction grids
 library(scales)   # For better axis labels
 ```
 
-## Motivation & Research Question 💟
+## Motivation & Research Question 💟 {.smaller}
 
 Cardiovascular disease (CVD) results from the cumulative and reinforcing
 effects of biological, behavioral, and lifestyle factors over time.
@@ -192,7 +193,7 @@ ggplot(data = heartdisease, aes(x = factor(heart_disease), fill = factor(stroke)
 
 ------------------------------------------------------------------------
 
-## Logistic Regression Model
+## Logistic Regression Model {.smaller}
 
 $$log(Odds_{i}) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_i + \\
 \beta_3MentalHealth_i + \beta_4DiffWalking_i + \beta_5Sex_i + \\
@@ -201,16 +202,24 @@ $$log(Odds_{i}) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_
 \beta_{13}HealthExcellent_i + \beta_{14}Asthma_i + \beta_{15}KidneyDisease_i + \\
 \beta_{16}SkinCancer_i$$
 
-:::: {.fragment .current-visible style="position:absolute; top:68%; left:0%; width:100%;"}
 ::: callout-note
 ## Model Selection
 
 Best subset, forward, and backward selection all converged on the same
 predictors for heart disease, optimizing for BIC.
 :::
-::::
 
-:::: {.fragment .current-visible style="position:absolute; top:68%; left:0%; width:100%;"}
+------------------------------------------------------------------------
+
+## Logistic Regression Model {.smaller}
+
+$$log(Odds_{i}) = \beta_0 + \beta_1Smoking_i + \beta_2Alcohol_i + \beta_3Stroke_i + \\
+\beta_3MentalHealth_i + \beta_4DiffWalking_i + \beta_5Sex_i + \\
+\beta_6Over55_i + \beta_7Asian_i + \beta_8Black_i + \beta_9Hispanic_i + \\
+\beta_{10}Diabetic_i + \beta_{11}HealthFair_i + \beta_{12}HealthGood_i + \\
+\beta_{13}HealthExcellent_i + \beta_{14}Asthma_i + \beta_{15}KidneyDisease_i + \\
+\beta_{16}SkinCancer_i$$
+
 ::: callout-warning
 ## Model Assumptions
 
@@ -218,7 +227,6 @@ predictors for heart disease, optimizing for BIC.
 individuals with vs without heart disease (less than 10% have heart
 disease)! All other logistic regression assumptions were satisfied.
 :::
-::::
 
 ## Key Predictors of Heart Attack Risk
 
