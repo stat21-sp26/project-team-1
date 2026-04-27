@@ -120,6 +120,28 @@ plot(best_log_reg_bwd, scale = "bic")
 
 <!-- ASSUMPTIONS FOR LOGISTIC REGRESSION -->
 
+
+```{r}
+#| echo: false
+#| label: fig-log-odds-mental-health
+#| fig-cap: "Logistic Regression Linearity Assumption Validation. Every distinct value of mental health constituted a new group, in which the average log-odds was calculated. The blue line represents a least squares line."
+
+## EVALUTION OF LINEARITY OF MENTAL HEALTH vs LOG ODDS -- using training data
+
+#heart_train %>% 
+#  ggplot() +
+#  aes(x = mental_health) +
+#  geom_histogram(na.rm = TRUE, fill = "skyblue", color = "black") +
+#  theme_classic()
+
+emplogitplot1(heart_disease ~ mental_health,
+              data = heart_train,
+              ngroups = "all",
+              out = TRUE)
+
+```
+
+
 ```{r}
 #| echo: false
 #| label: tbl-outliers
