@@ -19,6 +19,7 @@ library(tidyr)
 library(kableExtra)
 library(bestglm)
 library(car)
+library(Stat2Data)
 
 ```
 
@@ -964,19 +965,6 @@ attack. Despite this p-value, we opted to include mental health as one
 of our predictors to remain true to the outcome from our model selection
 process (@tbl-selected-vars-log-reg).
 
-```{r}
-#| include: false
-
-# FINAL logistic model
-#final_log_reg <- glm(
-#  heart_disease ~  smoking + alcohol_drinking + stroke + diff_walking + sex + age_category + race + diabetic + gen_health + asthma + kidney_disease + skin_cancer,
-#  data = heart_train,
-#  family = "binomial"
-#)
-
-
-#summary(final_log_reg)
-```
 
 [Binary Predictor Assumption]{.underline}
 
@@ -989,14 +977,7 @@ the regression.
 [Linearity Assumption]{.underline}
 
 The linearity of the log-odds of heart disease must also be assessed
-with each of its continuous predictor variables. The only continuous predictor included in our final model is mental health (with scores ranging from 0 to 30). **ADD DETAILS**. 
-
-```{r}
-#| echo: false
-
-## EVALUTION OF LINEARITY OF MENTAL HEALTH vs LOG ODDS
-
-```
+with each of its continuous predictor variables. The only continuous predictor included in our final model is mental health (with scores ranging from 0 to 30). Plotting an empirical logit plot for heart disease against mental health revealed a positive, linear association (@fig-log-odds-mental-health), satisfying the linearity assumption of the model.
 
 
 [Sample Size Assumption]{.underline}
