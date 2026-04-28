@@ -293,17 +293,3 @@ disease)! All other logistic regression assumptions were satisfied.
 # Thank you! {background-color="#FFE3EB"}
 
 Questions?
-
-## Helpful Resources 📚
-
--   [**Official Revealjs
-    Guide**](https://quarto.org/docs/presentations/revealjs/): The
-    "Source of Truth" for all slide features.
-
--   [**Quarto
-    Gallery**](https://quarto.org/docs/gallery/#presentations): Examples
-    of award-winning presentations.
-
--   [**Slide
-    Customization**](https://quarto.org/docs/presentations/revealjs/themes.html):
-    Learn how to change colors, fonts, and backgrounds
