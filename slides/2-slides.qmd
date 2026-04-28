@@ -237,24 +237,54 @@ disease)! All other logistic regression assumptions were satisfied.
 
 :::{.column width = "30%"}
 
+
 ::: {.fragment style="font-size: 0.7em;"}
 **Greatest contributors to risk of heart disease:**
 
 -   55+ years old
 
+    -   Estimated Odds: $8.92 \pm 0.92$
+
 -   Had a stroke
 
+    -   Estimated Odds: $2.98 \pm 0.14$
+
 -   35-54 years old
+
+    -   Estimated Odds: $2.96 \pm 0.32$
 :::
+
+::::::
+
+::::::
+
+
+## Key Predictors of Heart Attack Risk
+
+:::::: columns
+::: {.column width="70%"}
+![](images/log_reg_coefficients_plot.png)
+:::
+
+:::{.column width = "30%"}
+
+
 
 ::: {.fragment style="font-size: 0.7em;"}
 **Lowest risk of heart disease:**
 
 -   Excellent/good general health
 
+    -   Estimated Odds: $0.13 \pm 0.01$ (excellent)
+        $0.40 \pm 0.02$ (good)
+
 -   Male
 
+    -   Estimated Odds: $0.53 \pm 0.02$
+
 -   Asian
+
+    -   Estimated Odds: $0.59 \pm 0.08$
 :::
 ::::::
 
