@@ -42,10 +42,12 @@ Cardiovascular disease (CVD) results from the cumulative and reinforcing
 effects of biological, behavioral, and lifestyle factors over time.
 
 -   How do demographic factors and health factors impact the probability
-    that an individual will experience a heart attack?
+    that an individual will contract heart disease?
 -   We will examine **race, sex, age, smoking, drinking, diabetes,
     asthma, kidney disease, skin cancer, stroke,** and **general
     health** as predictors.
+-   We expected that race and having previous health conditions would increase
+    the probability of heart disease.
 -   **Data Source:** Indicators of Heart Disease (2022) from Kaggle
 
 . . .
