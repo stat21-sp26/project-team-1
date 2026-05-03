@@ -2,6 +2,7 @@
 
 
 <!-- MLR MODEL SELECTION -->
+### Multiple Linear Regression Model Selection
 ::::: {layout="[0.25, 0.75]"}
 :::{#table}
 ```{r}
@@ -39,9 +40,10 @@ plot(best_mlr_bwd, scale = "bic")
 :::
 ::::
 
+{{< pagebreak >}}
 
 <!-- ASSUMPTIONS FOR MLR -->
-
+### Validating Assumptions for Multiple Linear Regression Model
 
 ::::: {layout="[0.45, 0.45]"}
 <div>
@@ -77,8 +79,10 @@ plot(final_mlr, which = 2)
 plot(final_mlr, which = 4)
 ```
 
+{{< pagebreak >}}
 
 <!-- LOGISTIC REGRESSION MODEL SELECTION -->
+### Logistic Regression Additional EDA
 
 ::::: {layout="[0.45, 0.45]"}
 ::: column
@@ -182,7 +186,7 @@ ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease),
 
 ::: {layout="[0.3, 0.3, 0.3]"}
 ```{r}
-#| include: false
+#| echo: false
 
 # PHYSICAL ACTIVITY
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(physical_activity))) +
@@ -219,6 +223,7 @@ ggplot(data = disease2, aes(x = factor(heart_disease), fill = sleep_time)) +
 </div>
 :::
 
+### Logistic Regression Model Selection
 
 ::::: {layout="[0.25, 0.75]"}
 :::{#table}
@@ -259,7 +264,7 @@ plot(best_log_reg_bwd, scale = "bic")
 
 
 <!-- ASSUMPTIONS FOR LOGISTIC REGRESSION -->
-
+### Validating Assumptions for Logistic Regression Model
 
 ```{r}
 #| echo: false
@@ -385,7 +390,11 @@ binnedplot(fitted(final_log_reg),
 
 
 
-<!-- MODEL COEFFICIENT TABLES -->
+<!-- MLR MODEL COEFFICIENT TABLES -->
+
+{{< pagebreak >}}
+
+### Multiple Linear Regression Coefficients
 ```{r}
 #| echo: false
 #| label: tbl-mlr-reg
@@ -406,7 +415,9 @@ mlr_table %>%
 
 ```
 
+{{< pagebreak >}}
 
+### Logistic Regression Coefficients
 ```{r}
 #| echo: false
 #| label: tbl-log-reg-coeffs

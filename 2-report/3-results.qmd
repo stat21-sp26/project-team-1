@@ -263,6 +263,7 @@ mlr_tidy <- tidy(final_mlr, conf.int = TRUE) |>
       "sleep_time" ~ "Sleep Time",
       "asthma1" ~ "Asthma",
       "skin_cancer1" ~ "Skin Cancer",
+      "physical_activity1" ~ "Physically Active", 
       .default = term
     ),
     term = reorder(term, estimate)
@@ -273,7 +274,7 @@ ggplot(mlr_tidy, aes(x = estimate, y = term)) +
   geom_errorbar(aes(xmin = conf.low, xmax = conf.high), width = 0.2) +
   geom_point(size = 2, color = "steelblue") +
   labs(
-    x = "Effect on log(BMI) (with 95% confidence interval)",
+    x = "Additive effect on log(BMI) (with 95% confidence interval)",
     y = NULL
   ) +
   theme_classic()
@@ -488,11 +489,14 @@ The significance of these proportion differences is validated in the outcome of 
 
 ```{r}
 #| echo: false
-#| fig-cap: "Coefficients of logistic regression model. Blue data points represent the additive effect of each predictor on the log-odds of heart disease. Red dashed line represents no effect on the log-odds of heart disease. Bars represent 95% confidence interval for the estimate. All effects are significant (p < 0.05) aside from the terms Mental Health, Native American, and Other Race."
+#| fig-cap: "Coefficients of logistic regression model. Blue data points represent the multiplicative effect of each predictor on the odds of heart disease. Red dashed line represents no effect on the odds of heart disease. Bars represent 95% confidence interval for the estimate. All effects are significant (p < 0.05) aside from the terms Mental Health, Native American, and Other Race."
 #| label: fig-log-reg-coefficients
 log_reg_tidy <- tidy(final_log_reg, conf.int = TRUE) |>
   filter(term != "(Intercept)") |>
   mutate(
+    estimate = exp(estimate),
+    conf.low = exp(conf.low),
+    conf.high = exp(conf.high),
     term = case_match(term,
                      "alcohol_drinking1" ~ "Drinks Alcohol",
                      "mental_health" ~ "Mental Health",
@@ -520,11 +524,11 @@ log_reg_tidy <- tidy(final_log_reg, conf.int = TRUE) |>
   )
 
 ggplot(log_reg_tidy, aes(x = estimate, y = term)) +
-  geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "red") +
   geom_errorbar(aes(xmin = conf.low, xmax = conf.high), width = 0.2) +
   geom_point(size = 2, color = "steelblue") +
   labs(
-    x = "Effect on log-odds of heart disease (with 95% confidence interval)",
+    x = "Odds ratio for heart disease (95% confidence interval)",
     y = NULL
   ) + 
   theme_classic()
@@ -579,9 +583,9 @@ disease2 <- disease_data |>
 
 [Demographics]{.underline}
 
-Compared to White peers, and holding all other variables constant, our model predicts that Hispanic, Black, and Asian individuals have 0.75 (95% CI: \[0.70, 0.81\]), 0.70 (95% CI: \[0.66, 0.76\]), and 0.60 (95% CI: \[0.51, 0.71\]) times the odds of having heart disease, respectively (@fig-heartdisease-race; @tbl-log-reg-coeffs). In short, White individuals are predicted to have the highest likelihood of heart attack, contrary to our initial hypothesis which posited that historical discrimination against non-White communities in the US would lead to worse health outcomes (i.e. greater risk for heart disease).
+Compared to White peers, and holding all other variables constant, our model predicts that Hispanic, Black, and Asian individuals have 0.74 (95% CI: \[0.69, 0.79\]), 0.71 (95% CI: \[0.67, 0.75\]), and 0.59 (95% CI: \[0.50, 0.68\]) times the odds of having heart disease, respectively (@fig-heartdisease-race; @tbl-log-reg-coeffs). In short, White individuals are predicted to have the highest likelihood of heart attack, contrary to our initial hypothesis which posited that historical discrimination against non-White communities in the US would lead to worse health outcomes (i.e. greater risk for heart disease).
 
-As one may expect, the predicted risk for heart disease increases with age. Compared to 18-34 year olds of the same sex, race, and health conditions, 35-54 year olds are expected to have 2.97 the odds of heart disease (95% CI: [2.61, 3.37]). This risk increases even more dramatically for ages 55 years and older, whose odds of heart disease are predicted to be 8.9 times (95% CI: [7.89, 10.06]) that of 18-34 year olds (@fig-heartdisease-age; @tbl-log-reg-coeffs).
+As one may expect, the predicted risk for heart disease increases with age. Compared to 18-34 year olds of the same sex, race, and health conditions, 35-54 year olds are expected to have 2.96 the odds of heart disease (95% CI: [2.64, 3.32]). This risk increases even more dramatically for ages 55 years and older, whose odds of heart disease are predicted to be 8.9 times (95% CI: [8.00, 9.95]) that of 18-34 year olds (@fig-heartdisease-age; @tbl-log-reg-coeffs).
 
 Sex also has a significant impact on the odds of having heart disease. Males have 0.55 times (95% CI: [0.53, 0.57]) the odds of have heart disease compared to females, holding all other predictors constant (@fig-heartdisease-sex; @tbl-log-reg-coeffs).
 
@@ -688,7 +692,7 @@ ggplot(data = disease_data, aes(x = age_category, fill = factor(heart_disease)))
 [Behavior]{.underline}
 
 
-As we expected, our model predicts that individuals who smoke are at higher risk for heart disease. In particular, their odds of having a heart attack are 1.41 times (95% CI: [1.35, 1.46]) the odds for individuals who do not smoke, holding all other predictors constant (@fig-heartdisease-smoking; @tbl-log-reg-coeffs). Interestingly, alcohol consumption is predicted to have a significant negative effect on the risk of heart disease. Individuals who drink alcohol have 0.70 times (95% CI: [0.64, 0.76]) the odds of heart disease compared to individuals who do not drink alcohol (@fig-heartdisease-alcohol; @tbl-log-reg-coeffs).
+As we expected, our model predicts that individuals who smoke are at higher risk for heart disease. In particular, their odds of having a heart attack are 1.41 times (95% CI: [1.35, 1.46]) the odds for individuals who smoke, holding all other predictors constant (@fig-heartdisease-smoking; @tbl-log-reg-coeffs). Interestingly, alcohol consumption is predicted to have a significant negative effect on the risk of heart disease. Individuals who drink alcohol have 0.71 times (95% CI: [0.66, 0.77]) the odds of heart disease compared to individuals who do not drink alcohol (@fig-heartdisease-alcohol; @tbl-log-reg-coeffs). See our discussion for a potential explanation for this surprising finding.
 
 :::: {layout="[0.45, 0.45]"}
 :::{#plot1}
@@ -743,7 +747,7 @@ ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(alcohol
 
 [Medical Conditions]{.underline}
 
-Overall, individuals categorized as having 'Fair', 'Good', and 'Excellent' general health were predicted to have a lower risk of heart disease. Compared to the odds of heart disease for those with 'Poor' general health, individuals in the other health categories had 0.68 (95% CI: [0.64, 0.72]), 0.42 (95% CI: [0.40, 0.45]), and 0.13 (95% CI: [0.12, 0.14]) times the odds of heart attack, respectively (@fig-heartdisease-gen-health; @tbl-log-reg-coeffs).
+Overall, individuals categorized as having 'Fair', 'Good', and 'Excellent' general health were predicted to have a lower risk of heart disease. Compared to the odds of heart disease for those with 'Poor' general health, individuals in the other health categories had 0.67 (95% CI: [0.63, 0.70]), 0.42 (95% CI: [0.38, 0.43]), and 0.13 (95% CI: [0.12, 0.14]) times the odds of heart attack, respectively (@fig-heartdisease-gen-health; @tbl-log-reg-coeffs).
 
 
 
@@ -772,7 +776,7 @@ heartdisease |>
   theme(legend.position = "right")
 ```
 
-On the other hand, pre-existing health complications such as diabetes, kidney disease, skin cancer, asthma, stroke, and difficulty walking significantly increased the odds of heart disease. Diabetic patients have 1.61 times (95% CI: [1.55, 1.68]) the odds, patients with skin cancer have 1.33 times (95% CI: [1.27, 1.40]) the odds, patients with kidney disease have 1.87 times (95% CI: [1.76, 1.98]) the odds, patients with asthma have 1.25 times (95% CI: [1.19, 1.31]) the odds,  patients who have had a stroke have 2.96 times (95% CI: [2.81, 3.13]) the odds, and patients with difficulty walking have 1.32 (95% CI: [1.27, 1.38]) the odds of heart attack compared to individuals without those respective health conditions, holding all other predictors constant (@fig-heartdisease-diabetes; @fig-heartdisease-kidney; @fig-heartdisease-cancer; @fig-heartdisease-asthma; @fig-heartdisease-stroke @tbl-log-reg-coeffs). Overall, having a stroke increases an individuals risk for heart attack to the highest degree of the health conditions mentioned. 
+On the other hand, pre-existing health complications such as diabetes, kidney disease, skin cancer, asthma, stroke, and difficulty walking significantly increased the odds of heart disease. Diabetic patients have 1.60 times (95% CI: [1.54, 1.65]) the odds, patients with skin cancer have 1.33 times (95% CI: [1.27, 1.39]) the odds, patients with kidney disease have 1.87 times (95% CI: [1.78, 1.97]) the odds, patients with asthma have 1.24 times (95% CI: [1.18, 1.29]) the odds,  patients who have had a stroke have 2.98 times (95% CI: [2.84, 3.13]) the odds, and patients with difficulty walking have 1.32 (95% CI: [1.27, 1.38]) the odds of heart attack compared to individuals without those respective health conditions, holding all other predictors constant (@fig-heartdisease-diabetes; @fig-heartdisease-kidney; @fig-heartdisease-cancer; @fig-heartdisease-asthma; @fig-heartdisease-stroke @tbl-log-reg-coeffs). Overall, having a stroke increases an individuals risk for heart attack to the highest degree of the health conditions mentioned. 
 
 :::: {layout="[0.3, 0.3, 0.3]"}
 :::{#plot1}
