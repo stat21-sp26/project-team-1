@@ -1,4 +1,4 @@
-# Investigating Health Outcomes in the US (Diabetes Treatment & Cardiovascular Disease)
+# Investigating Health Outcomes in the US (BMI & Cardiovascular Disease)
 
 ## Authors
 
@@ -9,16 +9,17 @@
 
 ## Project description
 
-- **Data Set 1: Diabetic Patient Hospital Readmission in the US** -- This project investigates whether administering an HbA1c test during a hospital visit for diabetic patients is associated with reduced likelihood of early readmission. The goal is to evaluate whether HbA1c testing serves as an indicator of effective diabetes management and improved patient outcomes. By comparing readmission rates between tested and untested patients, we would aim to assess the role of clinical monitoring in preventing short-term complications.
-  
-- **Data Set 2: Indicators of Heart Disease (2022)** -- This project explores how body mass index (BMI) is related to behavioral and demographic factors associated with cardiovascular disease risk. The goal is to understand how variables such as physical activity, smoking, and general health status are associated with variations in BMI across individuals. By examining these relationships, we would aim to provide insight into how lifestyle and demographic patterns contribute to cardiovascular health.
+- **Data Set: Indicators of Heart Disease (2022)** -- This project explores how body mass index (BMI) and cardiovascular disease (CVD) are related to behavioral and demographic factors. The goal is to understand how variables such as physical activity, smoking, and general health status are associated with variations in BMI and CVD risk and across individuals in the United States. By examining these relationships, we would aim to provide insight into how lifestyle and demographic patterns contribute to cardiovascular health.
 
 ## Repo structure
 
 -   `1-EDA-proposal` contains files with exploratory data analysis and project proposal.
+-   `2-report` contains all files of final written report.
 -   `bibliography` contains a .bib file with BibTex citations used in the EDA proposal files.
 -   `diabetes_data` contains the raw and cleaned datasets for hospital treatment of diabetic patients in the US.
 -   `disease_data` contains the raw and cleaned dataset for heart disease patients.
+-   `plots-and-templates` contains example code for regression plots.
+-   `slides` contains slides for presentation.
 
 ## Project management
 
