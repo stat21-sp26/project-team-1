@@ -16,7 +16,6 @@
 -   `1-EDA-proposal` contains files with exploratory data analysis and project proposal.
 -   `2-report` contains all files of final written report.
 -   `bibliography` contains a .bib file with BibTex citations used in the EDA proposal files.
--   `diabetes_data` contains the raw and cleaned datasets for hospital treatment of diabetic patients in the US.
 -   `disease_data` contains the raw and cleaned dataset for heart disease patients.
 -   `plots-and-templates` contains example code for regression plots.
 -   `slides` contains slides for presentation.
