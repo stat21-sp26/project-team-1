@@ -186,7 +186,7 @@ ggplot(data = disease_data, aes(y = bmi, x = factor(heart_disease),
 
 ::: {layout="[0.3, 0.3, 0.3]"}
 ```{r}
-#| echo: false
+#| include: false
 
 # PHYSICAL ACTIVITY
 ggplot(data = disease_data, aes(x = factor(heart_disease), fill = factor(physical_activity))) +
@@ -282,7 +282,7 @@ plot(best_log_reg_bwd, scale = "bic")
 emplogitplot1(heart_disease ~ mental_health,
               data = heart_train,
               ngroups = "all",
-              out = TRUE)
+              out = FALSE)
 
 ```
 
@@ -389,6 +389,7 @@ binnedplot(fitted(final_log_reg),
 ```
 
 
+{{< pagebreak >}}
 
 <!-- MLR MODEL COEFFICIENT TABLES -->
 

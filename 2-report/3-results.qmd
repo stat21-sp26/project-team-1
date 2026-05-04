@@ -1016,7 +1016,7 @@ Using this threshold, we constructed a confusion matrix for the predicted heart 
 ```{r}
 #| echo: false
 #| label: tbl-confusion-matrix
-#| tbl-cap: "Confusion Matrix for Test Data"
+#| tbl-cap: "Confusion Matrix for Performance of Logistic Regression on Test Data"
 
 
 # classify heart disease based on probability
@@ -1037,6 +1037,7 @@ confusion_matrix|> kable()
 ```{r}
 #| echo: false
 #| label: tbl-confusion-matrix-rates
+#| fig-cap: "Logistic Regression on Heart Disease Performance Metrics"
 
 # calculate true positive, false positive, false negative, and true negative rates
 TN <- confusion_matrix[1, 1]
