@@ -283,7 +283,7 @@ ggplot(mlr_tidy, aes(x = estimate, y = term)) +
 
 #### Regression Analysis
 
-The results of our multiple linear regression are presented in @tbl-mlr-reg.
+The full results of our multiple linear regression are presented in @tbl-mlr-reg (see in appendix for details on all coefficient estimates).
 
 Physical activity is negatively associated with `log(bmi)` and is statistically significant. Holding all other factors constant, individuals who report engaging in physical activity have approximately 3.42% lower BMI compared to those who do not (p < 0.05, 95% CI: [-0.039, -0.030]). This aligns with expectations and supports the idea that engaging in physical activity is an important factor associated with lower BMI. This suggests that consistent exercise helps manage weight and burn calories, which makes maintaining a lower body mass much easier in the long run.
 
