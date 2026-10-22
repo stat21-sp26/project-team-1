@@ -22,37 +22,7 @@
 
 ## Project management
 
-Across project milestones, group members rotate to take the role of **project manager**.
-
-<!-- For solo projects, the person doing the project is obviously the project manager for all milestones. You must follow the workflow outlined below even if you work by yourself -->
-
-**For each milestone:**
-
--   **All team members** are tasked with:
-
-    -   (Together) Identifying what needs to be done to complete the milestone
-
-    -   (Together) Dividing what needs to be done into sub-tasks that can be assigned to individual group members
-
-    -   (Individually or alongside team members) Complete all their assigned sub-tasks (issues) and either remove themselves from an assigned issue (if others are also assigned to it) or close the issue (if they were only or last person remaining assigned)
-
-    -   (Only if needed) Open new issues and assign group members
-
-<!-- -->
-
--   The **project manager** for that milestone is tasked with:
-
-    -   Create an issue for every sub-task that the team has jointly identified:
-
-        -   Write a description of the issue that includes a deadline by when it must be accomplished
-
-        -   Assign the issue to all team members that need to accomplish it
-
-        -   Monitor progress, solicit team members' contributions if necessary and inform Prof. Ricci of problems
-
-At the start of EDA & Project Proposal, the team agrees on the following rotation:
-
-<!-- Fill out who is the project manager of each milestone, rotating across team members -->
+The team agreed on this rotation:
 
 | Milestone              | Project Manager |
 |------------------------|-----------------|
@@ -61,3 +31,21 @@ At the start of EDA & Project Proposal, the team agrees on the following rotatio
 | Presentation Draft     |       Lily      |
 | Presentation           |    Katelynne    |
 | Final Report           |       Lily      |
+
+
+
+The project manager of a milestone:
+
+- Identifies what needs to be done to complete the milestone
+
+- Divides what needs to be done into sub-tasks that can be assigned to individual group members
+
+- Checks with group members that the plan (what to do, who does it) is good
+
+- Create an issue for every sub-task that was identified:
+
+  - Writes a description of the issue stating what is to be done and a deadline by when it must be accomplished
+  
+  - Assigns the issue to all team members that will work on it
+
+-   Monitor progress, solicit team members' contributions if necessary and inform Prof. Ricci of problems
