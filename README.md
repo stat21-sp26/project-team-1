@@ -32,20 +32,3 @@ The team agreed on this rotation:
 | Presentation           |    Katelynne    |
 | Final Report           |       Lily      |
 
-
-
-The project manager of a milestone:
-
-- Identifies what needs to be done to complete the milestone
-
-- Divides what needs to be done into sub-tasks that can be assigned to individual group members
-
-- Checks with group members that the plan (what to do, who does it) is good
-
-- Create an issue for every sub-task that was identified:
-
-  - Writes a description of the issue stating what is to be done and a deadline by when it must be accomplished
-  
-  - Assigns the issue to all team members that will work on it
-
--   Monitor progress, solicit team members' contributions if necessary and inform Prof. Ricci of problems
